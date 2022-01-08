@@ -39,7 +39,7 @@ function App() {
         />
         <label>Mot de passe</label>
         <input
-          type="text"
+          type="password"
           onChange={(event) => {
             setPassword(event.target.value);
           }}
