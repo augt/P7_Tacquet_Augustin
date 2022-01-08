@@ -1,17 +1,12 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const mysql = require("mysql");
+//const path = require('path');
+const sequelize = require("./config/database");
+
+sequelize.sync({ force: true }).then(() => console.log("db is ready"));
 
 const app = express();
 
-const db = mysql.createConnection({
-  user: "root",
-  host: "localhost",
-  password: "Pass2022+test",
-  database: "p7Groupomania",
-});
-
+// CORS configuration
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -19,33 +14,13 @@ app.use((req, res, next) => {
     next();
 });
 
-app.post("/signup", (req, res) => {
-  const pseudo = req.body.pseudo;
-  const email = req.body.email;
-  const password = req.body.password;
+app.use(express.json());
 
-  db.query(
-    "INSERT INTO users (pseudo, email, password) VALUES(?,?,?)",
-    [pseudo, email, password],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Values Inserted");
-      }
-    }
-  );
-});
+const userRoutes = require('./routes/user.routes');
 
-//const userRoutes = require('./routes/user.routes');
+app.use("/api/auth", userRoutes);
 
+//app.use('/images', express.static(path.join(__dirname, 'images')));
 
-
-
-app.use(bodyParser.json());
-
-app.use('/images', express.static(path.join(__dirname, 'images')));
-
-//app.use('/api/auth', userRoutes);
 
 module.exports = app;
