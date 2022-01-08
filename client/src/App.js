@@ -4,13 +4,13 @@ import Axios from "axios";
 
 function App() {
 
-  const [pseudo, setPseudo] = useState('');
+  const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const addUser = () => {
-    Axios.post("http://localhost:3001/signup", {
-      pseudo: pseudo,
+    Axios.post("http://localhost:3001/api/auth/signup", {
+      username: username,
       email: email,
       password: password,
     }).then(() => {
@@ -23,11 +23,11 @@ function App() {
       <h1>Groupomania</h1>
       <h2>Inscription</h2>
       <div className="register_form">
-        <label>Pseudo:</label>
+        <label>Nom d'utilisateur:</label>
         <input
           type="text"
           onChange={(event) => {
-            setPseudo(event.target.value);
+            setUserName(event.target.value);
           }}
         />
         <label>Email</label>
