@@ -1,6 +1,7 @@
 const express = require('express');
 //const path = require('path');
 const sequelize = require("./config/database");
+const Publication = require('./models/Publication');
 
 sequelize.sync({ force: true }).then(() => console.log("db is ready"));
 
@@ -19,6 +20,9 @@ app.use(express.json());
 const userRoutes = require('./routes/user.routes');
 
 app.use("/api/auth", userRoutes);
+
+const publicationRoutes = require('./routes/publication.routes');
+app.use("/api/publications", publicationRoutes);
 
 //app.use('/images', express.static(path.join(__dirname, 'images')));
 
