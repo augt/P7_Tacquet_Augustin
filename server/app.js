@@ -1,7 +1,11 @@
+//dependencies
 const express = require('express');
 const path = require('path');
 const sequelize = require("./config/database");
-const Publication = require('./models/Publication');
+
+const userRoutes = require('./routes/user.routes');
+const publicationRoutes = require('./routes/publication.routes');
+const commentRoutes = require('./routes/comment.routes');
 
 sequelize.sync({ force: true }).then(() => console.log("db is ready"));
 
@@ -15,16 +19,18 @@ app.use((req, res, next) => {
     next();
 });
 
+//parsing requests' content
 app.use(express.json());
 
-const userRoutes = require('./routes/user.routes');
-
-app.use("/api/auth", userRoutes);
-
-const publicationRoutes = require('./routes/publication.routes');
-app.use("/api/publications", publicationRoutes);
-
+//managing files with multer
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// api routes for users, publications and comments
+app.use("/api/auth", userRoutes);
+app.use("/api/publications", publicationRoutes);
+app.use("/api/comments", commentRoutes);
+
+
 
 
 module.exports = app;
