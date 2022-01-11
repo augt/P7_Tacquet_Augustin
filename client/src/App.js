@@ -3,10 +3,9 @@ import { useState } from "react";
 import Axios from "axios";
 
 function App() {
-
-  const [username, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const addUser = () => {
     Axios.post("http://localhost:3001/api/auth/signup", {
@@ -17,6 +16,31 @@ function App() {
       console.log("success");
     });
   };
+
+  const [authorId, setAuthorId] = useState();
+  const [text, setText] = useState("");
+  const [image, setImage] = useState("");
+
+  const addPublication = () => {
+
+    const fd = new FormData();
+    fd.append('image', image, image.name);
+    fd.append('authorId', authorId);
+    fd.append('text', text);
+    
+    Axios({
+      method: "post",
+      url: "http://localhost:3001/api/publications",
+      data: fd,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (response) {
+        console.log(response);
+      });
+  }
 
   return (
     <div className="App">
@@ -45,6 +69,31 @@ function App() {
           }}
         />
         <button onClick={addUser}>Créer utilisateur</button>
+      </div>
+      <h2>Publication</h2>
+      <div className="publication_form">
+        <label>identifiant utilisateur:</label>
+        <input
+          type="number"
+          onChange={(event) => {
+            setAuthorId(event.target.value);
+          }}
+        />
+        <label>texte de la publication</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            setText(event.target.value);
+          }}
+        />
+        <label>pièce jointe</label>
+        <input
+          type="file"
+          onChange={(event) => {
+            setImage(event.target.files[0]);
+          }}
+        />
+        <button onClick={addPublication}>Poster la publication</button>
       </div>
     </div>
   );
