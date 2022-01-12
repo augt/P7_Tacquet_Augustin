@@ -4,8 +4,8 @@ const userCtrl = require("../controllers/user.controllers");
 
 router.post(
   "/signup",
-  /*userCtrl.emailCheck,
-  userCtrl.passwordCheck,*/
+  userCtrl.emailCheck,
+  userCtrl.passwordCheck,
   userCtrl.signup
 );
 

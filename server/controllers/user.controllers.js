@@ -18,3 +18,30 @@ exports.signup = (req, res, next) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
+
+
+const passwordSchema = require("../models/password");
+
+exports.passwordCheck = (req, res, next) => {
+  if (!passwordSchema.validate(req.body.password)) {
+    res
+      .status(400)
+      .json({
+        message:
+          "Le mot de passe doit contenir entre 8 et 60 caractères, dont une majuscule, une minuscule et un chiffre.",
+      });
+  } else {
+    next();
+  }
+};
+
+exports.emailCheck = (req, res, next) => {
+  const validEmail = (email) => {
+    let emailRegexp = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    let isRegexTrue = emailRegexp.test(email);
+    isRegexTrue
+      ? next()
+      : res.status(400).json({ message: "Adresse email non valide" });
+  };
+  validEmail(req.body.email);
+};
