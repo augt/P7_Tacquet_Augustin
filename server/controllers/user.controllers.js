@@ -19,7 +19,15 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+exports.getOneUser = (req, res, next) => {
+  const id = req.params.id;
+  User.findOne({ where: { id: id } })
+    .then((user) => res.status(200).json(user))
+    .catch((error) => res.status(404).json({ error }));
+};
 
+
+// password and email check
 const passwordSchema = require("../models/password");
 
 exports.passwordCheck = (req, res, next) => {
