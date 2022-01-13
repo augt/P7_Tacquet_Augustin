@@ -3,6 +3,7 @@ import { useState } from "react";
 import Axios from "axios";
 
 function App() {
+  //create user profile
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,6 +22,7 @@ function App() {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
 
+    //create publication
   const addPublication = () => {
 
     const fd = new FormData();
@@ -40,7 +42,32 @@ function App() {
       .catch(function (response) {
         console.log(response);
       });
-  }
+  };
+
+  //modify publication
+  const [newAuthorId, setNewAuthorId] = useState();
+  const [newText, setNewText] = useState("");
+  const [newImage, setNewImage] = useState("");
+
+  const modifyPublication = () => {
+    const fd = new FormData();
+    fd.append("image", newImage, newImage.name);
+    fd.append("authorId", newAuthorId);
+    fd.append("text", newText);
+
+    Axios({
+      method: "put",
+      url: "http://localhost:3001/api/publications/1",
+      data: fd,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (response) {
+        console.log(response);
+      });
+  };
 
   return (
     <div className="App">
@@ -94,6 +121,31 @@ function App() {
           }}
         />
         <button onClick={addPublication}>Poster la publication</button>
+      </div>
+      <h2> Modifier publication</h2>
+      <div className="modify_publication_form">
+        <label>identifiant utilisateur:</label>
+        <input
+          type="number"
+          onChange={(event) => {
+            setNewAuthorId(event.target.value);
+          }}
+        />
+        <label>texte de la publication</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            setNewText(event.target.value);
+          }}
+        />
+        <label>pièce jointe</label>
+        <input
+          type="file"
+          onChange={(event) => {
+            setNewImage(event.target.files[0]);
+          }}
+        />
+        <button onClick={modifyPublication}>Poster la publication</button>
       </div>
     </div>
   );

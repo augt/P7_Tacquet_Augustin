@@ -1,7 +1,7 @@
 .App {
   text-align: center;
 }
-.register_form, .publication_form{
+.register_form, .publication_form, .modify_publication_form{
   display: flex;
   flex-direction: column;
   align-items: center;

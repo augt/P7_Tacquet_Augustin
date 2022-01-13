@@ -19,3 +19,20 @@ exports.getAllPublications = (req, res, next) =>{
     .catch((error) => res.status(404).json({ error }));
 
 };
+
+exports.modifyPublication = (req,res,next) =>{
+  id = req.params.id;
+  Publication.update(
+    {
+      text: req.body.text,
+      image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+    },
+    {
+      where: {
+        id: id,
+      },
+    }
+  )
+    .then(() => res.status(200).send("Publication mise à jour !"))
+    .catch((error) => res.status(404).json({ error }));
+};
