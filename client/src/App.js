@@ -32,7 +32,7 @@ function App() {
       Axios.post("http://localhost:3001/api/publications", {
         authorId: authorId,
         text: text,
-        image: password,
+        image: "",
       })
         .then((res) => {
           console.log(res);
@@ -67,23 +67,37 @@ function App() {
   const [newImage, setNewImage] = useState("");
 
   const modifyPublication = () => {
-    const fd = new FormData();
-    fd.append("image", newImage, newImage.name);
-    fd.append("authorId", newAuthorId);
-    fd.append("text", newText);
-
-    Axios({
-      method: "put",
-      url: "http://localhost:3001/api/publications/1",
-      data: fd,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then(function (response) {
-        console.log(response);
+    if (newImage === "") {
+      Axios.put("http://localhost:3001/api/publications/1", {
+        authorId: authorId,
+        text: text,
+        image: "",
       })
-      .catch(function (response) {
-        console.log(response);
-      });
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    } else {
+      const fd = new FormData();
+      fd.append("image", newImage, newImage.name);
+      fd.append("authorId", newAuthorId);
+      fd.append("text", newText);
+
+      Axios({
+        method: "put",
+        url: "http://localhost:3001/api/publications/1",
+        data: fd,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (response) {
+          console.log(response);
+        });
+    }
   };
 
   return (
