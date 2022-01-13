@@ -3,6 +3,8 @@ const fs = require("fs");
 
 
 exports.createPublication = (req, res, next) => {
+
+  if (req.file){
   const publication = {
     author_id: req.body.authorId,
     text: req.body.text,
@@ -11,6 +13,17 @@ exports.createPublication = (req, res, next) => {
   Publication.create(publication)
     .then(() => res.status(201).json({ message: "Publication créée !" }))
     .catch((error) => res.status(400).json({ error }));
+    } else { 
+      const publication = {
+        author_id: req.body.authorId,
+        text: req.body.text,
+        image: ""
+      };
+      Publication.create(publication)
+        .then(() => res.status(201).json({ message: "Publication créée !" }))
+        .catch((error) => res.status(400).json({ error }));
+
+    }
 };
 
 exports.getAllPublications = (req, res, next) =>{

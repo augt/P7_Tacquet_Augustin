@@ -13,35 +13,52 @@ function App() {
       username: username,
       email: email,
       password: password,
-    }).then(() => {
-      console.log("success");
-    });
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
   };
 
   const [authorId, setAuthorId] = useState();
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
 
-    //create publication
+  //create publication
   const addPublication = () => {
-
-    const fd = new FormData();
-    fd.append('image', image, image.name);
-    fd.append('authorId', authorId);
-    fd.append('text', text);
-    
-    Axios({
-      method: "post",
-      url: "http://localhost:3001/api/publications",
-      data: fd,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then(function (response) {
-        console.log(response);
+    if (image === "") {
+      Axios.post("http://localhost:3001/api/publications", {
+        authorId: authorId,
+        text: text,
+        image: password,
       })
-      .catch(function (response) {
-        console.log(response);
-      });
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    } else {
+      const fd = new FormData();
+      fd.append("image", image, image.name);
+      fd.append("authorId", authorId);
+      fd.append("text", text);
+
+      Axios({
+        method: "post",
+        url: "http://localhost:3001/api/publications",
+        data: fd,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (response) {
+          console.log(response);
+        });
+    }
   };
 
   //modify publication
@@ -124,28 +141,28 @@ function App() {
       </div>
       <h2> Modifier publication</h2>
       <div className="modify_publication_form">
-        <label>identifiant utilisateur:</label>
+        <label> Nouvel identifiant utilisateur:</label>
         <input
           type="number"
           onChange={(event) => {
             setNewAuthorId(event.target.value);
           }}
         />
-        <label>texte de la publication</label>
+        <label>Nouveau texte de la publication</label>
         <input
           type="text"
           onChange={(event) => {
             setNewText(event.target.value);
           }}
         />
-        <label>pièce jointe</label>
+        <label>Nouvelle pièce jointe</label>
         <input
           type="file"
           onChange={(event) => {
             setNewImage(event.target.files[0]);
           }}
         />
-        <button onClick={modifyPublication}>Poster la publication</button>
+        <button onClick={modifyPublication}>Modifier la publication</button>
       </div>
     </div>
   );
