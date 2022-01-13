@@ -20,9 +20,22 @@ exports.getAllPublications = (req, res, next) =>{
 
 };
 
-exports.modifyPublication = (req,res,next) =>{
+exports.modifyPublication = async (req, res, next) => {
   id = req.params.id;
-  Publication.update(
+
+  if (req.file) {
+    await Publication.findOne({ where: { id: id } })
+      .then((publication) => {
+        const filename = publication.image.split("/images/")[1];
+        console.log(filename);
+        fs.unlink(`images/${filename}`, (err) => {
+          if (err) throw err;
+        });
+      })
+      .catch((error) => res.status(500).json({ error }));
+  };
+
+  await Publication.update(
     {
       text: req.body.text,
       image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
@@ -35,4 +48,4 @@ exports.modifyPublication = (req,res,next) =>{
   )
     .then(() => res.status(200).send("Publication mise à jour !"))
     .catch((error) => res.status(404).json({ error }));
-};
+};;
