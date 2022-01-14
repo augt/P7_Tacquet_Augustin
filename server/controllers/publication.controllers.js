@@ -86,3 +86,28 @@ exports.modifyPublication = async (req, res, next) => {
       .catch((error) => res.status(404).json({ error }));
   }
 };
+
+
+exports.deletePublication = async (req, res, next) => {
+  id = req.params.id;
+
+  await Publication.findOne({ where: { id: id } })
+    .then((publication) => {
+      if (publication.image !== null) {
+        const filename = publication.image.split("/images/")[1];
+        console.log(filename);
+        fs.unlink(`images/${filename}`, (err) => {
+          if (err) throw err;
+        });
+      }
+    })
+    .catch((error) => res.status(500).json({ error }));
+
+  await Publication.destroy({
+    where: {
+      id: id,
+    },
+  })
+    .then(() => res.status(200).send("Publication supprimée !"))
+    .catch((error) => res.status(404).json({ error }));
+};
