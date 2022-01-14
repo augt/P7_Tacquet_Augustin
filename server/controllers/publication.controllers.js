@@ -29,20 +29,22 @@ exports.getAllPublications = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 
+function deleteOldFile (oldPublication) {
+   if (oldPublication.image !== null) {
+     const filename = oldPublication.image.split("/images/")[1];
+     console.log(filename);
+     fs.unlink(`images/${filename}`, (err) => {
+       if (err) throw err;
+     });
+   };
+};
+
 exports.modifyPublication = async (req, res, next) => {
   id = req.params.id;
   console.log(req.file);
   if (req.file) {
     await Publication.findOne({ where: { id: id } })
-      .then((publication) => {
-        if (publication.image !== null) {
-          const filename = publication.image.split("/images/")[1];
-          console.log(filename);
-          fs.unlink(`images/${filename}`, (err) => {
-            if (err) throw err;
-          });
-        }
-      })
+      .then(deleteOldFile)
       .catch((error) => res.status(500).json({ error }));
 
     await Publication.update(
@@ -63,15 +65,7 @@ exports.modifyPublication = async (req, res, next) => {
   } else {
 
     await Publication.findOne({ where: { id: id } })
-      .then((publication) => {
-        if (publication.image !== null) {
-          const filename = publication.image.split("/images/")[1];
-          console.log(filename);
-          fs.unlink(`images/${filename}`, (err) => {
-            if (err) throw err;
-          });
-        }
-      })
+      .then(deleteOldFile)
       .catch((error) => res.status(500).json({ error }));
 
     await Publication.update(
@@ -92,15 +86,7 @@ exports.deletePublication = async (req, res, next) => {
   id = req.params.id;
 
   await Publication.findOne({ where: { id: id } })
-    .then((publication) => {
-      if (publication.image !== null) {
-        const filename = publication.image.split("/images/")[1];
-        console.log(filename);
-        fs.unlink(`images/${filename}`, (err) => {
-          if (err) throw err;
-        });
-      }
-    })
+    .then(deleteOldFile)
     .catch((error) => res.status(500).json({ error }));
 
   await Publication.destroy({
