@@ -32,7 +32,6 @@ function App() {
       Axios.post("http://localhost:3001/api/publications", {
         authorId: authorId,
         text: text,
-        image: "",
       })
         .then((res) => {
           console.log(res);
@@ -70,8 +69,7 @@ function App() {
     if (newImage === "" || newImage === undefined) {
       Axios.put("http://localhost:3001/api/publications/1", {
         authorId: newAuthorId,
-        text: newText,
-        image: "",
+        text: newText
       })
         .then((res) => {
           console.log(res);
