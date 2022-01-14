@@ -15,7 +15,7 @@ exports.createPublication = (req, res, next) => {
     const publication = {
       author_id: req.body.authorId,
       text: req.body.text,
-      image: "",
+      image: null,
     };
     Publication.create(publication)
       .then(() => res.status(201).json({ message: "Publication créée !" }))
@@ -31,15 +31,17 @@ exports.getAllPublications = (req, res, next) => {
 
 exports.modifyPublication = async (req, res, next) => {
   id = req.params.id;
-console.log(req.file);
-  if (req.file!==undefined) {
+  console.log(req.file);
+  if (req.file) {
     await Publication.findOne({ where: { id: id } })
       .then((publication) => {
-        const filename = publication.image.split("/images/")[1];
-        console.log(filename);
-        fs.unlink(`images/${filename}`, (err) => {
-          if (err) throw err;
-        });
+        if (publication.image !== null) {
+          const filename = publication.image.split("/images/")[1];
+          console.log(filename);
+          fs.unlink(`images/${filename}`, (err) => {
+            if (err) throw err;
+          });
+        }
       })
       .catch((error) => res.status(500).json({ error }));
 
@@ -58,11 +60,22 @@ console.log(req.file);
     )
       .then(() => res.status(200).send("Publication mise à jour !"))
       .catch((error) => res.status(404).json({ error }));
-
   } else {
-    
+
+    await Publication.findOne({ where: { id: id } })
+      .then((publication) => {
+        if (publication.image !== null) {
+          const filename = publication.image.split("/images/")[1];
+          console.log(filename);
+          fs.unlink(`images/${filename}`, (err) => {
+            if (err) throw err;
+          });
+        }
+      })
+      .catch((error) => res.status(500).json({ error }));
+
     await Publication.update(
-      { text: req.body.text, image: "" },
+      { text: req.body.text, image: null },
       {
         where: {
           id: id,
@@ -73,4 +86,3 @@ console.log(req.file);
       .catch((error) => res.status(404).json({ error }));
   }
 };
-

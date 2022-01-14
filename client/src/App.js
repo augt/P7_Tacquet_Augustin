@@ -28,7 +28,7 @@ function App() {
 
   //create publication
   const addPublication = () => {
-    if (image === "") {
+    if (image === "" || image===undefined) {
       Axios.post("http://localhost:3001/api/publications", {
         authorId: authorId,
         text: text,
@@ -67,7 +67,7 @@ function App() {
   const [newImage, setNewImage] = useState("");
 
   const modifyPublication = () => {
-    if (newImage === "") {
+    if (newImage === "" || newImage === undefined) {
       Axios.put("http://localhost:3001/api/publications/1", {
         authorId: newAuthorId,
         text: newText,
@@ -149,6 +149,7 @@ function App() {
           type="file"
           onChange={(event) => {
             setImage(event.target.files[0]);
+            console.log(event.target.files[0]);
           }}
         />
         <button onClick={addPublication}>Poster la publication</button>
@@ -174,6 +175,7 @@ function App() {
           type="file"
           onChange={(event) => {
             setNewImage(event.target.files[0]);
+            console.log(event.target.files[0]);
           }}
         />
         <button onClick={modifyPublication}>Modifier la publication</button>
