@@ -32,7 +32,7 @@ exports.getAllPublications = (req, res, next) => {
 exports.modifyPublication = async (req, res, next) => {
   id = req.params.id;
 console.log(req.file);
-  if (req.file) {
+  if (req.file!==undefined) {
     await Publication.findOne({ where: { id: id } })
       .then((publication) => {
         const filename = publication.image.split("/images/")[1];
@@ -60,8 +60,9 @@ console.log(req.file);
       .catch((error) => res.status(404).json({ error }));
 
   } else {
+    
     await Publication.update(
-      { author_id: req.body.authorId, text: req.body.text, image: "" },
+      { text: req.body.text, image: "" },
       {
         where: {
           id: id,

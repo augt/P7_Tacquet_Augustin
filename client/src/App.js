@@ -69,8 +69,8 @@ function App() {
   const modifyPublication = () => {
     if (newImage === "") {
       Axios.put("http://localhost:3001/api/publications/1", {
-        authorId: authorId,
-        text: text,
+        authorId: newAuthorId,
+        text: newText,
         image: "",
       })
         .then((res) => {
