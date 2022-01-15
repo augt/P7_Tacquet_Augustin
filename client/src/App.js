@@ -22,16 +22,41 @@ function App() {
       });
   };
 
+  // login
+
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  const login = () => {
+    Axios.post("http://localhost:3001/api/auth/login", {
+      email: loginEmail,
+      password: loginPassword,
+    })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('userId', res.data.userId);
+        console.log(localStorage.getItem('userId'))
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
+
+  //create publication
   const [userId, setUserId] = useState();
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
 
-  //create publication
+  
   const addPublication = () => {
+    setUserId(localStorage.getItem("userId"));
     if (image === "" || image===undefined) {
-      Axios.post("http://localhost:3001/api/publications", {
-        userId: userId,
-        text: text,
+      Axios({
+        method: "post",
+        url: "http://localhost:3001/api/publications",
+        data: {userId : parseInt(userId), text : text},
+        headers: {  "Authorization": "Bearer " + localStorage.getItem("token") },
       })
         .then((res) => {
           console.log(res);
@@ -42,14 +67,17 @@ function App() {
     } else {
       const fd = new FormData();
       fd.append("image", image, image.name);
-      fd.append("userId", userId);
+      fd.append("userId", parseInt(userId));
       fd.append("text", text);
 
       Axios({
         method: "post",
         url: "http://localhost:3001/api/publications",
         data: fd,
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
       })
         .then(function (response) {
           console.log(response);
@@ -66,9 +94,10 @@ function App() {
   const [newImage, setNewImage] = useState("");
 
   const modifyPublication = () => {
+    setNewUserId(localStorage.getItem("userId"));
     if (newImage === "" || newImage === undefined) {
       Axios.put("http://localhost:3001/api/publications/1", {
-        userId: newUserId,
+        userId: parseInt(newUserId),
         text: newText
       })
         .then((res) => {
@@ -80,7 +109,7 @@ function App() {
     } else {
       const fd = new FormData();
       fd.append("image", newImage, newImage.name);
-      fd.append("userId", newUserId);
+      fd.append("userId", parseInt(newUserId));
       fd.append("text", newText);
 
       Axios({
@@ -126,15 +155,28 @@ function App() {
         />
         <button onClick={addUser}>Créer utilisateur</button>
       </div>
-      <h2>Publication</h2>
-      <div className="publication_form">
-        <label>identifiant utilisateur:</label>
+
+      <h2>Connexion</h2>
+      <div className="login_form">
+        <label>Email</label>
         <input
-          type="number"
+          type="text"
           onChange={(event) => {
-            setUserId(event.target.value);
+            setLoginEmail(event.target.value);
           }}
         />
+        <label>Mot de passe</label>
+        <input
+          type="password"
+          onChange={(event) => {
+            setLoginPassword(event.target.value);
+          }}
+        />
+        <button onClick={login}>Connexion</button>
+      </div>
+
+      <h2>Publication</h2>
+      <div className="publication_form">
         <label>texte de la publication</label>
         <input
           type="text"
@@ -154,13 +196,6 @@ function App() {
       </div>
       <h2> Modifier publication</h2>
       <div className="modify_publication_form">
-        <label> Nouvel identifiant utilisateur:</label>
-        <input
-          type="number"
-          onChange={(event) => {
-            setNewUserId(event.target.value);
-          }}
-        />
         <label>Nouveau texte de la publication</label>
         <input
           type="text"

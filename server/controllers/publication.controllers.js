@@ -84,6 +84,11 @@ exports.deletePublication = async (req, res, next) => {
   id = req.params.id;
 
   await Publication.findOne({ where: { id: id } })
+    /*.then((publication)=>{
+      if (!publication) {
+        res.status(404).json("Cette publication n'existe pas !")
+      }
+    })*/
     .then(deleteOldFile)
     .catch((error) => res.status(500).json({ error }));
 
