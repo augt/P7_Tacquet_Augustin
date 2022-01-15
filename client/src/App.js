@@ -22,7 +22,7 @@ function App() {
       });
   };
 
-  const [authorId, setAuthorId] = useState();
+  const [userId, setUserId] = useState();
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
 
@@ -30,7 +30,7 @@ function App() {
   const addPublication = () => {
     if (image === "" || image===undefined) {
       Axios.post("http://localhost:3001/api/publications", {
-        authorId: authorId,
+        userId: userId,
         text: text,
       })
         .then((res) => {
@@ -42,7 +42,7 @@ function App() {
     } else {
       const fd = new FormData();
       fd.append("image", image, image.name);
-      fd.append("authorId", authorId);
+      fd.append("userId", userId);
       fd.append("text", text);
 
       Axios({
@@ -61,14 +61,14 @@ function App() {
   };
 
   //modify publication
-  const [newAuthorId, setNewAuthorId] = useState();
+  const [newUserId, setNewUserId] = useState();
   const [newText, setNewText] = useState("");
   const [newImage, setNewImage] = useState("");
 
   const modifyPublication = () => {
     if (newImage === "" || newImage === undefined) {
       Axios.put("http://localhost:3001/api/publications/1", {
-        authorId: newAuthorId,
+        userId: newUserId,
         text: newText
       })
         .then((res) => {
@@ -80,7 +80,7 @@ function App() {
     } else {
       const fd = new FormData();
       fd.append("image", newImage, newImage.name);
-      fd.append("authorId", newAuthorId);
+      fd.append("userId", newUserId);
       fd.append("text", newText);
 
       Axios({
@@ -132,7 +132,7 @@ function App() {
         <input
           type="number"
           onChange={(event) => {
-            setAuthorId(event.target.value);
+            setUserId(event.target.value);
           }}
         />
         <label>texte de la publication</label>
@@ -158,7 +158,7 @@ function App() {
         <input
           type="number"
           onChange={(event) => {
-            setNewAuthorId(event.target.value);
+            setNewUserId(event.target.value);
           }}
         />
         <label>Nouveau texte de la publication</label>

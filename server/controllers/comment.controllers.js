@@ -2,7 +2,7 @@ const Comment = require("../models/Comment");
 
 exports.createComment = (req, res, next) => {
   const comment = {
-    commenter_id: req.body.commenterId,
+    user_id: req.body.userId,
     originalPublication_id: req.body.originalPublicationId,
     text: req.body.text,
   };
@@ -20,7 +20,7 @@ exports.getAllComments = (req, res, next) => {
 exports.modifyComment = (req, res, next) => {
   id = req.params.id;
   Comment.update(
-    { text: req.body.text },
+    { user_id: req.body.userId, text: req.body.text },
     {
       where: {
         id: id,

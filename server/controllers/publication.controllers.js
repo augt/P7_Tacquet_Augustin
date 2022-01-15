@@ -4,7 +4,7 @@ const fs = require("fs");
 exports.createPublication = (req, res, next) => {
   if (req.file) {
     const publication = {
-      author_id: req.body.authorId,
+      user_id: req.body.userId,
       text: req.body.text,
       image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
     };
@@ -13,7 +13,7 @@ exports.createPublication = (req, res, next) => {
       .catch((error) => res.status(400).json({ error }));
   } else {
     const publication = {
-      author_id: req.body.authorId,
+      user_id: req.body.userId,
       text: req.body.text,
       image: null,
     };
@@ -29,19 +29,18 @@ exports.getAllPublications = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 
-function deleteOldFile (oldPublication) {
-   if (oldPublication.image !== null) {
-     const filename = oldPublication.image.split("/images/")[1];
-     console.log(filename);
-     fs.unlink(`images/${filename}`, (err) => {
-       if (err) throw err;
-     });
-   };
-};
+function deleteOldFile(oldPublication) {
+  if (oldPublication.image !== null) {
+    const filename = oldPublication.image.split("/images/")[1];
+    console.log(filename);
+    fs.unlink(`images/${filename}`, (err) => {
+      if (err) throw err;
+    });
+  }
+}
 
 exports.modifyPublication = async (req, res, next) => {
   id = req.params.id;
-  console.log(req.file);
   if (req.file) {
     await Publication.findOne({ where: { id: id } })
       .then(deleteOldFile)
@@ -49,6 +48,7 @@ exports.modifyPublication = async (req, res, next) => {
 
     await Publication.update(
       {
+        user_id: req.body.userId,
         text: req.body.text,
         image: `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
@@ -63,13 +63,12 @@ exports.modifyPublication = async (req, res, next) => {
       .then(() => res.status(200).send("Publication mise à jour !"))
       .catch((error) => res.status(404).json({ error }));
   } else {
-
     await Publication.findOne({ where: { id: id } })
       .then(deleteOldFile)
       .catch((error) => res.status(500).json({ error }));
 
     await Publication.update(
-      { text: req.body.text, image: null },
+      { user_id: req.body.userId, text: req.body.text, image: null },
       {
         where: {
           id: id,
@@ -80,7 +79,6 @@ exports.modifyPublication = async (req, res, next) => {
       .catch((error) => res.status(404).json({ error }));
   }
 };
-
 
 exports.deletePublication = async (req, res, next) => {
   id = req.params.id;

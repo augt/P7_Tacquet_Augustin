@@ -5,7 +5,7 @@ class Publication extends Model {}
 
 Publication.init(
   {
-    author_id: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
