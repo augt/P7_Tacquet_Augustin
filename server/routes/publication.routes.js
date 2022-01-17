@@ -9,7 +9,7 @@ const auth = require("../middlewares/auth.middlewares");
 router.get("/", auth, publicationCtrl.getAllPublications);
 router.post("/", auth, multer, publicationCtrl.createPublication);
 //router.get("/:id", auth, publicationCtrl.getOnePublication);
-router.put("/:id", auth, multer, publicationCtrl.checkPreviousUserId ,publicationCtrl.modifyPublication);
-router.delete("/:id", auth, publicationCtrl.deletePublication);
+router.put("/:id", auth, multer, publicationCtrl.checkPreviousPublication ,publicationCtrl.modifyPublication);
+router.delete("/:id", auth, publicationCtrl.checkPreviousPublication, publicationCtrl.deletePublication);
 
 module.exports = router;

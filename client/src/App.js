@@ -37,6 +37,7 @@ function App() {
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('userId', res.data.userId);
         console.log(localStorage.getItem('userId'));
+        console.log(res.data.token);
         setUserId(localStorage.getItem("userId"));
         setNewUserId(localStorage.getItem("userId"));
       })

@@ -39,28 +39,34 @@ function deleteOldFile(oldPublication) {
   }
 }
 
-exports.checkPreviousUserId = (req, res, next) => {
+exports.checkPreviousPublication = (req, res, next) => {
   id = req.params.id;
 
-  Publication.findOne({ where: { id: id } })
+  try {
+    Publication.findOne({ where: { id: id } })
     .then((publication) => {
+      if (!publication) {
+        throw "Cette publication n'existe pas !";
+      }
       if (
         req.auth.userId !== publication.user_id &&
         req.auth.isAdmin === false
       ) {
-        res
-          .status(404)
-          .json("Vous n'êtes pas autorisé à effectuer cette action");
+        throw "Requête non autorisée";
       } else {
         next();
       }
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error)=> {res.status(404).json(error)
+    });
+  } catch (error) {
+    res.status(401).json({ error: error || "Cette action est impossible" });
+  }
+
 };
 
 exports.modifyPublication = async (req, res, next) => {
   id = req.params.id;
-  console.log("toc toc toc");
   if (req.file) {
     await Publication.findOne({ where: { id: id } })
       .then(deleteOldFile)
@@ -103,11 +109,6 @@ exports.deletePublication = async (req, res, next) => {
   id = req.params.id;
 
   await Publication.findOne({ where: { id: id } })
-    /*.then((publication)=>{
-      if (!publication) {
-        res.status(404).json("Cette publication n'existe pas !")
-      }
-    })*/
     .then(deleteOldFile)
     .catch((error) => res.status(500).json({ error }));
 
