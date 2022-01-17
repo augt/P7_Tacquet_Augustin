@@ -39,8 +39,28 @@ function deleteOldFile(oldPublication) {
   }
 }
 
+exports.checkPreviousUserId = (req, res, next) => {
+  id = req.params.id;
+
+  Publication.findOne({ where: { id: id } })
+    .then((publication) => {
+      if (
+        req.auth.userId !== publication.user_id &&
+        req.auth.isAdmin === false
+      ) {
+        res
+          .status(404)
+          .json("Vous n'êtes pas autorisé à effectuer cette action");
+      } else {
+        next();
+      }
+    })
+    .catch((error) => res.status(500).json({ error }));
+};
+
 exports.modifyPublication = async (req, res, next) => {
   id = req.params.id;
+  console.log("toc toc toc");
   if (req.file) {
     await Publication.findOne({ where: { id: id } })
       .then(deleteOldFile)
@@ -48,7 +68,6 @@ exports.modifyPublication = async (req, res, next) => {
 
     await Publication.update(
       {
-        user_id: req.body.userId,
         text: req.body.text,
         image: `${req.protocol}://${req.get("host")}/images/${
           req.file.filename
@@ -68,7 +87,7 @@ exports.modifyPublication = async (req, res, next) => {
       .catch((error) => res.status(500).json({ error }));
 
     await Publication.update(
-      { user_id: req.body.userId, text: req.body.text, image: null },
+      { text: req.body.text, image: null },
       {
         where: {
           id: id,

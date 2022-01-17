@@ -20,7 +20,7 @@ exports.getAllComments = (req, res, next) => {
 exports.modifyComment = (req, res, next) => {
   id = req.params.id;
   Comment.update(
-    { user_id: req.body.userId, text: req.body.text },
+    { text: req.body.text },
     {
       where: {
         id: id,

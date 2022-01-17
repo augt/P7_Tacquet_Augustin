@@ -4,7 +4,6 @@ const User = require("../models/User");
 
 module.exports = async (req, res, next) => {
   try {
-      console.log(req.body)
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
     const userId = decodedToken.userId;
