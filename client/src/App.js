@@ -36,7 +36,9 @@ function App() {
         console.log(res);
         localStorage.setItem('token', res.data.token);
         localStorage.setItem('userId', res.data.userId);
-        console.log(localStorage.getItem('userId'))
+        console.log(localStorage.getItem('userId'));
+        setUserId(localStorage.getItem("userId"));
+        setNewUserId(localStorage.getItem("userId"));
       })
       .catch((res) => {
         console.log(res);
@@ -47,10 +49,10 @@ function App() {
   const [userId, setUserId] = useState();
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
-
+  
   
   const addPublication = () => {
-    setUserId(localStorage.getItem("userId"));
+    
     if (image === "" || image===undefined) {
       Axios({
         method: "post",
@@ -94,11 +96,13 @@ function App() {
   const [newImage, setNewImage] = useState("");
 
   const modifyPublication = () => {
-    setNewUserId(localStorage.getItem("userId"));
+    
     if (newImage === "" || newImage === undefined) {
-      Axios.put("http://localhost:3001/api/publications/1", {
-        userId: parseInt(newUserId),
-        text: newText
+      Axios({
+        method: "put",
+        url: "http://localhost:3001/api/publications/1",
+        data: { userId: parseInt(newUserId), text: newText },
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
         .then((res) => {
           console.log(res);
@@ -116,7 +120,10 @@ function App() {
         method: "put",
         url: "http://localhost:3001/api/publications/1",
         data: fd,
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
       })
         .then(function (response) {
           console.log(response);
