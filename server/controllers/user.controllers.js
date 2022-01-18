@@ -56,6 +56,30 @@ exports.getAllUsers = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 
+exports.checkPreviousUser = (req, res, next) => {
+  console.log("bonjour")
+  id = req.params.id;
+
+  try {
+    User.findOne({ where: { id: id } })
+      .then((user) => {
+        if (!user) {
+          throw "Cet utilisateur n'existe pas !";
+        }
+        if (req.auth.userId !== user.id && req.auth.isAdmin === false) {
+          throw "Requête non autorisée";
+        } else {
+          next();
+        }
+      })
+      .catch((error) => {
+        res.status(404).json(error);
+      });
+  } catch (error) {
+    res.status(401).json({ error: error || "Cette action est impossible" });
+  }
+};
+
 exports.modifyUser = (req, res, next) => {
   id = req.params.id;
   bcrypt
