@@ -51,13 +51,18 @@ exports.getOneUser = (req, res, next) => {
 };
 
 exports.getAllUsers = (req, res, next) => {
-  User.findAll()
-    .then((users) => res.status(200).json(users))
-    .catch((error) => res.status(404).json({ error }));
+  
+  if (req.auth.isAdmin === false) {
+    res.status(401).json("Requête non autorisée");
+  } else {
+    User.findAll()
+      .then((users) => res.status(200).json(users))
+      .catch((error) => res.status(404).json({ error }));
+  }
 };
 
 exports.checkPreviousUser = (req, res, next) => {
-  console.log("bonjour")
+  console.log("bonjour");
   id = req.params.id;
 
   try {
@@ -73,7 +78,7 @@ exports.checkPreviousUser = (req, res, next) => {
         }
       })
       .catch((error) => {
-        res.status(404).json(error);
+        res.status(401).json(error);
       });
   } catch (error) {
     res.status(401).json({ error: error || "Cette action est impossible" });
