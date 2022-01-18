@@ -17,6 +17,32 @@ exports.getAllComments = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 
+exports.checkPreviousComment = (req, res, next) => {
+  id = req.params.id;
+
+  try {
+    Comment.findOne({ where: { id: id } })
+      .then((comment) => {
+        if (!comment) {
+          throw "Ce commentaire n'existe pas !";
+        }
+        if (
+          req.auth.userId !== comment.user_id &&
+          req.auth.isAdmin === false
+        ) {
+          throw "Requête non autorisée";
+        } else {
+          next();
+        }
+      })
+      .catch((error) => {
+        res.status(404).json(error);
+      });
+  } catch (error) {
+    res.status(401).json({ error: error || "Cette action est impossible" });
+  }
+};
+
 exports.modifyComment = (req, res, next) => {
   id = req.params.id;
   Comment.update(

@@ -44,25 +44,25 @@ exports.checkPreviousPublication = (req, res, next) => {
 
   try {
     Publication.findOne({ where: { id: id } })
-    .then((publication) => {
-      if (!publication) {
-        throw "Cette publication n'existe pas !";
-      }
-      if (
-        req.auth.userId !== publication.user_id &&
-        req.auth.isAdmin === false
-      ) {
-        throw "Requête non autorisée";
-      } else {
-        next();
-      }
-    })
-    .catch((error)=> {res.status(404).json(error)
-    });
+      .then((publication) => {
+        if (!publication) {
+          throw "Cette publication n'existe pas !";
+        }
+        if (
+          req.auth.userId !== publication.user_id &&
+          req.auth.isAdmin === false
+        ) {
+          throw "Requête non autorisée";
+        } else {
+          next();
+        }
+      })
+      .catch((error) => {
+        res.status(404).json(error);
+      });
   } catch (error) {
     res.status(401).json({ error: error || "Cette action est impossible" });
   }
-
 };
 
 exports.modifyPublication = async (req, res, next) => {
