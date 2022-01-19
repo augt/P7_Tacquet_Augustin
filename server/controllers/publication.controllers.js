@@ -1,5 +1,9 @@
 const Publication = require("../models/Publication");
 const fs = require("fs");
+const Comment = require("../models/Comment")
+
+
+Publication.hasMany(Comment, { foreignKey: "originalPublication_id" });
 
 exports.createPublication = (req, res, next) => {
   if (req.file) {
@@ -24,7 +28,9 @@ exports.createPublication = (req, res, next) => {
 };
 
 exports.getAllPublications = (req, res, next) => {
-  Publication.findAll()
+  Publication.findAll({
+    include: "user"
+  })
     .then((publications) => res.status(200).json(publications))
     .catch((error) => res.status(404).json({ error }));
 };

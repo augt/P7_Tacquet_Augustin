@@ -2,6 +2,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/User");
+const Publication = require("../models/Publication");
+const Comment = require("../models/Comment")
+
+User.hasMany(Publication, { foreignKey: "user_id"}, {as:"publications"});
+User.hasMany(Comment, {foreignKey: "user_id"}, {as:"comments"});
+Publication.belongsTo(User, {foreignKey:"user_id"}, {as:"user"});
+
 
 exports.signup = (req, res, next) => {
   bcrypt
@@ -45,7 +52,7 @@ exports.login = (req, res, next) => {
 
 exports.getOneUser = (req, res, next) => {
   const id = req.params.id;
-  User.findOne({ where: { id: id } })
+  User.findOne({ where: { id: id }})
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(404).json({ error }));
 };
