@@ -1,7 +1,7 @@
 const Comment = require("../models/Comment");
 const User =  require("../models/User")
 
-/*Comment.belongsTo(User, { foreignKey: "uuid" }, { as: "user" });*/
+Comment.belongsTo(User, { foreignKey: "uuid" }, { as: "user" });
 
 exports.createComment = (req, res, next) => {
   const comment = {
@@ -15,9 +15,9 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.getAllComments = (req, res, next) => {
-  Comment.findAll(/*{
+  Comment.findAll({
     include: "user",
-  }*/)
+  })
     .then((comments) => res.status(200).json(comments))
     .catch((error) => res.status(404).json({ error }));
 };

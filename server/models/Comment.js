@@ -7,7 +7,6 @@ Comment.init(
   {
     uuid: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
     originalPublication_id: {

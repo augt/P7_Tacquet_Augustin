@@ -1,9 +1,11 @@
 const Publication = require("../models/Publication");
 const fs = require("fs");
-const Comment = require("../models/Comment")
+const Comment = require("../models/Comment");
+const User =  require('../models/User')
 
 
-/*Publication.hasMany(Comment, { foreignKey: "originalPublication_id" });*/
+Publication.hasMany(Comment, { foreignKey: "originalPublication_id" });
+Publication.belongsTo(User, { foreignKey: "uuid" }, { as: "user" });
 
 exports.createPublication = (req, res, next) => {
   if (req.file) {
@@ -28,9 +30,9 @@ exports.createPublication = (req, res, next) => {
 };
 
 exports.getAllPublications = (req, res, next) => {
-  Publication.findAll(/*{
+  Publication.findAll({
     include: "user"
-  }*/)
+  })
     .then((publications) => res.status(200).json(publications))
     .catch((error) => res.status(404).json({ error }));
 };

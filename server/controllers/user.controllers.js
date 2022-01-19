@@ -3,11 +3,11 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/User");
 const Publication = require("../models/Publication");
-const Comment = require("../models/Comment")
+const Comment = require("../models/Comment");
 
-/*User.hasMany(Publication, { foreignKey: "uuid"}, {as:"publications"});
-User.hasMany(Comment, {foreignKey: "uuid"}, {as:"comments"});
-Publication.belongsTo(User, {foreignKey:"uuid"}, {as:"user"});*/
+
+User.hasMany(Publication, { foreignKey: "uuid" }, { as: "publications" });
+User.hasMany(Comment, { foreignKey: "uuid" }, { as: "comments" });
 
 
 exports.signup = (req, res, next) => {
