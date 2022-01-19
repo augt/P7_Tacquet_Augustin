@@ -5,8 +5,9 @@ class Comment extends Model {}
 
 Comment.init(
   {
-    user_id: {
-      type: DataTypes.INTEGER,
+    uuid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
     originalPublication_id: {

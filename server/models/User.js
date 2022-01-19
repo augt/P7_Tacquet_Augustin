@@ -5,6 +5,12 @@ class User extends Model {}
 
 User.init(
   {
+    uuid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      unique: true,
+      allowNull: false
+    },
     username: {
       type: DataTypes.STRING,
       unique: true,
@@ -29,7 +35,7 @@ User.init(
     sequelize,
     modelName: "user",
     defaultScope: {
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: ["password","id"] },
     },
     scopes: {
       withPassword: {

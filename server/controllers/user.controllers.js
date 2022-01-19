@@ -5,9 +5,9 @@ const User = require("../models/User");
 const Publication = require("../models/Publication");
 const Comment = require("../models/Comment")
 
-User.hasMany(Publication, { foreignKey: "user_id"}, {as:"publications"});
-User.hasMany(Comment, {foreignKey: "user_id"}, {as:"comments"});
-Publication.belongsTo(User, {foreignKey:"user_id"}, {as:"user"});
+/*User.hasMany(Publication, { foreignKey: "uuid"}, {as:"publications"});
+User.hasMany(Comment, {foreignKey: "uuid"}, {as:"comments"});
+Publication.belongsTo(User, {foreignKey:"uuid"}, {as:"user"});*/
 
 
 exports.signup = (req, res, next) => {
@@ -40,8 +40,8 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
           res.status(200).json({
-            userId: user.id,
-            token: jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
+            uuid: user.uuid,
+            token: jwt.sign({ uuid: user.uuid }, "RANDOM_TOKEN_SECRET", {
               expiresIn: "24h",
             }),
           });
@@ -52,8 +52,8 @@ exports.login = (req, res, next) => {
 };
 
 exports.getOneUser = (req, res, next) => {
-  const id = req.params.id;
-  User.findOne({ where: { id: id }})
+  const uuid = req.params.uuid;
+  User.findOne({ where: { uuid: uuid }})
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(404).json({ error }));
 };
@@ -71,15 +71,15 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.checkPreviousUser = (req, res, next) => {
   console.log("bonjour");
-  id = req.params.id;
+  uuid = req.params.uuid;
 
   try {
-    User.findOne({ where: { id: id } })
+    User.findOne({ where: { uuid: uuid } })
       .then((user) => {
         if (!user) {
           throw "Cet utilisateur n'existe pas !";
         }
-        if (req.auth.userId !== user.id && req.auth.isAdmin === false) {
+        if (req.auth.uuid !== user.uuid && req.auth.isAdmin === false) {
           throw "Requête non autorisée";
         } else {
           next();
@@ -94,7 +94,7 @@ exports.checkPreviousUser = (req, res, next) => {
 };
 
 exports.modifyUser = (req, res, next) => {
-  id = req.params.id;
+  uuid = req.params.uuid;
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -105,7 +105,7 @@ exports.modifyUser = (req, res, next) => {
       };
       User.update(modifiedUser, {
         where: {
-          id: id,
+          uuid: uuid,
         },
       })
         .then(() => res.status(201).json({ message: "Utilisateur modifié !" }))
@@ -115,10 +115,10 @@ exports.modifyUser = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
-  id = req.params.id;
+  uuid = req.params.uuid;
   User.destroy({
     where: {
-      id: id,
+      uuid: uuid,
     },
   })
     .then(() => res.status(200).send("Utilisateur supprimé !"))

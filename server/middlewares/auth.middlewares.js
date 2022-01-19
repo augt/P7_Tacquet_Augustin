@@ -6,13 +6,13 @@ module.exports = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
-    const userId = decodedToken.userId;
+    const uuid = decodedToken.uuid;
 
-    const user = await User.findOne({ where: { id: userId } });
+    const user = await User.findOne({ where: { uuid: uuid } });
     const isAdmin = user.isAdmin;
 
-    req.auth = { userId, isAdmin };
-    if (req.body.userId && req.body.userId !== userId && isAdmin===false) {
+    req.auth = { uuid, isAdmin };
+    if (req.body.uuid && req.body.uuid !== uuid && isAdmin===false) {
       throw "User ID non valable !";
     } else {
       next();

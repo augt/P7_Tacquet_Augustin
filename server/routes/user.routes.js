@@ -11,10 +11,10 @@ router.post(
 );
 
 router.post("/login", userCtrl.emailCheck, userCtrl.passwordCheck, userCtrl.login);
-router.get("/:id", auth, userCtrl.getOneUser);
+router.get("/:uuid", auth, userCtrl.getOneUser);
 router.get("/", auth, userCtrl.getAllUsers);
-router.put("/:id", auth,userCtrl.emailCheck, userCtrl.passwordCheck,userCtrl.checkPreviousUser, userCtrl.modifyUser);
-router.delete("/:id",auth,userCtrl.checkPreviousUser, userCtrl.deleteUser)
+router.put("/:uuid", auth,userCtrl.emailCheck, userCtrl.passwordCheck,userCtrl.checkPreviousUser, userCtrl.modifyUser);
+router.delete("/:uuid",auth,userCtrl.checkPreviousUser, userCtrl.deleteUser)
 
 
 module.exports = router;

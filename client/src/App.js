@@ -35,11 +35,11 @@ function App() {
       .then((res) => {
         console.log(res);
         localStorage.setItem('token', res.data.token);
-        localStorage.setItem('userId', res.data.userId);
-        console.log(localStorage.getItem('userId'));
+        localStorage.setItem('uuid', res.data.uuid);
+        console.log(localStorage.getItem('uuid'));
         console.log(res.data.token);
-        setUserId(localStorage.getItem("userId"));
-        setNewUserId(localStorage.getItem("userId"));
+        setUuid(localStorage.getItem("uuid"));
+        setNewUuid(localStorage.getItem("uuid"));
       })
       .catch((res) => {
         console.log(res);
@@ -47,7 +47,7 @@ function App() {
   };
 
   //create publication
-  const [userId, setUserId] = useState();
+  const [uuid, setUuid] = useState();
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   
@@ -58,7 +58,7 @@ function App() {
       Axios({
         method: "post",
         url: "http://localhost:3001/api/publications",
-        data: {userId : parseInt(userId), text : text},
+        data: {uuid : uuid, text : text},
         headers: {  "Authorization": "Bearer " + localStorage.getItem("token") },
       })
         .then((res) => {
@@ -70,7 +70,7 @@ function App() {
     } else {
       const fd = new FormData();
       fd.append("image", image, image.name);
-      fd.append("userId", parseInt(userId));
+      fd.append("uuid", uuid);
       fd.append("text", text);
 
       Axios({
@@ -92,7 +92,7 @@ function App() {
   };
 
   //modify publication
-  const [newUserId, setNewUserId] = useState();
+  const [newUuid, setNewUuid] = useState();
   const [newText, setNewText] = useState("");
   const [newImage, setNewImage] = useState("");
 
@@ -102,7 +102,7 @@ function App() {
       Axios({
         method: "put",
         url: "http://localhost:3001/api/publications/1",
-        data: { userId: parseInt(newUserId), text: newText },
+        data: { uuid: newUuid, text: newText },
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
         .then((res) => {
@@ -114,7 +114,7 @@ function App() {
     } else {
       const fd = new FormData();
       fd.append("image", newImage, newImage.name);
-      fd.append("userId", parseInt(newUserId));
+      fd.append("uuid", parseInt(newUuid));
       fd.append("text", newText);
 
       Axios({

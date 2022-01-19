@@ -3,12 +3,12 @@ const fs = require("fs");
 const Comment = require("../models/Comment")
 
 
-Publication.hasMany(Comment, { foreignKey: "originalPublication_id" });
+/*Publication.hasMany(Comment, { foreignKey: "originalPublication_id" });*/
 
 exports.createPublication = (req, res, next) => {
   if (req.file) {
     const publication = {
-      user_id: req.body.userId,
+      uuid: req.body.uuid,
       text: req.body.text,
       image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
     };
@@ -17,7 +17,7 @@ exports.createPublication = (req, res, next) => {
       .catch((error) => res.status(400).json({ error }));
   } else {
     const publication = {
-      user_id: req.body.userId,
+      uuid: req.body.uuid,
       text: req.body.text,
       image: null,
     };
@@ -28,9 +28,9 @@ exports.createPublication = (req, res, next) => {
 };
 
 exports.getAllPublications = (req, res, next) => {
-  Publication.findAll({
+  Publication.findAll(/*{
     include: "user"
-  })
+  }*/)
     .then((publications) => res.status(200).json(publications))
     .catch((error) => res.status(404).json({ error }));
 };
@@ -55,7 +55,7 @@ exports.checkPreviousPublication = (req, res, next) => {
           throw "Cette publication n'existe pas !";
         }
         if (
-          req.auth.userId !== publication.user_id &&
+          req.auth.uuid !== publication.uuid &&
           req.auth.isAdmin === false
         ) {
           throw "Requête non autorisée";
@@ -64,7 +64,7 @@ exports.checkPreviousPublication = (req, res, next) => {
         }
       })
       .catch((error) => {
-        res.status(404).json(error);
+        res.status(401).json(error);
       });
   } catch (error) {
     res.status(401).json({ error: error || "Cette action est impossible" });

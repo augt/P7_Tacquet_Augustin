@@ -1,11 +1,11 @@
 const Comment = require("../models/Comment");
 const User =  require("../models/User")
 
-Comment.belongsTo(User, { foreignKey: "user_id" }, { as: "user" });
+/*Comment.belongsTo(User, { foreignKey: "uuid" }, { as: "user" });*/
 
 exports.createComment = (req, res, next) => {
   const comment = {
-    user_id: req.body.userId,
+    uuid: req.body.uuid,
     originalPublication_id: req.body.originalPublicationId,
     text: req.body.text,
   };
@@ -15,9 +15,9 @@ exports.createComment = (req, res, next) => {
 };
 
 exports.getAllComments = (req, res, next) => {
-  Comment.findAll({
+  Comment.findAll(/*{
     include: "user",
-  })
+  }*/)
     .then((comments) => res.status(200).json(comments))
     .catch((error) => res.status(404).json({ error }));
 };
@@ -32,7 +32,7 @@ exports.checkPreviousComment = (req, res, next) => {
           throw "Ce commentaire n'existe pas !";
         }
         if (
-          req.auth.userId !== comment.user_id &&
+          req.auth.uuid !== comment.uuid &&
           req.auth.isAdmin === false
         ) {
           throw "Requête non autorisée";
@@ -41,7 +41,7 @@ exports.checkPreviousComment = (req, res, next) => {
         }
       })
       .catch((error) => {
-        res.status(404).json(error);
+        res.status(401).json(error);
       });
   } catch (error) {
     res.status(401).json({ error: error || "Cette action est impossible" });

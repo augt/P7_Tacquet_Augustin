@@ -5,9 +5,10 @@ class Publication extends Model {}
 
 Publication.init(
   {
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    uuid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false
     },
     text: {
       type: DataTypes.STRING,
