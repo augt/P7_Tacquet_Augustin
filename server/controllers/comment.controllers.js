@@ -1,13 +1,14 @@
 const Comment = require("../models/Comment");
 const User =  require("../models/User")
 
-Comment.belongsTo(User, { foreignKey: "uuid" }, { as: "user" });
+Comment.belongsTo(User, { as: "user" });
 
 exports.createComment = (req, res, next) => {
   const comment = {
     uuid: req.body.uuid,
-    originalPublication_id: req.body.originalPublicationId,
+    publicationId: req.body.publicationId,
     text: req.body.text,
+    userId: req.auth.userId,
   };
   Comment.create(comment)
     .then(() => res.status(201).json({ message: "Commentaire créé !" }))

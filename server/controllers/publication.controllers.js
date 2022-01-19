@@ -4,8 +4,8 @@ const Comment = require("../models/Comment");
 const User =  require('../models/User')
 
 
-Publication.hasMany(Comment, { foreignKey: "originalPublication_id" });
-Publication.belongsTo(User, { foreignKey: "uuid" }, { as: "user" });
+Publication.hasMany(Comment, {onDelete: 'CASCADE'}, {as: "comments"});
+Publication.belongsTo(User, { as: "user" });
 
 exports.createPublication = (req, res, next) => {
   if (req.file) {
@@ -13,6 +13,7 @@ exports.createPublication = (req, res, next) => {
       uuid: req.body.uuid,
       text: req.body.text,
       image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+      userId: req.auth.userId
     };
     Publication.create(publication)
       .then(() => res.status(201).json({ message: "Publication créée !" }))
@@ -22,6 +23,7 @@ exports.createPublication = (req, res, next) => {
       uuid: req.body.uuid,
       text: req.body.text,
       image: null,
+      userId: req.auth.userId,
     };
     Publication.create(publication)
       .then(() => res.status(201).json({ message: "Publication créée !" }))

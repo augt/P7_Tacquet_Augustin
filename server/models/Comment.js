@@ -9,10 +9,6 @@ Comment.init(
       type: DataTypes.UUID,
       allowNull: false,
     },
-    originalPublication_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     text: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -21,6 +17,9 @@ Comment.init(
   {
     sequelize,
     modelName: "comment",
+    defaultScope: {
+      attributes: { exclude: ["userId"] },
+    },
   }
 );
 

@@ -7,7 +7,7 @@ Publication.init(
   {
     uuid: {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: false,
     },
     text: {
       type: DataTypes.STRING,
@@ -19,6 +19,9 @@ Publication.init(
   {
     sequelize,
     modelName: "publication",
+    defaultScope: {
+      attributes: { exclude: ["userId"] },
+    },
   }
 );
 

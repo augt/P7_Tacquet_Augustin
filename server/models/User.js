@@ -10,7 +10,7 @@ User.init(
       defaultValue: DataTypes.UUIDV4,
       unique: true,
       allowNull: false,
-      primaryKey: true,
+      //primaryKey: true,
     },
     username: {
       type: DataTypes.STRING,
@@ -36,10 +36,10 @@ User.init(
     sequelize,
     modelName: "user",
     defaultScope: {
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: ["password", "id", "isAdmin"] },
     },
     scopes: {
-      withPassword: {
+      fullData: {
         attributes: {},
       },
     },

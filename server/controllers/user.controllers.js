@@ -6,8 +6,8 @@ const Publication = require("../models/Publication");
 const Comment = require("../models/Comment");
 
 
-User.hasMany(Publication, { foreignKey: "uuid" }, { as: "publications" });
-User.hasMany(Comment, { foreignKey: "uuid" }, { as: "comments" });
+User.hasMany(Publication, {onDelete: 'CASCADE'}, { as: "publications" });
+User.hasMany(Comment, {onDelete: 'CASCADE'}, { as: "comments" });
 
 
 exports.signup = (req, res, next) => {
@@ -27,7 +27,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  User.scope("withPassword")
+  User.scope("fullData")
     .findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (!user) {
@@ -41,7 +41,7 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             uuid: user.uuid,
-            token: jwt.sign({ uuid: user.uuid }, "RANDOM_TOKEN_SECRET", {
+            token: jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
               expiresIn: "24h",
             }),
           });
