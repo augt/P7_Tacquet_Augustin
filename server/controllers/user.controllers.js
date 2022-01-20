@@ -27,7 +27,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  User.scope("fullData")
+  User/*.scope("fullData")*/
     .findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (!user) {

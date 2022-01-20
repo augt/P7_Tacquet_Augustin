@@ -35,14 +35,14 @@ User.init(
   {
     sequelize,
     modelName: "user",
-    defaultScope: {
+    /*defaultScope: {
       attributes: { exclude: ["password", "id", "isAdmin"] },
     },
     scopes: {
       fullData: {
         attributes: {},
       },
-    },
+    },*/
   }
 );
 

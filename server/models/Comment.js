@@ -17,9 +17,9 @@ Comment.init(
   {
     sequelize,
     modelName: "comment",
-    defaultScope: {
+    /*defaultScope: {
       attributes: { exclude: ["userId"] },
-    },
+    },*/
   }
 );
 
