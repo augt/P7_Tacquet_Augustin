@@ -17,7 +17,14 @@ exports.createComment = (req, res, next) => {
 
 exports.getAllComments = (req, res, next) => {
   Comment.findAll({
-    include: "user",
+    include: [
+      {
+        model: User,
+        as: "user",
+        attributes: ["uuid", "username"],
+      },
+    ],
+    attributes: ["id", "uuid", "text","publicationId", "createdAt", "updatedAt"],
   })
     .then((comments) => res.status(200).json(comments))
     .catch((error) => res.status(404).json({ error }));

@@ -7,7 +7,7 @@ const userRoutes = require('./routes/user.routes');
 const publicationRoutes = require('./routes/publication.routes');
 const commentRoutes = require('./routes/comment.routes');
 
-sequelize.sync({ force: false }).then(() => console.log("db is ready"));
+sequelize.sync({ force: true }).then(() => console.log("db is ready"));
 
 const app = express();
 
