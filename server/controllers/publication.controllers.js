@@ -42,7 +42,6 @@ exports.getAllPublications = (req, res, next) => {
 function deleteOldFile(oldPublication) {
   if (oldPublication.image !== null) {
     const filename = oldPublication.image.split("/images/")[1];
-    console.log(filename);
     fs.unlink(`images/${filename}`, (err) => {
       if (err) throw err;
     });

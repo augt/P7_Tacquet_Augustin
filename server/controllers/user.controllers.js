@@ -1,14 +1,13 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 const User = require("../models/User");
 const Publication = require("../models/Publication");
 const Comment = require("../models/Comment");
 
-
-User.hasMany(Publication, {onDelete: 'CASCADE'}, { as: "publications" });
-User.hasMany(Comment, {onDelete: 'CASCADE'}, { as: "comments" });
-
+User.hasMany(Publication, { onDelete: "CASCADE" }, { as: "publications" });
+User.hasMany(Comment, { onDelete: "CASCADE" }, { as: "comments" });
 
 exports.signup = (req, res, next) => {
   bcrypt
@@ -27,8 +26,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  User/*.scope("fullData")*/
-    .findOne({ where: { email: req.body.email } })
+  User /*.scope("fullData")*/.findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé" });
@@ -53,13 +51,12 @@ exports.login = (req, res, next) => {
 
 exports.getOneUser = (req, res, next) => {
   const uuid = req.params.uuid;
-  User.findOne({ where: { uuid: uuid }})
+  User.findOne({ where: { uuid: uuid } })
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(404).json({ error }));
 };
 
 exports.getAllUsers = (req, res, next) => {
-  
   if (req.auth.isAdmin === false) {
     res.status(401).json("Requête non autorisée");
   } else {
@@ -114,9 +111,27 @@ exports.modifyUser = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-exports.deleteUser = (req, res, next) => {
+function deleteOldFile(oldPublication) {
+  if (oldPublication.image !== null) {
+    const filename = oldPublication.image.split("/images/")[1];
+    fs.unlink(`images/${filename}`, (err) => {
+      if (err) throw err;
+    });
+  }
+}
+
+exports.deleteUser = async (req, res, next) => {
   uuid = req.params.uuid;
-  User.destroy({
+
+  await Publication.findAll({ where: { uuid: uuid } })
+    .then((publications) => {
+      for (let publication of publications) {
+        deleteOldFile(publication);
+      }
+    })
+    .catch((error) => res.status(500).json({ error }));
+
+  await User.destroy({
     where: {
       uuid: uuid,
     },
