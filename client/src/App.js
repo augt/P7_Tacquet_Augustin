@@ -4,7 +4,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // pages
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import SignUp from "./pages/SignUp";
 import Publications from "./pages/Publications";
 import Account from "./pages/Account";
 import Administration from "./pages/Administration";
@@ -19,7 +19,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/publications" element={<Publications />} />
         <Route path="/account" element={<Account />} />
         <Route path="/administration" element={<Administration />} />

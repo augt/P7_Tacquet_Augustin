@@ -28,7 +28,7 @@ header nav ul{
   flex-wrap: wrap;
 }
 
-.register_form {
+.connect__form {
   display: flex;
   flex-direction: column;
 }
