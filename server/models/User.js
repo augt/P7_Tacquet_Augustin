@@ -14,16 +14,20 @@ User.init(
     },
     username: {
       type: DataTypes.STRING,
+      allowNull:false,
       unique: {
-        msg: "Ce nom d'utilisateur est déjà utilisé",
+        msg: "Ce nom d'utilisateur est déjà utilisé.",
       },
-      allowNull: false,
-      notEmpty: true,
+      validate: {
+        notEmpty: {
+          msg: "Vous devez choisir un nom d'utilisateur.",
+        },
+      },
     },
     email: {
       type: DataTypes.STRING,
       unique: {
-        msg: "Cette adresse email est déjà utilisée",
+        msg: "Cette adresse email est déjà utilisée.",
       },
       allowNull: false,
     },
