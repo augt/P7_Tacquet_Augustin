@@ -3,7 +3,7 @@ import React from 'react';
 function Login() {
   return( 
 
-  <div>Connexion</div>
+  <main>Connexion</main>
   
   );
 };

@@ -20,7 +20,16 @@ exports.signup = (req, res, next) => {
       };
       User.create(user)
         .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
-        .catch((error) => res.status(400).json({ error }));
+        .catch((error) => {
+          delete error.errors[0].instance.dataValues.password;
+          delete error.errors[0].instance.dataValues.isAdmin;
+          delete error.errors[0].instance.dataValues.id;
+          delete error.errors[0].instance.dataValues.uuid;
+          delete error.errors[0].instance.dataValues.createdAt;
+          delete error.errors[0].instance.dataValues.updatedAt;
+
+          res.status(400).json({ error });
+        });
     })
     .catch((error) => res.status(500).json({ error }));
 };

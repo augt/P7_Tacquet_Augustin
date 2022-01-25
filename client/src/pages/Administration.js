@@ -1,7 +1,10 @@
 import React from 'react';
 
 function Administration() {
-  return <div>Administration</div>;
+  return (
+  <main>Administration</main>
+  
+  );
 }
 
 export default Administration;

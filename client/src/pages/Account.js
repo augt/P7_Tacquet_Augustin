@@ -1,7 +1,10 @@
 import React from 'react';
 
 function Account() {
-  return <div>Mon compte</div>;
+  return (
+  <main>Mon compte</main>
+  
+  );
 }
 
 export default Account;

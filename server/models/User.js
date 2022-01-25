@@ -14,12 +14,17 @@ User.init(
     },
     username: {
       type: DataTypes.STRING,
-      unique: true,
+      unique: {
+        msg: "Ce nom d'utilisateur est déjà utilisé",
+      },
       allowNull: false,
+      notEmpty: true,
     },
     email: {
       type: DataTypes.STRING,
-      unique: true,
+      unique: {
+        msg: "Cette adresse email est déjà utilisée",
+      },
       allowNull: false,
     },
     password: {
