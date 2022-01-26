@@ -1,6 +1,6 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState/* , useEffect */ } from "react";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 function Login() {
   // login
@@ -8,6 +8,22 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [apiMessage, setApiMessage] = useState("");
+
+  /*const [isAdmin, setIsAdmin] = useState(
+    JSON.parse(localStorage.getItem("isAdmin"))
+  );
+   useEffect(() => {
+    if (isAdmin === true) {
+      const navigationList = document.getElementById("navigation__list");
+      const adminLinkLi = document.createElement("li");
+      navigationList.appendChild(adminLinkLi);
+
+      const adminLink = document.createElement("a");
+      adminLinkLi.appendChild(adminLink);
+      adminLink.setAttribute("href", "/administration");
+      adminLink.innerHTML = "Administration";
+    }
+  }, []); */
 
   const login = () => {
     Axios.post("http://localhost:3001/api/auth/login", {
@@ -23,6 +39,7 @@ function Login() {
         console.log(res.data.token);
         console.log(res.data.isAdmin);
         setApiMessage(res.data.message);
+        window.location.reload(false);
         //setUuid(localStorage.getItem("uuid"));
         //setNewUuid(localStorage.getItem("uuid"));
       })
@@ -56,11 +73,13 @@ function Login() {
             setPassword(event.target.value);
           }}
         />
-        <button onClick={login}>Connexion</button>
+        <Link to="/publications">
+          <button onClick={login}>Connexion</button>
+        </Link>
         <div>{apiMessage}</div>
       </div>
     </main>
   );
-};
+}
 
 export default Login;
