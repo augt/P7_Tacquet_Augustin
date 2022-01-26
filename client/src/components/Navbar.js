@@ -11,7 +11,7 @@ function Navbar() {
 
   function disconnect() {
     localStorage.clear();
-    setIsAdmin(false);
+    setIsAdmin(null);
   }
 
   console.log(isAdmin);
@@ -33,9 +33,11 @@ function Navbar() {
           <li>
             <Link to="/account">Mon compte</Link>
           </li>
-          <li onClick={disconnect}>
-            <Link to="/">Déconnexion</Link>
-          </li>
+          {isAdmin!==null && (
+            <li onClick={disconnect}>
+              <Link to="/">Déconnexion</Link>
+            </li>
+          )}
           {isAdmin === true && (
             <li>
               <Link to="/administration">Administration</Link>

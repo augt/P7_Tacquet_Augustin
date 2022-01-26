@@ -26,9 +26,10 @@ nav li{
 header nav ul{
   display: flex;
   flex-wrap: wrap;
+  list-style: none;
 }
 
-.connect__form {
+.connect__form, .publication__form {
   display: flex;
   flex-direction: column;
 }
