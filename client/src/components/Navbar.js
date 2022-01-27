@@ -23,7 +23,7 @@ function Navbar(props) {
           )}
           {props.token && (
             <li>
-              <Link to="/publications">Publications</Link>
+              <Link to="/newsfeed">Fil d'actualités</Link>
             </li>
           )}
           {props.token && (

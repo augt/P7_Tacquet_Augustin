@@ -58,6 +58,7 @@ exports.getAllPublications = (req, res, next) => {
       },
     ],
     attributes: ["id", "uuid", "text", "image", "createdAt", "updatedAt"],
+    order: [["updatedAt", "DESC"]]
   })
     .then((publications) => res.status(200).json(publications))
     .catch((error) => res.status(404).json({ error }));

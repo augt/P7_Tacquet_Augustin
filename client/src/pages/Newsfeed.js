@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import Navbar from "../components/Navbar";
+import Publication from "../components/Publication";
 
-function Publications() {
+function Newsfeed() {
   const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
   const [token] = useState(localStorage.getItem("token"));
+
+
   //create publication
   const [uuid] = useState(localStorage.getItem("uuid"));
   const [text, setText] = useState("");
@@ -109,12 +112,21 @@ function Publications() {
           />
           <button onClick={addPublication}>Poster la publication</button>
         </div>
-
+            {/* display newsfeed */}
+        <h3>Dernières publications</h3>
         <button onClick={getPublications}>récupérer publications</button>
-        
+
+        <div className="publication__list">
+          {publicationList.map((publication) => {
+            
+            return (
+              <Publication publication={publication} key={publication.id}/>
+            );
+          })}
+        </div>
       </main>
     </div>
   );
 }
 
-export default Publications;
+export default Newsfeed;
