@@ -95,15 +95,12 @@ function Newsfeed() {
         <h2>Publications</h2>
         <div className="publication__form">
           <h3>Créez une publication</h3>
-          <label>texte de la publication</label>
-          <input
-            type="text"
-            onChange={(event) => {
+          <label htmlFor="publicationText">Texte de la publication</label>
+          <textarea name="publicationText" cols="30" rows="6" onChange={(event) => {
               setText(event.target.value);
-            }}
-          />
-          <label>pièce jointe</label>
-          <input
+            }}></textarea>
+          <label htmlFor="publicationImage">Pièce jointe</label>
+          <input name="publicationImage"
             type="file"
             onChange={(event) => {
               setImage(event.target.files[0]);

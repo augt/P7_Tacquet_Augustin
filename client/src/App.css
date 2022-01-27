@@ -33,3 +33,8 @@ header nav ul{
   display: flex;
   flex-direction: column;
 }
+
+.publication{
+  border: 2px black solid;
+  margin: 5px;
+}
