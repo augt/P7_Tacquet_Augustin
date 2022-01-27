@@ -1,11 +1,16 @@
-import React , {useState/*,useEffect*/}  from 'react';
-import Axios from 'axios'
+import React, { useState } from "react";
+import Axios from "axios";
+import Navbar from "../components/Navbar";
 
 function Publications() {
+  const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
+  const [token] = useState(localStorage.getItem("token"));
   //create publication
   const [uuid] = useState(localStorage.getItem("uuid"));
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
+
+  const [publicationList, setPublicationList] = useState([]);
 
   const addPublication = () => {
     if (image === "" || image === undefined) {
@@ -17,6 +22,17 @@ function Publications() {
       })
         .then((res) => {
           console.log(res);
+          setPublicationList([
+            ...publicationList,
+            {
+              publicationId: res.data.publicationId,
+              uuid: uuid,
+              text: text,
+              image: res.data.image,
+              createdAt: res.data.createdAt,
+              updatedAt: res.data.updatedAt,
+            },
+          ]);
         })
         .catch((res) => {
           console.log(res);
@@ -36,36 +52,68 @@ function Publications() {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
-        .then(function (response) {
-          console.log(response);
+        .then(function (res) {
+          console.log(res);
+          setPublicationList([
+            ...publicationList,
+            {
+              publicationId: res.data.publicationId,
+              uuid: uuid,
+              text: text,
+              image: res.data.image,
+              createdAt: res.data.createdAt,
+              updatedAt: res.data.updatedAt,
+            },
+          ]);
         })
-        .catch(function (response) {
-          console.log(response);
+        .catch(function (res) {
+          console.log(res);
         });
     }
   };
+
+  // display publications
+
+  const getPublications = () => {
+    Axios({
+      method: "get",
+      url: "http://localhost:3001/api/publications",
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    }).then((res) => {
+      setPublicationList(res.data)
+    }).then(console.log(publicationList))
+    .catch((error)=>{console.log(error)});
+  };
+
   return (
-    <main>
-      <h2>Publications</h2>
-      <div className="publication__form">
-        <label>texte de la publication</label>
-        <input
-          type="text"
-          onChange={(event) => {
-            setText(event.target.value);
-          }}
-        />
-        <label>pièce jointe</label>
-        <input
-          type="file"
-          onChange={(event) => {
-            setImage(event.target.files[0]);
-            console.log(event.target.files[0]);
-          }}
-        />
-        <button onClick={addPublication}>Poster la publication</button>
-      </div>
-    </main>
+    <div>
+      <Navbar token={token} isAdmin={isAdmin} />
+      <main>
+        <h2>Publications</h2>
+        <div className="publication__form">
+          <h3>Créez une publication</h3>
+          <label>texte de la publication</label>
+          <input
+            type="text"
+            onChange={(event) => {
+              setText(event.target.value);
+            }}
+          />
+          <label>pièce jointe</label>
+          <input
+            type="file"
+            onChange={(event) => {
+              setImage(event.target.files[0]);
+              console.log(event.target.files[0]);
+            }}
+          />
+          <button onClick={addPublication}>Poster la publication</button>
+        </div>
+
+        <button onClick={getPublications}>récupérer publications</button>
+        
+      </main>
+    </div>
   );
 }
 

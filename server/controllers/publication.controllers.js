@@ -15,7 +15,17 @@ exports.createPublication = (req, res, next) => {
       userId: req.auth.userId,
     };
     Publication.create(publication)
-      .then(() => res.status(201).json({ message: "Publication créée !" }))
+      .then((publication) => {
+        res
+          .status(201)
+          .json({
+            message: "Publication créée !",
+            publicationId: publication.id,
+            image: publication.image,
+            createdAt: publication.createdAt,
+            updatedAt: publication.updatedAt
+          })}
+      )
       .catch((error) => res.status(400).json({ error }));
   } else {
     const publication = {
@@ -25,7 +35,15 @@ exports.createPublication = (req, res, next) => {
       userId: req.auth.userId,
     };
     Publication.create(publication)
-      .then(() => res.status(201).json({ message: "Publication créée !" }))
+      .then((publication) => {
+        res.status(201).json({
+          message: "Publication créée !",
+          publicationId: publication.id,
+          image: publication.image,
+          createdAt: publication.createdAt,
+          updatedAt: publication.updatedAt,
+        })}
+      )
       .catch((error) => res.status(400).json({ error }));
   }
 };
@@ -36,7 +54,7 @@ exports.getAllPublications = (req, res, next) => {
       {
         model: User,
         as: "user",
-        attributes: ["uuid","username"],
+        attributes: ["uuid", "username"],
       },
     ],
     attributes: ["id", "uuid", "text", "image", "createdAt", "updatedAt"],

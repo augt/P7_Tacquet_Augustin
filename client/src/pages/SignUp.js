@@ -2,7 +2,11 @@ import React from "react";
 import { useState } from "react";
 import Axios from "axios";
 
+import Navbar from "../components/Navbar";
+
 function SignUp() {
+  const [token] = useState(localStorage.getItem("token"));
+  const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
   //create user profile
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,34 +37,37 @@ function SignUp() {
   };
 
   return (
-    <main>
-      <h2>Inscription</h2>
-      <div className="connect__form">
-        <label>Nom d'utilisateur:</label>
-        <input
-          type="text"
-          onChange={(event) => {
-            setUserName(event.target.value);
-          }}
-        />
-        <label>Email</label>
-        <input
-          type="text"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        />
-        <label>Mot de passe</label>
-        <input
-          type="password"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        />
-        <button onClick={addUser}>Créer utilisateur</button>
-        <div>{apiMessage}</div>
-      </div>
-    </main>
+    <div>
+      <Navbar token={token} isAdmin={isAdmin}/>
+      <main>
+        <h2>Inscription</h2>
+        <div className="connect__form">
+          <label>Nom d'utilisateur:</label>
+          <input
+            type="text"
+            onChange={(event) => {
+              setUserName(event.target.value);
+            }}
+          />
+          <label>Email</label>
+          <input
+            type="text"
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          />
+          <label>Mot de passe</label>
+          <input
+            type="password"
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+          />
+          <button onClick={addUser}>Créer utilisateur</button>
+          <div>{apiMessage}</div>
+        </div>
+      </main>
+    </div>
   );
 }
 

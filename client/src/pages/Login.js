@@ -1,29 +1,24 @@
-import React, { useState/* , useEffect */ } from "react";
+import React, { useState } from "react";
 import Axios from "axios";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+
 
 function Login() {
+
+  const[token, setToken]= useState(localStorage.getItem('token'));
+  const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
+  console.log(token);
+  if (token){
+    window.location.href = "publications";
+  }
   // login
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [apiMessage, setApiMessage] = useState("");
 
-  /*const [isAdmin, setIsAdmin] = useState(
-    JSON.parse(localStorage.getItem("isAdmin"))
-  );
-   useEffect(() => {
-    if (isAdmin === true) {
-      const navigationList = document.getElementById("navigation__list");
-      const adminLinkLi = document.createElement("li");
-      navigationList.appendChild(adminLinkLi);
-
-      const adminLink = document.createElement("a");
-      adminLinkLi.appendChild(adminLink);
-      adminLink.setAttribute("href", "/administration");
-      adminLink.innerHTML = "Administration";
-    }
-  }, []); */
+  
 
   const login = () => {
     Axios.post("http://localhost:3001/api/auth/login", {
@@ -35,13 +30,12 @@ function Login() {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("uuid", res.data.uuid);
         localStorage.setItem("isAdmin", res.data.isAdmin);
-        console.log(localStorage.getItem("uuid"));
+        localStorage.setItem("connectedUsername", res.data.username)
+        setToken(res.data.token);
         console.log(res.data.token);
         console.log(res.data.isAdmin);
         setApiMessage(res.data.message);
-        window.location.reload(false);
-        //setUuid(localStorage.getItem("uuid"));
-        //setNewUuid(localStorage.getItem("uuid"));
+        
       })
       .catch((err) => {
         console.log(err);
@@ -56,29 +50,32 @@ function Login() {
       });
   };
   return (
-    <main>
-      <h2>Connexion</h2>
-      <div className="connect__form">
-        <label>Email</label>
-        <input
-          type="text"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        />
-        <label>Mot de passe</label>
-        <input
-          type="password"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        />
-        <Link to="/publications">
-          <button onClick={login}>Connexion</button>
-        </Link>
-        <div>{apiMessage}</div>
-      </div>
-    </main>
+    <div>
+      <Navbar token={token} isAdmin={isAdmin}/>
+      <main>
+        <h2>Connexion</h2>
+        <div className="connect__form">
+          <label>Email</label>
+          <input
+            type="text"
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          />
+          <label>Mot de passe</label>
+          <input
+            type="password"
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+          />
+          
+            <button onClick={login}>Connexion</button>
+         
+          <div>{apiMessage}</div>
+        </div>
+      </main>
+    </div>
   );
 }
 

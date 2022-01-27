@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Navbar from "../components/Navbar";
+
 
 function Administration() {
+  const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
+  const [token] = useState(localStorage.getItem("token"));
   return (
-  <main>Administration</main>
-  
+    <div>
+      <Navbar token={token} isAdmin={isAdmin} />
+      <main>Administration</main>
+    </div>
   );
 }
 

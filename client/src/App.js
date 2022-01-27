@@ -11,12 +11,10 @@ import Administration from "./pages/Administration";
 import Error from "./pages/ErrorPage";
 
 // navbar
-import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <Router>
-      <Navbar />
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
