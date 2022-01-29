@@ -20,7 +20,7 @@ exports.createPublication = (req, res, next) => {
           .status(201)
           .json({
             message: "Publication créée !",
-            publicationId: publication.id,
+            id: publication.id,
             image: publication.image,
             createdAt: publication.createdAt,
             updatedAt: publication.updatedAt
@@ -38,7 +38,7 @@ exports.createPublication = (req, res, next) => {
       .then((publication) => {
         res.status(201).json({
           message: "Publication créée !",
-          publicationId: publication.id,
+          id: publication.id,
           image: publication.image,
           createdAt: publication.createdAt,
           updatedAt: publication.updatedAt,
@@ -54,7 +54,7 @@ exports.getAllPublications = (req, res, next) => {
       {
         model: User,
         as: "user",
-        attributes: ["uuid", "username"],
+        attributes: ["username"],
       },
     ],
     attributes: ["id", "uuid", "text", "image", "createdAt", "updatedAt"],

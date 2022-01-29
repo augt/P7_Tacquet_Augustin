@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 function Publication(props) {
-  const [uuid] = useState(localStorage.getItem("uuid"));
 
   const [show, setShow] = useState(false);
   return (

@@ -10,7 +10,7 @@ function Login() {
   const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
   console.log(token);
   if (token){
-    window.location.href = "publications";
+    window.location.href = "newsfeed";
   }
   // login
 

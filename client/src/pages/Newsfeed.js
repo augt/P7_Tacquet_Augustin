@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Navbar from "../components/Navbar";
 import Publication from "../components/Publication";
@@ -6,7 +6,6 @@ import Publication from "../components/Publication";
 function Newsfeed() {
   const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
   const [token] = useState(localStorage.getItem("token"));
-
 
   //create publication
   const [uuid] = useState(localStorage.getItem("uuid"));
@@ -26,15 +25,16 @@ function Newsfeed() {
         .then((res) => {
           console.log(res);
           setPublicationList([
-            ...publicationList,
             {
-              publicationId: res.data.publicationId,
+              id: res.data.id,
               uuid: uuid,
               text: text,
               image: res.data.image,
               createdAt: res.data.createdAt,
               updatedAt: res.data.updatedAt,
+              user: { username: localStorage.getItem("connectedUsername") },
             },
+            ...publicationList,
           ]);
         })
         .catch((res) => {
@@ -58,15 +58,16 @@ function Newsfeed() {
         .then(function (res) {
           console.log(res);
           setPublicationList([
-            ...publicationList,
             {
-              publicationId: res.data.publicationId,
+              id: res.data.id,
               uuid: uuid,
               text: text,
               image: res.data.image,
               createdAt: res.data.createdAt,
               updatedAt: res.data.updatedAt,
+              user: { username: localStorage.getItem("connectedUsername") },
             },
+            ...publicationList,
           ]);
         })
         .catch(function (res) {
@@ -76,17 +77,25 @@ function Newsfeed() {
   };
 
   // display publications
+  useEffect(() => {
+    const getPublications = () => {
+      Axios({
+        method: "get",
+        url: "http://localhost:3001/api/publications",
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      })
+        .then((res) => {
+          console.log(res.data[0]);
+          setPublicationList(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getPublications();
+  }, []);
 
-  const getPublications = () => {
-    Axios({
-      method: "get",
-      url: "http://localhost:3001/api/publications",
-      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-    }).then((res) => {
-      setPublicationList(res.data)
-    }).then(console.log(publicationList))
-    .catch((error)=>{console.log(error)});
-  };
+  //getPublications()
 
   return (
     <div>
@@ -96,11 +105,17 @@ function Newsfeed() {
         <div className="publication__form">
           <h3>Créez une publication</h3>
           <label htmlFor="publicationText">Texte de la publication</label>
-          <textarea name="publicationText" cols="30" rows="6" onChange={(event) => {
+          <textarea
+            name="publicationText"
+            cols="30"
+            rows="6"
+            onChange={(event) => {
               setText(event.target.value);
-            }}></textarea>
+            }}
+          ></textarea>
           <label htmlFor="publicationImage">Pièce jointe</label>
-          <input name="publicationImage"
+          <input
+            name="publicationImage"
             type="file"
             onChange={(event) => {
               setImage(event.target.files[0]);
@@ -109,15 +124,14 @@ function Newsfeed() {
           />
           <button onClick={addPublication}>Poster la publication</button>
         </div>
-            {/* display newsfeed */}
+        {/* display newsfeed */}
         <h3>Dernières publications</h3>
-        <button onClick={getPublications}>récupérer publications</button>
+        {/* <button onClick={getPublications}>récupérer publications</button> */}
 
         <div className="publication__list">
           {publicationList.map((publication) => {
-            
             return (
-              <Publication publication={publication} key={publication.id}/>
+              <Publication publication={publication} key={publication.id} />
             );
           })}
         </div>
