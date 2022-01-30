@@ -94,8 +94,11 @@ function Newsfeed() {
     getPublications();
   }, []);
 
-  //getPublications()
-
+  //update after deleting publication
+  
+  function updateAfterDeletePublication(newPublicationList) {
+      setPublicationList(newPublicationList);
+  };
   return (
     <div>
       <Navbar token={token} isAdmin={isAdmin} />
@@ -125,12 +128,11 @@ function Newsfeed() {
         </div>
         {/* display newsfeed */}
         <h3>Dernières publications</h3>
-        {/* <button onClick={getPublications}>récupérer publications</button> */}
 
         <div className="publication__list">
           {publicationList.map((publication) => {
             return (
-              <Publication publication={publication} key={publication.id} />
+              <Publication publication={publication} key={publication.id} publicationList={publicationList} updateAfterDelete={updateAfterDeletePublication} />
             );
           })}
         </div>

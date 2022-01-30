@@ -9,7 +9,7 @@ function Publication(props) {
   const [text, setText] = useState(props.publication.text);
   const [createdAt] = useState(props.publication.createdAt);
   const [updatedAt, setUpdatedAt] = useState(props.publication.updatedAt);
-
+  const publicationList = props.publicationList
 
   //modify publication
   const [newUuid] = useState(localStorage.getItem("uuid"));
@@ -17,7 +17,7 @@ function Publication(props) {
   const [newImage, setNewImage] = useState(undefined);
 
   const modifyPublication = () => {
-    if (newImage === "" || newImage === undefined || newImage ===null) {
+    if (newImage === "" || newImage === undefined || newImage === null) {
       Axios({
         method: "put",
         url: `http://localhost:3001/api/publications/${id}`,
@@ -26,6 +26,9 @@ function Publication(props) {
       })
         .then((res) => {
           console.log(res);
+          setImage(res.data.image);
+          setText(res.data.text);
+          setUpdatedAt(res.data.updatedAt);
         })
         .catch((res) => {
           console.log(res);
@@ -45,13 +48,37 @@ function Publication(props) {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
-        .then(function (response) {
-          console.log(response);
+        .then(function (res) {
+          console.log(res);
+          setImage(res.data.image);
+          setText(res.data.text);
+          setUpdatedAt(res.data.updatedAt);
         })
-        .catch(function (response) {
-          console.log(response);
+        .catch(function (res) {
+          console.log(res);
         });
     }
+  };
+
+  const deletePublication = () => {
+    const publicationIndex = publicationList.findIndex(
+      (publication) => publication.id === id
+    );
+
+    Axios({
+      method: "delete",
+      url: `http://localhost:3001/api/publications/${id}`,
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    })
+      .then((res) => {
+        console.log(res);
+        publicationList.splice(publicationIndex, 1);
+        const newPublicationList = [...publicationList];
+        props.updateAfterDelete(newPublicationList);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
   };
 
   return (
@@ -114,16 +141,19 @@ function Publication(props) {
             >
               Supprimer l'image
             </button>
-            {newImage!==undefined&&newImage!==null&&<button
-              onClick={() => {
-                setNewImage(undefined);
-              }}
-            >
-              Supprimer nouvelle image
-            </button>}
+            {newImage !== undefined && newImage !== null && (
+              <button
+                onClick={() => {
+                  setNewImage(undefined);
+                }}
+              >
+                Annuler nouvelle image
+              </button>
+            )}
             <button
               onClick={() => {
                 modifyPublication();
+                setShow(!show);
               }}
             >
               Appliquer les changements
@@ -133,18 +163,18 @@ function Publication(props) {
         {props.publication.uuid === localStorage.getItem("uuid") &&
           localStorage.getItem("isAdmin") === "false" && (
             <button
-            /* onClick={() => {
-                      deleteEmployee(val.id);
-                    }} */
+              onClick={() => {
+                deletePublication();
+              }}
             >
               Supprimer
             </button>
           )}
         {localStorage.getItem("isAdmin") === "true" && (
           <button
-          /* onClick={() => {
-                      deleteEmployee(val.id);
-                    }} */
+            onClick={() => {
+              deletePublication();
+            }}
           >
             Supprimer
           </button>

@@ -42,7 +42,7 @@ exports.createPublication = (req, res, next) => {
           image: publication.image,
           createdAt: publication.createdAt,
           updatedAt: publication.updatedAt,
-        })}
+        });}
       )
       .catch((error) => res.status(400).json({ error }));
   }
@@ -116,7 +116,17 @@ exports.modifyPublication = async (req, res, next) => {
         },
       }
     )
-      .then(() => res.status(200).send("Publication mise à jour !"))
+      .then(() => {
+        return Publication.findOne({ where: { id: id } });
+      })
+      .then((publication) => {
+        res.status(200).send({
+          message: "Publication modifiée !",
+          text: publication.text,
+          image: publication.image,
+          updatedAt: publication.updatedAt,
+        });
+      })
       .catch((error) => res.status(404).json({ error }));
   }
   
@@ -133,7 +143,17 @@ exports.modifyPublication = async (req, res, next) => {
         },
       }
     )
-      .then(() => res.status(200).send("Publication mise à jour !"))
+      .then(() => {
+        return Publication.findOne({ where: { id: id } });
+      })
+      .then((publication) => {
+        res.status(200).send({
+          message: "Publication modifiée !",
+          text: publication.text,
+          image: publication.image,
+          updatedAt: publication.updatedAt,
+        });
+      })
       .catch((error) => res.status(404).json({ error }));
   }
 
@@ -147,7 +167,15 @@ exports.modifyPublication = async (req, res, next) => {
         },
       }
     )
-      .then(() => res.status(200).send("Publication mise à jour !"))
+      .then(()=>{ return Publication.findOne({ where: { id: id } })})
+      .then((publication)=>{
+        res.status(200).send({
+          message: "Publication modifiée !",
+          text: publication.text,
+          image: publication.image,
+          updatedAt: publication.updatedAt,
+        });
+      })
       .catch((error) => res.status(404).json({ error }));
   }
 };
