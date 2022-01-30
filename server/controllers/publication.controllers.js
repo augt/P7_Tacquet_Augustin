@@ -58,7 +58,7 @@ exports.getAllPublications = (req, res, next) => {
       },
     ],
     attributes: ["id", "uuid", "text", "image", "createdAt", "updatedAt"],
-    order: [["updatedAt", "DESC"]]
+    order: [["createdAt", "DESC"]]
   })
     .then((publications) => res.status(200).json(publications))
     .catch((error) => res.status(404).json({ error }));
@@ -118,13 +118,29 @@ exports.modifyPublication = async (req, res, next) => {
     )
       .then(() => res.status(200).send("Publication mise à jour !"))
       .catch((error) => res.status(404).json({ error }));
-  } else {
+  }
+  
+  if (!req.file && req.body.image===null){
     await Publication.findOne({ where: { id: id } })
       .then(deleteOldFile)
       .catch((error) => res.status(500).json({ error }));
 
     await Publication.update(
       { text: req.body.text, image: null },
+      {
+        where: {
+          id: id,
+        },
+      }
+    )
+      .then(() => res.status(200).send("Publication mise à jour !"))
+      .catch((error) => res.status(404).json({ error }));
+  }
+
+  if (!req.file && req.body.image === undefined) {
+
+    await Publication.update(
+      { text: req.body.text },
       {
         where: {
           id: id,

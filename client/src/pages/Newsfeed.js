@@ -85,7 +85,6 @@ function Newsfeed() {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
         .then((res) => {
-          console.log(res.data[0]);
           setPublicationList(res.data);
         })
         .catch((error) => {
