@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // pages
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Newsfeed from "./pages/Newsfeed";
+import Newsfeed from "./pages/NewsFeed";
 import Account from "./pages/Account";
 import Administration from "./pages/Administration";
 import Error from "./pages/ErrorPage";

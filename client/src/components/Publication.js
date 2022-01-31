@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+const Dayjs = require("dayjs");
 
 function Publication(props) {
   const [show, setShow] = useState(false);
@@ -7,8 +8,8 @@ function Publication(props) {
   const username = props.publication.user.username;
   const [image, setImage] = useState(props.publication.image);
   const [text, setText] = useState(props.publication.text);
-  const createdAt = props.publication.createdAt;
-  const [updatedAt, setUpdatedAt] = useState(props.publication.updatedAt);
+  const createdAt = Dayjs(`${props.publication.createdAt}`).format("DD/MM/YYYY à HH:mm");
+  const [updatedAt, setUpdatedAt] = useState(Dayjs(`${props.publication.updatedAt}`).format("DD/MM/YYYY à HH:mm"));
   const publicationList = props.publicationList;
 
   //modify publication
@@ -92,11 +93,15 @@ function Publication(props) {
       <div>
         <p>{username} :</p>
         <p>{text}</p>
-        { image &&
-          <img className="publication__image"src={image} alt="illustration attachée à la publication" />}
-        
-        <p>Publié le: {createdAt}</p>
-        <p>Modifié le:{updatedAt}</p>
+        {image && (
+          <img
+            className="publication__image"
+            src={image}
+            alt="illustration attachée à la publication"
+          />
+        )}
+        <p>Publiée le : {createdAt}</p>
+        <p>Modifiée le : {updatedAt}</p>
       </div>
       <div>
         {props.publication.uuid === localStorage.getItem("uuid") &&
@@ -152,7 +157,7 @@ function Publication(props) {
                 Supprimer l'image
               </button>
             )}
-            {newImage === null && image &&(
+            {newImage === null && image && (
               <button
                 onClick={() => {
                   setNewImage(undefined);
