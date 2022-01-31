@@ -90,9 +90,11 @@ function Publication(props) {
   return (
     <div className="publication">
       <div>
-        <p>De :{username}</p>
-        <p>Texte: {text}</p>
-        <p>image: {image}</p>
+        <p>{username} :</p>
+        <p>{text}</p>
+        { image &&
+          <img className="publication__image"src={image} alt="illustration attachée à la publication" />}
+        
         <p>Publié le: {createdAt}</p>
         <p>Modifié le:{updatedAt}</p>
       </div>

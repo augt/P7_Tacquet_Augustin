@@ -38,3 +38,6 @@ header nav ul{
   border: 2px black solid;
   margin: 5px;
 }
+.publication__image{
+  height: 200px;
+}
