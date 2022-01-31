@@ -4,15 +4,22 @@ import Navbar from "../components/Navbar";
 import Publication from "../components/Publication";
 
 function Newsfeed() {
-  const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
-  const [token] = useState(localStorage.getItem("token"));
+  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+  const token = localStorage.getItem("token");
 
   //create publication
-  const [uuid] = useState(localStorage.getItem("uuid"));
+  const uuid = localStorage.getItem("uuid");
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
 
   const [publicationList, setPublicationList] = useState([]);
+
+  const selectedFile = document.getElementById("selected__file");
+
+  function removeAttachment() {
+    selectedFile.value = "";
+    setImage("");
+  }
 
   const addPublication = () => {
     if (image === "" || image === undefined) {
@@ -95,10 +102,11 @@ function Newsfeed() {
   }, []);
 
   //update after deleting publication
-  
+
   function updateAfterDeletePublication(newPublicationList) {
-      setPublicationList(newPublicationList);
-  };
+    setPublicationList(newPublicationList);
+  }
+
   return (
     <div>
       <Navbar token={token} isAdmin={isAdmin} />
@@ -119,11 +127,17 @@ function Newsfeed() {
           <input
             name="publicationImage"
             type="file"
+            id="selected__file"
             onChange={(event) => {
               setImage(event.target.files[0]);
               console.log(event.target.files[0]);
             }}
           />
+          {image !== "" && image !==undefined && (
+            <button onClick={removeAttachment}>
+              Supprimer la pièce jointe
+            </button>
+          )}
           <button onClick={addPublication}>Poster la publication</button>
         </div>
         {/* display newsfeed */}
@@ -132,7 +146,12 @@ function Newsfeed() {
         <div className="publication__list">
           {publicationList.map((publication) => {
             return (
-              <Publication publication={publication} key={publication.id} publicationList={publicationList} updateAfterDelete={updateAfterDeletePublication} />
+              <Publication
+                publication={publication}
+                key={publication.id}
+                publicationList={publicationList}
+                updateAfterDelete={updateAfterDeletePublication}
+              />
             );
           })}
         </div>

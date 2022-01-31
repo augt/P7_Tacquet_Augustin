@@ -7,8 +7,7 @@ import Navbar from "../components/Navbar";
 function Login() {
 
   const[token, setToken]= useState(localStorage.getItem('token'));
-  const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
-  console.log(token);
+  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
   if (token){
     window.location.href = "newsfeed";
   }

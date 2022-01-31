@@ -3,18 +3,24 @@ import Axios from "axios";
 
 function Publication(props) {
   const [show, setShow] = useState(false);
-  const [id] = useState(props.publication.id);
-  const [username] = useState(props.publication.user.username);
+  const id = props.publication.id;
+  const username = props.publication.user.username;
   const [image, setImage] = useState(props.publication.image);
   const [text, setText] = useState(props.publication.text);
-  const [createdAt] = useState(props.publication.createdAt);
+  const createdAt = props.publication.createdAt;
   const [updatedAt, setUpdatedAt] = useState(props.publication.updatedAt);
-  const publicationList = props.publicationList
+  const publicationList = props.publicationList;
 
   //modify publication
   const [newUuid] = useState(localStorage.getItem("uuid"));
   const [newText, setNewText] = useState(text);
   const [newImage, setNewImage] = useState(undefined);
+
+  const newSelectedFile = document.getElementById("newSelected__file");
+  function removeAttachment() {
+    newSelectedFile.value = "";
+    setNewImage(undefined);
+  }
 
   const modifyPublication = () => {
     if (newImage === "" || newImage === undefined || newImage === null) {
@@ -129,31 +135,38 @@ function Publication(props) {
             <input
               name="newPublicationImage"
               type="file"
+              id="newSelected__file"
               onChange={(event) => {
                 setNewImage(event.target.files[0]);
                 console.log(event.target.files[0]);
               }}
             />
-            <button
-              onClick={() => {
-                setNewImage(null);
-              }}
-            >
-              Supprimer l'image
-            </button>
-            {newImage !== undefined && newImage !== null && (
+            {newImage !== null && image && (
+              <button
+                onClick={() => {
+                  setNewImage(null);
+                }}
+              >
+                Supprimer l'image
+              </button>
+            )}
+            {newImage === null && image &&(
               <button
                 onClick={() => {
                   setNewImage(undefined);
                 }}
               >
-                Annuler nouvelle image
+                Restaurer l'image
               </button>
+            )}
+            {newImage !== undefined && newImage !== null && (
+              <button onClick={removeAttachment}>Annuler nouvelle image</button>
             )}
             <button
               onClick={() => {
                 modifyPublication();
                 setShow(!show);
+                setNewImage(undefined);
               }}
             >
               Appliquer les changements
