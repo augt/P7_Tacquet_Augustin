@@ -30,7 +30,7 @@ exports.getAllComments = (req, res, next) => {
       {
         model: User,
         as: "user",
-        attributes: ["uuid", "username"],
+        attributes: ["username"],
       },
     ],
     attributes: [
@@ -80,7 +80,16 @@ exports.modifyComment = (req, res, next) => {
       },
     }
   )
-    .then(() => res.status(200).send("Commentaire mis à jour !"))
+    .then(() => {
+      return Comment.findOne({ where: { id: id } });
+    })
+    .then((comment) => {
+      res.status(200).send({
+        message: "Commentaire mis à jour !",
+        text: comment.text,
+        updatedAt: comment.updatedAt,
+      });
+    })
     .catch((error) => res.status(404).json({ error }));
 };
 

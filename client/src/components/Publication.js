@@ -20,7 +20,7 @@ function Publication(props) {
   const publicationList = props.publicationList;
 
   //modify publication
-  const [newUuid] = useState(localStorage.getItem("uuid"));
+  const newUuid = localStorage.getItem("uuid");
   const [newText, setNewText] = useState(text);
   const [newImage, setNewImage] = useState(undefined);
 
@@ -113,8 +113,8 @@ function Publication(props) {
             alt="illustration attachée à la publication"
           />
         )}
-        <p>Publiée le : {createdAt}</p>
-        <p>Modifiée le : {updatedAt}</p>
+        <p className="date">Publiée : {createdAt}</p>
+        <p className="date">Modifiée : {updatedAt}</p>
       </div>
       <div>
         {props.publication.uuid === localStorage.getItem("uuid") &&

@@ -43,9 +43,18 @@ header nav ul {
 .publication__image {
   height: 200px;
 }
+.date{
+  font-size: 0.8em;
+}
 .comments {
-  border: 2px black solid;
+  border: 1px black solid;
   margin: 5px;
   display: flex;
   flex-direction: column;
 }
+.comment{
+  display: flex;
+  justify-content: space-between;
+  border: 1px grey solid;
+}
+

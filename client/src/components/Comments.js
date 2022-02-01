@@ -50,22 +50,27 @@ function Comments(props) {
 
   return (
     <div className="comments">
-      
-      <button  onClick={()=>{setShow(!show)}} >Commenter</button>
-        { show && <div>
-<label htmlFor="commentText"></label>
-      <textarea
-        name="commentText"
-        cols="30"
-        rows="6"
-        onChange={(event) => {
-          setText(event.target.value);
+      <button
+        onClick={() => {
+          setShow(!show);
         }}
-      ></textarea>
-      <button onClick={addComment}>envoyer</button>
-
-
-        </div>}
+      >
+        Commenter
+      </button>
+      {show && (
+        <div>
+          <label htmlFor="commentText"></label>
+          <textarea
+            name="commentText"
+            cols="30"
+            rows="6"
+            onChange={(event) => {
+              setText(event.target.value);
+            }}
+          ></textarea>
+          <button onClick={addComment}>envoyer</button>
+        </div>
+      )}
       <h4>Commentaires</h4>
       <div className="comment__list">
         {commentList.map((comment) => {
