@@ -117,7 +117,7 @@ function Newsfeed() {
     getComments();
   }, []);
 
-  //update after deleting publication
+  //update publication list after deleting publication
 
   function updateAfterDeletePublication(newPublicationList) {
     setPublicationList(newPublicationList);

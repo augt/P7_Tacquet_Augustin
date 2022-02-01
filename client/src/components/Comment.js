@@ -4,6 +4,7 @@ import Axios from "axios";
 require("dayjs/locale/fr");
 
 function Comment(props) {
+  const commentList = props.commentList;
   const [show, setShow] = useState(false);
   const id = props.comment.id;
   const [text, setText] = useState(props.comment.text);
@@ -36,6 +37,27 @@ function Comment(props) {
             .locale("fr")
             .format("DD MMMM YYYY à HH:mm")
         );
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
+
+  //delete comment
+
+  const deleteComment = () => {
+    const commentIndex = commentList.findIndex((comment) => comment.id === id);
+
+    Axios({
+      method: "delete",
+      url: `http://localhost:3001/api/comments/${id}`,
+      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+    })
+      .then((res) => {
+        console.log(res);
+        commentList.splice(commentIndex, 1);
+        const newCommentList = [...commentList];
+        props.updateAfterDelete(newCommentList);
       })
       .catch((res) => {
         console.log(res);
@@ -96,18 +118,18 @@ function Comment(props) {
           {props.comment.uuid === localStorage.getItem("uuid") &&
             localStorage.getItem("isAdmin") === "false" && (
               <button
-              /* onClick={() => {
+              onClick={() => {
                   deleteComment();
-                }} */
+                }}
               >
                 Supprimer
               </button>
             )}
           {localStorage.getItem("isAdmin") === "true" && (
             <button
-            /* onClick={() => {
-                deletePublication();
-              }} */
+            onClick={() => {
+                deleteComment();
+              }}
             >
               Supprimer
             </button>

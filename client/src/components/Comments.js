@@ -42,11 +42,11 @@ function Comments(props) {
         console.log(res);
       });
   };
-  //update after deleting comment
+  //update comment list after deleting comment
 
-  /* function updateAfterDeleteComment(newCommentList) {
+  function updateAfterDeleteComment(newCommentList) {
     setCommentList(newCommentList);
-  }  */
+  } 
 
   return (
     <div className="comments">
@@ -79,7 +79,7 @@ function Comments(props) {
               comment={comment}
               key={comment.id}
               commentList={commentList}
-              //updateAfterDelete={updateAfterDeleteComment}
+              updateAfterDelete={updateAfterDeleteComment}
             />
           );
         })}
