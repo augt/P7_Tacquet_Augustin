@@ -1,5 +1,5 @@
 const Comment = require("../models/Comment");
-const User =  require("../models/User")
+const User = require("../models/User");
 
 Comment.belongsTo(User, { as: "user" });
 
@@ -11,7 +11,16 @@ exports.createComment = (req, res, next) => {
     userId: req.auth.userId,
   };
   Comment.create(comment)
-    .then(() => res.status(201).json({ message: "Commentaire créé !" }))
+    .then((comment) => {
+      res
+        .status(201)
+        .json({
+          message: "Commentaire créé !",
+          id: comment.id,
+          createdAt: comment.createdAt,
+          updatedAt: comment.updatedAt,
+        });
+    })
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -24,7 +33,15 @@ exports.getAllComments = (req, res, next) => {
         attributes: ["uuid", "username"],
       },
     ],
-    attributes: ["id", "uuid", "text","publicationId", "createdAt", "updatedAt"],
+    attributes: [
+      "id",
+      "uuid",
+      "text",
+      "publicationId",
+      "createdAt",
+      "updatedAt",
+    ],
+    order: [["createdAt", "ASC"]],
   })
     .then((comments) => res.status(200).json(comments))
     .catch((error) => res.status(404).json({ error }));
@@ -39,10 +56,7 @@ exports.checkPreviousComment = (req, res, next) => {
         if (!comment) {
           throw "Ce commentaire n'existe pas !";
         }
-        if (
-          req.auth.uuid !== comment.uuid &&
-          req.auth.isAdmin === false
-        ) {
+        if (req.auth.uuid !== comment.uuid && req.auth.isAdmin === false) {
           throw "Requête non autorisée";
         } else {
           next();

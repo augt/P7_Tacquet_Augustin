@@ -13,6 +13,7 @@ function Newsfeed() {
   const [image, setImage] = useState("");
 
   const [publicationList, setPublicationList] = useState([]);
+  const [unfilteredCommentList, setUnfilteredCommentList] = useState([])
 
   const selectedFile = document.getElementById("selected__file");
 
@@ -83,7 +84,7 @@ function Newsfeed() {
     }
   };
 
-  // display publications
+  // fetch publications and comments
   useEffect(() => {
     const getPublications = () => {
       Axios({
@@ -99,6 +100,21 @@ function Newsfeed() {
         });
     };
     getPublications();
+
+    const getComments = () => {
+      Axios({
+        method: "get",
+        url: "http://localhost:3001/api/comments",
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      })
+        .then((res) => {
+          setUnfilteredCommentList(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getComments();
   }, []);
 
   //update after deleting publication
@@ -106,6 +122,8 @@ function Newsfeed() {
   function updateAfterDeletePublication(newPublicationList) {
     setPublicationList(newPublicationList);
   }
+
+  //display comments
 
   return (
     <div>
@@ -151,6 +169,7 @@ function Newsfeed() {
                 key={publication.id}
                 publicationList={publicationList}
                 updateAfterDelete={updateAfterDeletePublication}
+                unfilteredCommentList={unfilteredCommentList}
               />
             );
           })}

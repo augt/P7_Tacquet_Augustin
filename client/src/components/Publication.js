@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
-const Dayjs = require("dayjs");
+import Dayjs from "dayjs";
+import Comments from "./Comments";
 
 function Publication(props) {
   const [show, setShow] = useState(false);
@@ -200,6 +201,7 @@ function Publication(props) {
           </button>
         )}
       </div>
+       <Comments publicationId={id}  unfilteredCommentList={props.unfilteredCommentList} />
     </div>
   );
 }

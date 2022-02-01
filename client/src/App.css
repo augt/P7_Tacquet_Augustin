@@ -2,12 +2,14 @@ a {
   text-decoration: none;
   color: unset;
 }
-header, main, footer {
+header,
+main,
+footer {
   padding: 0 3%;
   font-family: "Raleway", sans-serif;
 }
 
-header{
+header {
   padding-top: 15px;
   border-bottom: 2px;
   display: flex;
@@ -16,28 +18,34 @@ header{
 
 header img {
   height: 40px;
-  
 }
 
-nav li{
+nav li {
   margin-right: 20px;
 }
 
-header nav ul{
+header nav ul {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
 }
 
-.connect__form, .publication__form {
+.connect__form,
+.publication__form {
   display: flex;
   flex-direction: column;
 }
 
-.publication{
+.publication {
   border: 2px black solid;
   margin: 5px;
 }
-.publication__image{
+.publication__image {
   height: 200px;
+}
+.comments {
+  border: 2px black solid;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
 }
