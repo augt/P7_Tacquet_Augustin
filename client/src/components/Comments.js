@@ -3,6 +3,7 @@ import Axios from "axios";
 import Comment from "./Comment";
 
 function Comments(props) {
+  const [show, setShow] = useState(false);
   const publicationId = props.publicationId;
   const uuid = localStorage.getItem("uuid");
   const [text, setText] = useState("");
@@ -15,7 +16,6 @@ function Comments(props) {
     );
     setCommentList([...filteredCommentList]);
   }, [publicationId, props.unfilteredCommentList]);
-
 
   const addComment = () => {
     Axios({
@@ -50,8 +50,10 @@ function Comments(props) {
 
   return (
     <div className="comments">
-      <h4>Commentez</h4>
-      <label htmlFor="commentText">Texte de la publication</label>
+      
+      <button  onClick={()=>{setShow(!show)}} >Commenter</button>
+        { show && <div>
+<label htmlFor="commentText"></label>
       <textarea
         name="commentText"
         cols="30"
@@ -61,6 +63,10 @@ function Comments(props) {
         }}
       ></textarea>
       <button onClick={addComment}>envoyer</button>
+
+
+        </div>}
+      <h4>Commentaires</h4>
       <div className="comment__list">
         {commentList.map((comment) => {
           return (

@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import Dayjs from "dayjs";
+import dayjs from "dayjs";
 import Comments from "./Comments";
-
+require("dayjs/locale/fr");
 function Publication(props) {
   const [show, setShow] = useState(false);
   const id = props.publication.id;
   const username = props.publication.user.username;
   const [image, setImage] = useState(props.publication.image);
   const [text, setText] = useState(props.publication.text);
-  const createdAt = Dayjs(`${props.publication.createdAt}`).format("DD/MM/YYYY à HH:mm");
-  const [updatedAt, setUpdatedAt] = useState(Dayjs(`${props.publication.updatedAt}`).format("DD/MM/YYYY à HH:mm"));
+  const createdAt = dayjs(`${props.publication.createdAt}`)
+    .locale("fr")
+    .format("DD MMMM YYYY à HH:mm");
+  const [updatedAt, setUpdatedAt] = useState(
+    dayjs(`${props.publication.updatedAt}`)
+      .locale("fr")
+      .format("DD MMMM YYYY à HH:mm")
+  );
   const publicationList = props.publicationList;
 
   //modify publication
@@ -36,7 +42,9 @@ function Publication(props) {
           console.log(res);
           setImage(res.data.image);
           setText(res.data.text);
-          setUpdatedAt(res.data.updatedAt);
+          setUpdatedAt(dayjs(`${res.data.updatedAt}`)
+      .locale("fr")
+      .format("DD MMMM YYYY à HH:mm"));
         })
         .catch((res) => {
           console.log(res);
@@ -60,7 +68,11 @@ function Publication(props) {
           console.log(res);
           setImage(res.data.image);
           setText(res.data.text);
-          setUpdatedAt(res.data.updatedAt);
+          setUpdatedAt(
+            dayjs(`${res.data.updatedAt}`)
+              .locale("fr")
+              .format("DD MMMM YYYY à HH:mm")
+          );
         })
         .catch(function (res) {
           console.log(res);
@@ -201,7 +213,10 @@ function Publication(props) {
           </button>
         )}
       </div>
-       <Comments publicationId={id}  unfilteredCommentList={props.unfilteredCommentList} />
+      <Comments
+        publicationId={id}
+        unfilteredCommentList={props.unfilteredCommentList}
+      />
     </div>
   );
 }
