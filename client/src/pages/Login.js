@@ -54,15 +54,17 @@ function Login() {
       <main>
         <h2>Connexion</h2>
         <div className="connect__form">
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="text"
+          name="email"
+            type="email"
             onChange={(event) => {
               setEmail(event.target.value);
             }}
           />
-          <label>Mot de passe</label>
+          <label htmlFor="password">Mot de passe</label>
           <input
+          name="password"
             type="password"
             onChange={(event) => {
               setPassword(event.target.value);

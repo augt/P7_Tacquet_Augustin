@@ -3,6 +3,7 @@ import Axios from "axios";
 import Comment from "./Comment";
 
 function Comments(props) {
+  const token = localStorage.getItem("token")
   const [show, setShow] = useState(false);
   const publicationId = props.publicationId;
   const uuid = localStorage.getItem("uuid");
@@ -22,7 +23,7 @@ function Comments(props) {
       method: "post",
       url: "http://localhost:3001/api/comments",
       data: { uuid: uuid, text: text, publicationId: publicationId },
-      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
         console.log(res);

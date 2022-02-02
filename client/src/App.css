@@ -58,3 +58,8 @@ header nav ul {
   border: 1px grey solid;
 }
 
+.modify__account__form{
+  display: flex;
+  flex-direction: column;
+}
+

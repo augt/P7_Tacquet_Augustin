@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Navbar from "../components/Navbar";
 import Publication from "../components/Publication";
+require("dayjs/locale/fr");
 
 function Newsfeed() {
   const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
@@ -28,7 +29,7 @@ function Newsfeed() {
         method: "post",
         url: "http://localhost:3001/api/publications",
         data: { uuid: uuid, text: text },
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        headers: { Authorization: "Bearer " + token },
       })
         .then((res) => {
           console.log(res);
@@ -60,7 +61,7 @@ function Newsfeed() {
         data: fd,
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: "Bearer " + localStorage.getItem("token"),
+          Authorization: "Bearer " + token,
         },
       })
         .then(function (res) {
@@ -90,7 +91,7 @@ function Newsfeed() {
       Axios({
         method: "get",
         url: "http://localhost:3001/api/publications",
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        headers: { Authorization: "Bearer " + token },
       })
         .then((res) => {
           setPublicationList(res.data);
@@ -105,7 +106,7 @@ function Newsfeed() {
       Axios({
         method: "get",
         url: "http://localhost:3001/api/comments",
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        headers: { Authorization: "Bearer " + token },
       })
         .then((res) => {
           setUnfilteredCommentList(res.data);
@@ -115,7 +116,7 @@ function Newsfeed() {
         });
     };
     getComments();
-  }, []);
+  }, [token]);
 
   //update publication list after deleting publication
 

@@ -5,10 +5,10 @@ import Axios from "axios";
 import Navbar from "../components/Navbar";
 
 function SignUp() {
-  const [token] = useState(localStorage.getItem("token"));
-  const [isAdmin] = useState(JSON.parse(localStorage.getItem("isAdmin")));
+  const token = localStorage.getItem("token");
+  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
   //create user profile
-  const [username, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [apiMessage, setApiMessage] = useState("");
@@ -38,26 +38,29 @@ function SignUp() {
 
   return (
     <div>
-      <Navbar token={token} isAdmin={isAdmin}/>
+      <Navbar token={token} isAdmin={isAdmin} />
       <main>
         <h2>Inscription</h2>
         <div className="connect__form">
-          <label>Nom d'utilisateur:</label>
+          <label htmlFor="username">Nom d'utilisateur:</label>
           <input
+            name="username"
             type="text"
             onChange={(event) => {
-              setUserName(event.target.value);
+              setUsername(event.target.value);
             }}
           />
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="text"
+            name="email"
+            type="email"
             onChange={(event) => {
               setEmail(event.target.value);
             }}
           />
-          <label>Mot de passe</label>
+          <label htmlFor="password">Mot de passe</label>
           <input
+            name="password"
             type="password"
             onChange={(event) => {
               setPassword(event.target.value);

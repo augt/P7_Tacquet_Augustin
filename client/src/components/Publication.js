@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import Comments from "./Comments";
 require("dayjs/locale/fr");
 function Publication(props) {
+  const token =localStorage.getItem("token")
   const [show, setShow] = useState(false);
   const id = props.publication.id;
   const username = props.publication.user.username;
@@ -36,7 +37,7 @@ function Publication(props) {
         method: "put",
         url: `http://localhost:3001/api/publications/${id}`,
         data: { uuid: newUuid, text: newText, image: newImage },
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        headers: { Authorization: "Bearer " + token },
       })
         .then((res) => {
           console.log(res);
@@ -61,7 +62,7 @@ function Publication(props) {
         data: fd,
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: "Bearer " + localStorage.getItem("token"),
+          Authorization: "Bearer " + token,
         },
       })
         .then(function (res) {
@@ -88,7 +89,7 @@ function Publication(props) {
     Axios({
       method: "delete",
       url: `http://localhost:3001/api/publications/${id}`,
-      headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
         console.log(res);
@@ -114,7 +115,9 @@ function Publication(props) {
           />
         )}
         <p className="date">Publiée : {createdAt}</p>
-        <p className="date">Modifiée : {updatedAt}</p>
+        {createdAt !== updatedAt && (
+          <p className="date">Modifiée : {updatedAt}</p>
+        )}
       </div>
       <div>
         {props.publication.uuid === localStorage.getItem("uuid") &&

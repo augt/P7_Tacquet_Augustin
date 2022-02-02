@@ -21,6 +21,7 @@ exports.signup = (req, res, next) => {
       User.create(user)
         .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
         .catch((error) => {
+          // prevent sending sensible data to front end
           delete error.errors[0].instance.dataValues.password;
           delete error.errors[0].instance.dataValues.isAdmin;
           delete error.errors[0].instance.dataValues.id;
@@ -47,7 +48,7 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
           res.status(200).json({
-            username:user.username,
+            username: user.username,
             uuid: user.uuid,
             isAdmin: user.isAdmin,
             message: "Utilisateur connecté !",
@@ -117,12 +118,25 @@ exports.modifyUser = (req, res, next) => {
           uuid: uuid,
         },
       })
-        .then(() => res.status(201).json({ message: "Utilisateur modifié !" }))
+        .then(() => {
+          return User.findOne({ where: { uuid: uuid } });
+        })
+        .then((user) => {
+          res
+            .status(201)
+            .json({
+              message: "Utilisateur modifié !",
+              username: user.username,
+              email: user.email,
+              updatedAt: user.updatedAt
+            });
+        })
         .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
 };
 
+// when deleting the user account, it's publications comments and associated files are deleted too
 function deleteOldFile(oldPublication) {
   if (oldPublication.image !== null) {
     const filename = oldPublication.image.split("/images/")[1];
