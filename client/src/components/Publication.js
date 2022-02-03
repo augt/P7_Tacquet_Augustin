@@ -10,14 +10,19 @@ function Publication(props) {
   const username = props.publication.user.username;
   const [image, setImage] = useState(props.publication.image);
   const [text, setText] = useState(props.publication.text);
-  const createdAt = dayjs(`${props.publication.createdAt}`)
-    .locale("fr")
-    .format("DD MMMM YYYY à HH:mm");
-  const [updatedAt, setUpdatedAt] = useState(
+
+  const createdAt = props.publication.createdAt;
+  const convertedCreatedAt = dayjs(`${props.publication.createdAt}`)
+      .locale("fr")
+      .format("DD MMMM YYYY à HH:mm");
+
+  const [updatedAt, setUpdatedAt] = useState(props.publication.updatedAt);
+  const [convertedUpdatedAt, setConvertedUpdatedAt] = useState(
     dayjs(`${props.publication.updatedAt}`)
       .locale("fr")
       .format("DD MMMM YYYY à HH:mm")
   );
+  
   const publicationList = props.publicationList;
 
   //modify publication
@@ -26,6 +31,7 @@ function Publication(props) {
   const [newImage, setNewImage] = useState(undefined);
 
   const newSelectedFile = document.getElementById("newSelected__file");
+
   function removeAttachment() {
     newSelectedFile.value = "";
     setNewImage(undefined);
@@ -43,9 +49,12 @@ function Publication(props) {
           console.log(res);
           setImage(res.data.image);
           setText(res.data.text);
-          setUpdatedAt(dayjs(`${res.data.updatedAt}`)
-      .locale("fr")
-      .format("DD MMMM YYYY à HH:mm"));
+          setUpdatedAt(res.data.updatedAt);
+          setConvertedUpdatedAt(
+            dayjs(`${res.data.updatedAt}`)
+              .locale("fr")
+              .format("DD MMMM YYYY à HH:mm")
+          );
         })
         .catch((res) => {
           console.log(res);
@@ -69,7 +78,8 @@ function Publication(props) {
           console.log(res);
           setImage(res.data.image);
           setText(res.data.text);
-          setUpdatedAt(
+          setUpdatedAt(res.data.updatedAt);
+          setConvertedUpdatedAt(
             dayjs(`${res.data.updatedAt}`)
               .locale("fr")
               .format("DD MMMM YYYY à HH:mm")
@@ -114,9 +124,9 @@ function Publication(props) {
             alt="illustration attachée à la publication"
           />
         )}
-        <p className="date">Publiée : {createdAt}</p>
+        <p className="date">Publiée : {convertedCreatedAt}</p>
         {createdAt !== updatedAt && (
-          <p className="date">Modifiée : {updatedAt}</p>
+          <p className="date">Modifiée : {convertedUpdatedAt}</p>
         )}
       </div>
       <div>
@@ -170,7 +180,7 @@ function Publication(props) {
                   setNewImage(null);
                 }}
               >
-                Supprimer l'image
+                Supprimer l'image existante
               </button>
             )}
             {newImage === null && image && (
@@ -179,7 +189,7 @@ function Publication(props) {
                   setNewImage(undefined);
                 }}
               >
-                Restaurer l'image
+                Restaurer l'image existante
               </button>
             )}
             {newImage !== undefined && newImage !== null && (
@@ -203,7 +213,7 @@ function Publication(props) {
                 deletePublication();
               }}
             >
-              Supprimer
+              Supprimer la publication
             </button>
           )}
         {localStorage.getItem("isAdmin") === "true" && (
@@ -212,7 +222,7 @@ function Publication(props) {
               deletePublication();
             }}
           >
-            Supprimer
+            Supprimer la publication
           </button>
         )}
       </div>

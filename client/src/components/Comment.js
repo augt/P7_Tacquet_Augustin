@@ -10,10 +10,13 @@ function Comment(props) {
   const id = props.comment.id;
   const [text, setText] = useState(props.comment.text);
 
-  const createdAt = dayjs(`${props.comment.createdAt}`)
+  const createdAt = props.comment.createdAt;
+  const convertedCreatedAt = dayjs(`${props.comment.createdAt}`)
     .locale("fr")
     .format("DD MMMM YYYY à HH:mm");
-  const [updatedAt, setUpdatedAt] = useState(
+
+  const [updatedAt, setUpdatedAt] = useState(props.comment.updatedAt);
+  const [convertedUpdatedAt, setConvertedUpdatedAt] = useState(
     dayjs(`${props.comment.updatedAt}`)
       .locale("fr")
       .format("DD MMMM YYYY à HH:mm")
@@ -34,10 +37,11 @@ function Comment(props) {
         console.log(res);
         setText(res.data.text);
         setUpdatedAt(
-          dayjs(`${res.data.updatedAt}`)
-            .locale("fr")
-            .format("DD MMMM YYYY à HH:mm")
+          res.data.updatedAt
         );
+        setConvertedUpdatedAt(dayjs(`${res.data.updatedAt}`)
+            .locale("fr")
+            .format("DD MMMM YYYY à HH:mm"))
       })
       .catch((res) => {
         console.log(res);
@@ -71,10 +75,10 @@ function Comment(props) {
         <span>{props.comment.user.username} :</span>
         <span>{text}</span>
         <div>
-        <span className="date">Publié : {createdAt}</span>
+        <span className="date">Publié : {convertedCreatedAt}</span>
         <br />
         {createdAt !== updatedAt && (
-          <span className="date">Modifié : {updatedAt}</span>
+          <span className="date">Modifié : {convertedUpdatedAt}</span>
         )}
         </div>
         <div>

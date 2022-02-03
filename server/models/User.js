@@ -10,11 +10,10 @@ User.init(
       defaultValue: DataTypes.UUIDV4,
       unique: true,
       allowNull: false,
-      //primaryKey: true,
     },
     username: {
       type: DataTypes.STRING,
-      allowNull:false,
+      allowNull: false,
       unique: {
         msg: "Ce nom d'utilisateur est déjà utilisé.",
       },
@@ -44,14 +43,6 @@ User.init(
   {
     sequelize,
     modelName: "user",
-    /*defaultScope: {
-      attributes: { exclude: ["password", "id", "isAdmin"] },
-    },
-    scopes: {
-      fullData: {
-        attributes: {},
-      },
-    },*/
   }
 );
 
