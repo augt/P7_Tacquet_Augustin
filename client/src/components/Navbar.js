@@ -28,7 +28,7 @@ function Navbar(props) {
           )}
           {props.token && (
             <li>
-              <Link to="/account">{localStorage.getItem("connectedUsername")}</Link>
+              <Link to="/myaccount">{localStorage.getItem("connectedUsername")}</Link>
             </li>
           )}
           {props.isAdmin === true && (

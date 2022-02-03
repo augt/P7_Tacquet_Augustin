@@ -8,7 +8,9 @@ function Administration() {
   return (
     <div>
       <Navbar token={token} isAdmin={isAdmin} />
-      <main>Administration</main>
+      <main>
+        <h2>Comptes utilisateurs</h2>
+      </main>
     </div>
   );
 }

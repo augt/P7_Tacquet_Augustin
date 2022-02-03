@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Newsfeed from "./pages/NewsFeed";
-import Account from "./pages/Account";
+import MyAccount from "./pages/MyAccount";
 import Administration from "./pages/Administration";
 import Error from "./pages/ErrorPage";
 
@@ -19,7 +19,7 @@ function App() {
         <Route exact path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/newsfeed" element={<Newsfeed />} />
-        <Route path="/account" element={<Account />} />
+        <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/administration" element={<Administration />} />
         <Route path="*" element={<Error />} />
       </Routes>

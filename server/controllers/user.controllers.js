@@ -65,7 +65,13 @@ exports.login = (req, res, next) => {
 exports.getOneUser = (req, res, next) => {
   const uuid = req.params.uuid;
   User.findOne({ where: { uuid: uuid } })
-    .then((user) => res.status(200).json(user))
+    .then((user) =>{
+      delete user.dataValues.id;
+      delete user.dataValues.password;
+      delete user.dataValues.isAdmin;
+      delete user._previousDataValues;
+
+      res.status(200).json(user)})
     .catch((error) => res.status(404).json({ error }));
 };
 
