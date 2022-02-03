@@ -6,7 +6,7 @@ require("dayjs/locale/fr");
 
 function Account(props) {
   const token = localStorage.getItem("token");
-  const uuid = localStorage.getItem("uuid");
+  const uuid = props.user.uuid;
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [updatedAt, setUpdatedAt] = useState();
@@ -91,8 +91,19 @@ function Account(props) {
     })
       .then((res) => {
         console.log(res);
-        localStorage.clear();
+        if (props.mustLogOut){
+            localStorage.clear();
         window.location.href = "/";
+        }
+        if (props.mustUpdateList){
+            const userIndex = props.userList.findIndex(
+              (user) => user.uuid === uuid
+            );
+            props.userList.splice(userIndex, 1);
+            const newUserList = [...props.userList];
+            props.updateAfterDelete(newUserList);
+
+        }
       })
       .catch((res) => {
         console.log(res);
@@ -101,58 +112,55 @@ function Account(props) {
 
   return (
     <div>
-      <main>
-        <h2>Mon compte</h2>
-        <p>Nom d'utilisateur : {username}</p>
-        <p>Adresse email : {email} </p>
-        <p>Créé le : {convertedCreatedAt}</p>
-        {createdAt !== updatedAt && (
-          <p>Dernière modification le : {convertedUpdatedAt}</p>
-        )}
+      <p>Nom d'utilisateur : {username}</p>
+      <p>Adresse email : {email} </p>
+      <p>Créé le : {convertedCreatedAt}</p>
+      {createdAt !== updatedAt && (
+        <p>Dernière modification le : {convertedUpdatedAt}</p>
+      )}
 
-        {
-          <button
-            onClick={() => {
-              setShow(!show);
+      {
+        <button
+          onClick={() => {
+            setShow(!show);
+          }}
+        >
+          Modifier
+        </button>
+      }
+      {<button onClick={deleteUser}>supprimer</button>}
+      {show && (
+        <div className="modify__account__form">
+          <label htmlFor="username">Nouveau nom d'utilisateur</label>
+          <input
+            type="text"
+            name="username"
+            defaultValue={username}
+            onChange={(event) => {
+              setNewUsername(event.target.value);
             }}
-          >
-            Modifier
-          </button>
-        }
-        {<button onClick={deleteUser}>supprimer</button>}
-        {show && (
-          <div className="modify__account__form">
-            <label htmlFor="username">Nouveau nom d'utilisateur</label>
-            <input
-              type="text"
-              name="username"
-              defaultValue={username}
-              onChange={(event) => {
-                setNewUsername(event.target.value);
-              }}
-            />
-            <label htmlFor="email">Nouvel email</label>
-            <input
-              type="email"
-              name="email"
-              defaultValue={email}
-              onChange={(event) => {
-                setNewEmail(event.target.value);
-              }}
-            />
-            <label htmlFor="password">Nouveau mot de passe</label>
-            <input
-              name="password"
-              type="password"
-              onChange={(event) => {
-                setNewPassword(event.target.value);
-              }}
-            />
-            <button onClick={modifyUser}>Appliquer les modifications</button>
-          </div>
-        )}
-        <div>{apiMessage}</div>
-      </main>
+          />
+          <label htmlFor="email">Nouvel email</label>
+          <input
+            type="email"
+            name="email"
+            defaultValue={email}
+            onChange={(event) => {
+              setNewEmail(event.target.value);
+            }}
+          />
+          <label htmlFor="password">Nouveau mot de passe</label>
+          <input
+            name="password"
+            type="password"
+            onChange={(event) => {
+              setNewPassword(event.target.value);
+            }}
+          />
+          <button onClick={modifyUser}>Appliquer les modifications</button>
+        </div>
+      )}
+      <div>{apiMessage}</div>
     </div>
   );
 }

@@ -34,7 +34,10 @@ function MyAccount() {
   return (
     <div>
       <Navbar token={token} isAdmin={isAdmin} />
-      <Account user={user} />
+      <main>
+        <h2>Mon compte</h2>
+        <Account user={user} mustLogOut={true}/>
+      </main>
     </div>
   );
 }

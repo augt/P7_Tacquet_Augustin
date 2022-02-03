@@ -19,7 +19,7 @@ exports.signup = (req, res, next) => {
         password: hash,
       };
       User.create(user)
-        .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+        .then(() => res.status(201).json({ message: "Utilisateur créé ! Rendez-vous sur la page de connexion." }))
         .catch((error) => {
           // prevent sending sensible data to front end
           delete error.errors[0].instance.dataValues.password;
