@@ -11,7 +11,7 @@ I chose to make use of **React** for the front-end and my database is based on *
 ### Installation instructions :
 
 - [ ] `Node.js 16.x.x` and `npm` must be installed locally on your machine.
-- [ ] Clone the repo to your machine.
+- [ ] Clone the repo to your computer.
 - [ ] In a terminal window, navigate to the `/server` folder of the projet.
 - [ ] Enter the command `npm install`.
 - [ ] Enter the command `node server`.
