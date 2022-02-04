@@ -6,7 +6,7 @@ This is the last project of my training program at OpenClassrooms. The goal was 
 
 The technical constraints were to use node.js, express an SQL based database, and the use of a front-end javascript framework was mandatory.
 
-I chose to make use of **React** for the front-end and my database is based on **SQLite**, which I use with the help of the **Sequelize** ORM. The use of SQLite allows me to store my database in my code repo, which facilitates testing the admin/moderator account functionnalities for anyone willing to clone and test out my projet. For demonstation purposes, the email adress of the admin account is admin@mail.fr and it's password is Password1.
+I chose to make use of **React** for the front-end and my database is based on **SQLite**, which I use with the help of the **Sequelize** ORM. The use of SQLite allows me to store my database in my code repo, which facilitates testing the admin/moderator account functionnalities for anyone willing to clone and test out my projet. For demonstation purposes, the email adress of the admin account is `admin@mail.fr` and it's password is `Password1`.
 
 ### Installation instructions :
 
