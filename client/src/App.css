@@ -2,13 +2,31 @@ a {
   text-decoration: none;
   color: unset;
 }
+
+button{
+  background-color: #fd2d01;
+  font-size: 1.05em;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 25px;
+  border: none;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  margin: auto;
+}
+
+
 header,
 main,
 footer {
   padding: 0 3%;
   font-family: "Raleway", sans-serif;
+  font-size: 1.2em;
 }
 
+
+button:hover{
+  cursor: pointer;
+}
 header {
   padding-top: 15px;
   border-bottom: 2px;
@@ -17,11 +35,17 @@ header {
 }
 
 header img {
-  height: 40px;
+  
+  height: 47px;
 }
 
 nav li {
   margin-right: 20px;
+  border-bottom: transparent 2px solid;
+}
+
+nav li:hover{
+  border-bottom: #ffd7d7 2px solid;
 }
 
 header nav ul {
@@ -34,14 +58,27 @@ header nav ul {
 .publication__form {
   display: flex;
   flex-direction: column;
+  background-color: #f2f2f2;
+  padding: 20px 4%;
+  border-radius: 15px;
+}
+
+.publication .username{
+  font-weight: bold;
 }
 
 .publication {
-  border: 2px black solid;
-  margin: 5px;
+  margin-bottom: 25px;
+  background-color: #f2f2f2;
+  padding: 20px 4%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  
 }
-.publication__image {
-  height: 200px;
+.publication img {
+  width: auto;
+  
 }
 .date{
   font-size: 0.8em;
@@ -62,4 +99,6 @@ header nav ul {
   display: flex;
   flex-direction: column;
 }
+
+
 

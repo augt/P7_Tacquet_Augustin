@@ -115,11 +115,10 @@ function Publication(props) {
   return (
     <div className="publication">
       <div>
-        <p>{username} :</p>
+        <p className="username">{username} :</p>
         <p>{text}</p>
         {image && (
           <img
-            className="publication__image"
             src={image}
             alt="illustration attachée à la publication"
           />

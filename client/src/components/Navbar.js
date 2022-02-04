@@ -8,7 +8,7 @@ function Navbar(props) {
 
   return (
     <header>
-      <img src="../img/icon-left-font-monochrome-black.svg" alt="" />
+      <img src="../img/logo.png" alt="" />
       <nav>
         <ul id="navigation__list">
           {!props.token && (
