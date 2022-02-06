@@ -72,8 +72,8 @@ function Comment(props) {
   return (
     <div>
       <div className="comment">
-        <span>{props.comment.user.username} :</span>
-        <span>{text}</span>
+        <p className="username">{props.comment.user.username} :</p>
+        <p>{text}</p>
         <div>
         <span className="date">Publié : {convertedCreatedAt}</span>
         <br />

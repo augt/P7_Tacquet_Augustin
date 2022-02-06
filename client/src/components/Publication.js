@@ -154,7 +154,7 @@ function Publication(props) {
             <br />
             <textarea
               name="newPublicationText"
-              cols="30"
+              cols="100"
               rows="6"
               defaultValue={text}
               onChange={(event) => {

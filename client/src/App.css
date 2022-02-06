@@ -63,10 +63,6 @@ header nav ul {
   border-radius: 15px;
 }
 
-.publication .username{
-  font-weight: bold;
-}
-
 .publication {
   margin-bottom: 25px;
   background-color: #f2f2f2;
@@ -74,10 +70,20 @@ header nav ul {
   border-radius: 15px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   
 }
+.publication .username{
+  font-weight: bold;
+
+}
+
+.publication div {
+  width: 100%;
+}
+
 .publication img {
-  width: auto;
+  
   
 }
 .date{
@@ -88,9 +94,11 @@ header nav ul {
   margin: 5px;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .comment{
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   border: 1px grey solid;
 }
