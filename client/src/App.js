@@ -13,14 +13,21 @@ import Error from "./pages/ErrorPage";
 // navbar
 
 function App() {
+  const token = localStorage.getItem("token");
+  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/newsfeed" element={<Newsfeed />} />
-        <Route path="/myaccount" element={<MyAccount />} />
-        <Route path="/administration" element={<Administration />} />
+
+        {token && <Route path="/newsfeed" element={<Newsfeed />} />}
+        {token && <Route path="/myaccount" element={<MyAccount />} />}
+        {token && isAdmin && (
+          <Route path="/administration" element={<Administration />} />
+        )}
+
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>
