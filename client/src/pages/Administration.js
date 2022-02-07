@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Navbar from "../components/Navbar";
 import Account from '../components/Account';
 import Axios from "axios";
+import { ConnectedUserContext } from "../components/Context";
 
 
 function Administration() {
-  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-  const token = localStorage.getItem("token");
+  const { token } = useContext(ConnectedUserContext);
   const [userList, setUserList] = useState([]);
 
   //fetch user's data
@@ -37,7 +37,7 @@ function Administration() {
 
   return (
     <div>
-      <Navbar token={token} isAdmin={isAdmin} />
+      <Navbar/>
       <main>
         <h2>Comptes utilisateurs</h2>
         <div>

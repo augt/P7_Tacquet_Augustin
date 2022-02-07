@@ -1,32 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Axios from "axios";
 import dayjs from "dayjs";
 import Comments from "./Comments";
+import { ConnectedUserContext } from "./Context";
 require("dayjs/locale/fr");
+
+
 function Publication(props) {
-  const token =localStorage.getItem("token")
+
+  const { connectedUser, token } = useContext(ConnectedUserContext);
   const [show, setShow] = useState(false);
-  const id = props.publication.id;
-  const username = props.publication.user.username;
+  const {id} = props.publication;
+  const {username}  = props.publication.user;
   const [image, setImage] = useState(props.publication.image);
   const [text, setText] = useState(props.publication.text);
 
-  const createdAt = props.publication.createdAt;
-  const convertedCreatedAt = dayjs(`${props.publication.createdAt}`)
+  const {createdAt} = props.publication;
+  const convertedCreatedAt = dayjs(`${createdAt}`)
       .locale("fr")
       .format("DD MMMM YYYY à HH:mm");
 
-  const [updatedAt, setUpdatedAt] = useState(props.publication.updatedAt);
+  const [{updatedAt}, setUpdatedAt] = useState(props.publication);
   const [convertedUpdatedAt, setConvertedUpdatedAt] = useState(
     dayjs(`${props.publication.updatedAt}`)
       .locale("fr")
       .format("DD MMMM YYYY à HH:mm")
   );
   
-  const publicationList = props.publicationList;
+  const {publicationList} = props;
 
   //modify publication
-  const newUuid = localStorage.getItem("uuid");
+  const newUuid = connectedUser.uuid;
   const [newText, setNewText] = useState(text);
   const [newImage, setNewImage] = useState(undefined);
 
@@ -129,8 +133,8 @@ function Publication(props) {
         )}
       </div>
       <div>
-        {props.publication.uuid === localStorage.getItem("uuid") &&
-          localStorage.getItem("isAdmin") === "false" && (
+        {props.publication.uuid === connectedUser.uuid &&
+          connectedUser.isAdmin === false && (
             <button
               onClick={() => {
                 setShow(!show);
@@ -139,7 +143,7 @@ function Publication(props) {
               Modifier
             </button>
           )}
-        {localStorage.getItem("isAdmin") === "true" && (
+        {connectedUser.isAdmin === true && (
           <button
             onClick={() => {
               setShow(!show);
@@ -205,8 +209,8 @@ function Publication(props) {
             </button>
           </div>
         )}
-        {props.publication.uuid === localStorage.getItem("uuid") &&
-          localStorage.getItem("isAdmin") === "false" && (
+        {props.publication.uuid === connectedUser.uuid &&
+          connectedUser.isAdmin === false && (
             <button
               onClick={() => {
                 deletePublication();
@@ -215,7 +219,7 @@ function Publication(props) {
               Supprimer la publication
             </button>
           )}
-        {localStorage.getItem("isAdmin") === "true" && (
+        {connectedUser.isAdmin === true && (
           <button
             onClick={() => {
               deletePublication();

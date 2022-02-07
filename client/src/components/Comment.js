@@ -1,29 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import dayjs from "dayjs";
 import Axios from "axios";
+import { ConnectedUserContext } from "./Context";
 require("dayjs/locale/fr");
 
 function Comment(props) {
-  const token = localStorage.getItem("token")
-  const commentList = props.commentList;
+  const { connectedUser, token } = useContext(ConnectedUserContext);
+  const {commentList} = props;
   const [show, setShow] = useState(false);
-  const id = props.comment.id;
+  const {id} = props.comment;
   const [text, setText] = useState(props.comment.text);
 
-  const createdAt = props.comment.createdAt;
-  const convertedCreatedAt = dayjs(`${props.comment.createdAt}`)
+  const {createdAt} = props.comment;
+  const convertedCreatedAt = dayjs(`${createdAt}`)
     .locale("fr")
     .format("DD MMMM YYYY à HH:mm");
 
   const [updatedAt, setUpdatedAt] = useState(props.comment.updatedAt);
   const [convertedUpdatedAt, setConvertedUpdatedAt] = useState(
-    dayjs(`${props.comment.updatedAt}`)
+    dayjs(`${updatedAt}`)
       .locale("fr")
       .format("DD MMMM YYYY à HH:mm")
   );
 
   //modify comment
-  const newUuid = localStorage.getItem("uuid");
+  const newUuid = connectedUser.uuid;
   const [newText, setNewText] = useState(text);
 
   const modifyComment = () => {
@@ -82,8 +83,8 @@ function Comment(props) {
         )}
         </div>
         <div>
-          {props.comment.uuid === localStorage.getItem("uuid") &&
-            localStorage.getItem("isAdmin") === "false" && (
+          {props.comment.uuid === connectedUser.uuid &&
+            connectedUser.isAdmin === false && (
               <button
                 onClick={() => {
                   setShow(!show);
@@ -92,7 +93,7 @@ function Comment(props) {
                 Modifier
               </button>
             )}
-          {localStorage.getItem("isAdmin") === "true" && (
+          {connectedUser.isAdmin === true && (
             <button
               onClick={() => {
                 setShow(!show);
@@ -124,8 +125,8 @@ function Comment(props) {
               </button>
             </div>
           )}
-          {props.comment.uuid === localStorage.getItem("uuid") &&
-            localStorage.getItem("isAdmin") === "false" && (
+          {props.comment.uuid === connectedUser.uuid &&
+            connectedUser.isAdmin === false && (
               <button
                 onClick={() => {
                   deleteComment();
@@ -134,7 +135,7 @@ function Comment(props) {
                 Supprimer
               </button>
             )}
-          {localStorage.getItem("isAdmin") === "true" && (
+          {connectedUser.isAdmin === true && (
             <button
               onClick={() => {
                 deleteComment();

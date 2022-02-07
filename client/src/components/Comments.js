@@ -1,22 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Axios from "axios";
 import Comment from "./Comment";
+import { ConnectedUserContext } from "./Context";
 
 function Comments(props) {
-  const token = localStorage.getItem("token")
+  const { connectedUser, token } = useContext(ConnectedUserContext);
+  
   const [show, setShow] = useState(false);
-  const publicationId = props.publicationId;
-  const uuid = localStorage.getItem("uuid");
+  const {publicationId} = props;
+  const {uuid} = connectedUser;
   const [text, setText] = useState("");
   const [commentList, setCommentList] = useState([]);
 
-  useEffect(() => {
+
+  useEffect(() => {       // filter out the comments that don't belong to the original publication
     const filteredCommentList = props.unfilteredCommentList.filter(
       (unfilteredCommentList) =>
         unfilteredCommentList.publicationId === publicationId
     );
     setCommentList([...filteredCommentList]);
   }, [publicationId, props.unfilteredCommentList]);
+
+  // create a comment
 
   const addComment = () => {
     Axios({
@@ -35,7 +40,7 @@ function Comments(props) {
             text: text,
             createdAt: res.data.createdAt,
             updatedAt: res.data.updatedAt,
-            user: { username: localStorage.getItem("connectedUsername") },
+            user: { username: connectedUser.username },
           },
         ]);
       })

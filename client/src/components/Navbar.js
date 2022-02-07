@@ -1,9 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
+import { ConnectedUserContext } from "../components/Context";
 
-function Navbar(props) {
+function Navbar() {
+  const {connectedUser, isConnected, setIsConnected} = useContext(ConnectedUserContext);
+
   function disconnect() {
     localStorage.clear();
+    setIsConnected(false)
   }
 
   return (
@@ -11,32 +15,32 @@ function Navbar(props) {
       <img src="../img/logo.png" alt="" />
       <nav>
         <ul id="navigation__list">
-          {!props.token && (
+          {isConnected===false && (
             <li>
               <Link to="/">Connexion</Link>
             </li>
           )}
-          {!props.token && (
+          {isConnected===false && (
             <li>
               <Link to="/signup">Inscription</Link>
             </li>
           )}
-          {props.token && (
+          {isConnected===true && (
             <li>
               <Link to="/newsfeed">Fil d'actualité</Link>
             </li>
           )}
-          {props.token && (
+          {isConnected===true && (
             <li>
-              <Link to="/myaccount">{localStorage.getItem("connectedUsername")}</Link>
+              <Link to="/myaccount">{connectedUser.username}</Link>
             </li>
           )}
-          {props.isAdmin === true && (
+          {connectedUser.isAdmin === true && (
             <li>
               <Link to="/administration">Administration</Link>
             </li>
           )}
-          {props.token && (
+          {isConnected===true && (
             <li onClick={disconnect}>
               <Link to="/">Déconnexion</Link>
             </li>

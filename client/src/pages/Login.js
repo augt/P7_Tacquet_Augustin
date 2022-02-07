@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Axios from "axios";
-//import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
+import { ConnectedUserContext } from "../components/Context";
 
 function Login() {
+  const { isConnected, setIsConnected } = useContext(ConnectedUserContext);
 
-  const[token, setToken]= useState(localStorage.getItem('token'));
-  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-  if (token){
+  if (isConnected===true) {
     window.location.href = "newsfeed";
   }
   // login
@@ -16,8 +14,6 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [apiMessage, setApiMessage] = useState("");
-
-  
 
   const login = () => {
     Axios.post("http://localhost:3001/api/auth/login", {
@@ -28,13 +24,8 @@ function Login() {
         console.log(res);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("uuid", res.data.uuid);
-        localStorage.setItem("isAdmin", res.data.isAdmin);
-        localStorage.setItem("connectedUsername", res.data.username)
-        setToken(res.data.token);
-        console.log(res.data.token);
-        console.log(res.data.isAdmin);
+        setIsConnected(true)
         setApiMessage(res.data.message);
-        
       })
       .catch((err) => {
         console.log(err);
@@ -50,13 +41,13 @@ function Login() {
   };
   return (
     <div>
-      <Navbar token={token} isAdmin={isAdmin}/>
+      <Navbar />
       <main>
         <h2>Connexion</h2>
         <div className="connect__form">
           <label htmlFor="email">Email</label>
           <input
-          name="email"
+            name="email"
             type="email"
             onChange={(event) => {
               setEmail(event.target.value);
@@ -64,15 +55,15 @@ function Login() {
           />
           <label htmlFor="password">Mot de passe</label>
           <input
-          name="password"
+            name="password"
             type="password"
             onChange={(event) => {
               setPassword(event.target.value);
             }}
           />
-          
-            <button onClick={login}>Connexion</button>
-         
+
+          <button onClick={login}>Connexion</button>
+
           <div>{apiMessage}</div>
         </div>
       </main>

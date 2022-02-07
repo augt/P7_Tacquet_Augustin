@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import Navbar from "../components/Navbar";
 import Publication from "../components/Publication";
+import { ConnectedUserContext} from "../components/Context"
 require("dayjs/locale/fr");
 
 function Newsfeed() {
-  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
-  const token = localStorage.getItem("token");
+
+  const {connectedUser, token} = useContext(ConnectedUserContext)
 
   //create publication
-  const uuid = localStorage.getItem("uuid");
+  const {uuid} = connectedUser
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
 
@@ -41,7 +42,7 @@ function Newsfeed() {
               image: res.data.image,
               createdAt: res.data.createdAt,
               updatedAt: res.data.updatedAt,
-              user: { username: localStorage.getItem("connectedUsername") },
+              user: { username: connectedUser.username },
             },
             ...publicationList,
           ]);
@@ -74,7 +75,7 @@ function Newsfeed() {
               image: res.data.image,
               createdAt: res.data.createdAt,
               updatedAt: res.data.updatedAt,
-              user: { username: localStorage.getItem("connectedUsername") },
+              user: { username: connectedUser.username },
             },
             ...publicationList,
           ]);
@@ -128,7 +129,7 @@ function Newsfeed() {
 
   return (
     <div>
-      <Navbar token={token} isAdmin={isAdmin} />
+      <Navbar />
       <main>
         <h2>Publications</h2>
         <div className="publication__form">

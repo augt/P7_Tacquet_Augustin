@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import dayjs from "dayjs";
+import { ConnectedUserContext } from "./Context";
+require("dayjs/locale/fr");
 
 require("dayjs/locale/fr");
 
 function Account(props) {
-  const token = localStorage.getItem("token");
-  const uuid = props.user.uuid;
+  const { connectedUser, setConnectedUser, token } = useContext(ConnectedUserContext);
+  const {uuid} = props.user;
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [updatedAt, setUpdatedAt] = useState();
@@ -16,7 +18,7 @@ function Account(props) {
   const [show, setShow] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
 
-  //fetch user's data
+  //get user's data
   useEffect(() => {
     setUsername(props.user.username);
     setEmail(props.user.email);
@@ -67,6 +69,10 @@ function Account(props) {
             .format("DD MMMM YYYY à HH:mm")
         );
         setApiMessage(res.data.message);
+
+        if(connectedUser.uuid===uuid){
+           setConnectedUser({...connectedUser, username:res.data.username})
+        }
       })
       .catch((err) => {
         console.log(err);

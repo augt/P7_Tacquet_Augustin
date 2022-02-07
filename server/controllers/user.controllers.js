@@ -21,7 +21,7 @@ exports.signup = (req, res, next) => {
       User.create(user)
         .then(() => res.status(201).json({ message: "Utilisateur créé ! Rendez-vous sur la page de connexion." }))
         .catch((error) => {
-          // prevent sending sensible data to front end
+          // prevent sending sensible data to the front-end
           delete error.errors[0].instance.dataValues.password;
           delete error.errors[0].instance.dataValues.isAdmin;
           delete error.errors[0].instance.dataValues.id;
@@ -48,9 +48,7 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
           res.status(200).json({
-            username: user.username,
             uuid: user.uuid,
-            isAdmin: user.isAdmin,
             message: "Utilisateur connecté !",
             token: jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
               expiresIn: "24h",
@@ -65,13 +63,12 @@ exports.login = (req, res, next) => {
 exports.getOneUser = (req, res, next) => {
   const uuid = req.params.uuid;
   User.findOne({ where: { uuid: uuid } })
-    .then((user) =>{
+    .then((user) =>{    //prevent sending sensible data to the front-end
       delete user.dataValues.id;
       delete user.dataValues.password;
-      delete user.dataValues.isAdmin;
       delete user._previousDataValues;
-
-      res.status(200).json(user)})
+      const isConnected = true;
+      res.status(200).json({user, isConnected})})
     .catch((error) => res.status(404).json({ error }));
 };
 
@@ -142,7 +139,7 @@ exports.modifyUser = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-// when deleting the user account, it's publications comments and associated files are deleted too
+// when deleting the user, it's publications, comments and associated files are deleted too
 function deleteOldFile(oldPublication) {
   if (oldPublication.image !== null) {
     const filename = oldPublication.image.split("/images/")[1];

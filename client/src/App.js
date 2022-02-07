@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useContext } from "react";
 // react router
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // pages
@@ -10,28 +10,29 @@ import MyAccount from "./pages/MyAccount";
 import Administration from "./pages/Administration";
 import Error from "./pages/ErrorPage";
 
-// navbar
+//context
+
+import { ConnectedUserContext } from "./components/Context";
 
 function App() {
-  const token = localStorage.getItem("token");
-  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+  const { connectedUser, isConnected } = useContext(ConnectedUserContext);
+  
 
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-
-        {token && <Route path="/newsfeed" element={<Newsfeed />} />}
-        {token && <Route path="/myaccount" element={<MyAccount />} />}
-        {token && isAdmin && (
+        {isConnected && <Route path="/newsfeed" element={<Newsfeed />} />}
+        {isConnected && <Route path="/myaccount" element={<MyAccount />} />}
+        {isConnected && connectedUser.isAdmin && (
           <Route path="/administration" element={<Administration />} />
         )}
-
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>
   );
+
 }
 
 export default App;

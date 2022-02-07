@@ -5,8 +5,7 @@ import Axios from "axios";
 import Navbar from "../components/Navbar";
 
 function SignUp() {
-  const token = localStorage.getItem("token");
-  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+  
   //create user profile
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -38,7 +37,7 @@ function SignUp() {
 
   return (
     <div>
-      <Navbar token={token} isAdmin={isAdmin} />
+      <Navbar />
       <main>
         <h2>Inscription</h2>
         <div className="connect__form">
