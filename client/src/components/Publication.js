@@ -5,29 +5,27 @@ import Comments from "./Comments";
 import { ConnectedUserContext } from "./Context";
 require("dayjs/locale/fr");
 
-
 function Publication(props) {
-
   const { connectedUser, token } = useContext(ConnectedUserContext);
   const [show, setShow] = useState(false);
-  const {id} = props.publication;
-  const {username}  = props.publication.user;
+  const { id } = props.publication;
+  const { username } = props.publication.user;
   const [image, setImage] = useState(props.publication.image);
   const [text, setText] = useState(props.publication.text);
 
-  const {createdAt} = props.publication;
+  const { createdAt } = props.publication;
   const convertedCreatedAt = dayjs(`${createdAt}`)
-      .locale("fr")
-      .format("DD MMMM YYYY à HH:mm");
+    .locale("fr")
+    .format("DD MMMM YYYY à HH:mm");
 
-  const [{updatedAt}, setUpdatedAt] = useState(props.publication);
+  const [{ updatedAt }, setUpdatedAt] = useState(props.publication);
   const [convertedUpdatedAt, setConvertedUpdatedAt] = useState(
     dayjs(`${props.publication.updatedAt}`)
       .locale("fr")
       .format("DD MMMM YYYY à HH:mm")
   );
-  
-  const {publicationList} = props;
+
+  const { publicationList } = props;
 
   //modify publication
   const newUuid = connectedUser.uuid;
@@ -119,20 +117,38 @@ function Publication(props) {
   return (
     <div className="publication">
       <div>
-        <p className="username">{username} :</p>
+        <p className="username">{username}</p>
         <p>{text}</p>
-        {image && (
-          <img
-            src={image}
-            alt="illustration attachée à la publication"
-          />
-        )}
+        <div className="image__container">
+          {image && (
+            <img src={image} alt="illustration attachée à la publication" />
+          )}
+        </div>
         <p className="date">Publiée : {convertedCreatedAt}</p>
         {createdAt !== updatedAt && (
           <p className="date">Modifiée : {convertedUpdatedAt}</p>
         )}
       </div>
       <div>
+        {props.publication.uuid === connectedUser.uuid &&
+          connectedUser.isAdmin === false && (
+            <button
+              onClick={() => {
+                deletePublication();
+              }}
+            >
+              Supprimer
+            </button>
+          )}
+        {connectedUser.isAdmin === true && (
+          <button
+            onClick={() => {
+              deletePublication();
+            }}
+          >
+            Supprimer la publication
+          </button>
+        )}
         {props.publication.uuid === connectedUser.uuid &&
           connectedUser.isAdmin === false && (
             <button
@@ -155,20 +171,22 @@ function Publication(props) {
         {show && (
           <div>
             <label htmlFor="newPublicationText">Nouveau texte</label>
-            <br />
-            <textarea
-              name="newPublicationText"
-              cols="100"
-              rows="6"
-              defaultValue={text}
-              onChange={(event) => {
-                setNewText(event.target.value);
-              }}
-            ></textarea>
-            <br />
-            <label htmlFor="newPublicationImage">Nouvelle pièce jointe</label>
+            <div className="textarea__container">
+              <textarea
+                name="newPublicationText"
+                rows="6"
+                id="newPublicationText"
+                className="widen__textarea"
+                defaultValue={text}
+                onChange={(event) => {
+                  setNewText(event.target.value);
+                }}
+              ></textarea>
+            </div>
+            <label htmlFor="newSelected__file">Nouvelle pièce jointe</label>
             <br />
             <input
+              className="input__file"
               name="newPublicationImage"
               type="file"
               id="newSelected__file"
@@ -209,26 +227,8 @@ function Publication(props) {
             </button>
           </div>
         )}
-        {props.publication.uuid === connectedUser.uuid &&
-          connectedUser.isAdmin === false && (
-            <button
-              onClick={() => {
-                deletePublication();
-              }}
-            >
-              Supprimer la publication
-            </button>
-          )}
-        {connectedUser.isAdmin === true && (
-          <button
-            onClick={() => {
-              deletePublication();
-            }}
-          >
-            Supprimer la publication
-          </button>
-        )}
       </div>
+
       <Comments
         publicationId={id}
         unfilteredCommentList={props.unfilteredCommentList}

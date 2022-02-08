@@ -5,13 +5,14 @@ a {
 
 button{
   background-color: #fd2d01;
-  font-size: 1.05em;
-  padding: 10px 15px;
+  font-size: 1em;
+  padding: 8px 10px ;
   color: white;
   border-radius: 25px;
   border: none;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
-  margin: auto;
+  margin: 5px;
+  max-width: max-content;
 }
 
 
@@ -35,7 +36,6 @@ header {
 }
 
 header img {
-  
   height: 47px;
 }
 
@@ -73,34 +73,78 @@ header nav ul {
   align-items: center;
   
 }
+
+textarea{
+  border-radius: 15px;
+  padding: 10px;
+  margin: 10px 0px;
+}
+.textarea__container{
+display: flex;
+}
+
+.widen__textarea{
+  width: 100%;
+}
+input{
+  border-radius: 10px;
+  padding: 5px;
+  border: black 1px solid;
+}
+
+.input__file{
+  width: fit-content;
+  max-width: 100%;
+  color: white;
+  border: none;
+  font-size: 0.8em;
+  background-color: #fd2d01;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  padding: 0px;
+  margin: 5px 0px;
+  outline: none;
+}
+::-webkit-file-upload-button{
+  background: white;
+  border: 1px black solid;
+  border-radius: 50px;
+  outline: none;
+  padding: 6px 7px;
+}
+.input__file:hover{
+  cursor: pointer;
+  
+}
 .publication .username{
   font-weight: bold;
 
 }
 
-.publication div {
+.publication > div {
   width: 100%;
 }
 
+.publication .image__container{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 .publication img {
-  
+  max-width: 100%;
   
 }
 .date{
   font-size: 0.8em;
+  margin: 2px;
 }
-.comments {
-  border: 1px black solid;
-  margin: 5px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
+
 .comment{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px grey solid;
+  margin-bottom: 10px;
+  background-color: white;
+  border-radius: 15px;
+  padding: 1px 4% 5px 4%;
+  
 }
 
 .modify__account__form{
@@ -108,5 +152,21 @@ header nav ul {
   flex-direction: column;
 }
 
+@media screen and (max-width: 800px) {
+header {
+  flex-direction: column;
+  align-items: center;
+}
+
+header img {
+  max-width: 300px;
+  margin: auto;
+}
+}
+
+header li {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
 
 

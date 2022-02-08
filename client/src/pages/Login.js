@@ -49,6 +49,7 @@ function Login() {
           <input
             name="email"
             type="email"
+            id="email"
             onChange={(event) => {
               setEmail(event.target.value);
             }}
@@ -57,6 +58,7 @@ function Login() {
           <input
             name="password"
             type="password"
+            id="password"
             onChange={(event) => {
               setPassword(event.target.value);
             }}

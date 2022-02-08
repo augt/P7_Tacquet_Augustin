@@ -5,15 +5,15 @@ import { ConnectedUserContext } from "./Context";
 
 function Comments(props) {
   const { connectedUser, token } = useContext(ConnectedUserContext);
-  
+
   const [show, setShow] = useState(false);
-  const {publicationId} = props;
-  const {uuid} = connectedUser;
+  const { publicationId } = props;
+  const { uuid } = connectedUser;
   const [text, setText] = useState("");
   const [commentList, setCommentList] = useState([]);
 
-
-  useEffect(() => {       // filter out the comments that don't belong to the original publication
+  useEffect(() => {
+    // filter out the comments that don't belong to the original publication
     const filteredCommentList = props.unfilteredCommentList.filter(
       (unfilteredCommentList) =>
         unfilteredCommentList.publicationId === publicationId
@@ -52,7 +52,7 @@ function Comments(props) {
 
   function updateAfterDeleteComment(newCommentList) {
     setCommentList(newCommentList);
-  } 
+  }
 
   return (
     <div className="comments">
@@ -66,30 +66,32 @@ function Comments(props) {
       {show && (
         <div>
           <label htmlFor="commentText"></label>
-          <textarea
-            name="commentText"
-            cols="30"
-            rows="6"
-            onChange={(event) => {
-              setText(event.target.value);
-            }}
-          ></textarea>
+          <div className="textarea__container">
+            <textarea
+              name="commentText"
+              rows="6"
+              id="commentText"
+              className="widen__textarea"
+              onChange={(event) => {
+                setText(event.target.value);
+              }}
+            ></textarea>
+          </div>
           <button onClick={addComment}>envoyer</button>
         </div>
       )}
       <h4>Commentaires</h4>
-      <div className="comment__list">
-        {commentList.map((comment) => {
-          return (
-            <Comment
-              comment={comment}
-              key={comment.id}
-              commentList={commentList}
-              updateAfterDelete={updateAfterDeleteComment}
-            />
-          );
-        })}
-      </div>
+
+      {commentList.map((comment) => {
+        return (
+          <Comment
+            comment={comment}
+            key={comment.id}
+            commentList={commentList}
+            updateAfterDelete={updateAfterDeleteComment}
+          />
+        );
+      })}
     </div>
   );
 }

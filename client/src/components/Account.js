@@ -4,8 +4,6 @@ import dayjs from "dayjs";
 import { ConnectedUserContext } from "./Context";
 require("dayjs/locale/fr");
 
-require("dayjs/locale/fr");
-
 function Account(props) {
   const { connectedUser, setConnectedUser, token } = useContext(ConnectedUserContext);
   const {uuid} = props.user;
@@ -141,6 +139,7 @@ function Account(props) {
           <input
             type="text"
             name="username"
+            id="username"
             defaultValue={username}
             onChange={(event) => {
               setNewUsername(event.target.value);
@@ -150,6 +149,7 @@ function Account(props) {
           <input
             type="email"
             name="email"
+            id="email"
             defaultValue={email}
             onChange={(event) => {
               setNewEmail(event.target.value);
@@ -159,6 +159,7 @@ function Account(props) {
           <input
             name="password"
             type="password"
+            id="password"
             onChange={(event) => {
               setNewPassword(event.target.value);
             }}

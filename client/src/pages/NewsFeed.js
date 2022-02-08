@@ -137,14 +137,15 @@ function Newsfeed() {
           <label htmlFor="publicationText">Texte de la publication</label>
           <textarea
             name="publicationText"
-            cols="30"
             rows="6"
+            id="publicationText"
             onChange={(event) => {
               setText(event.target.value);
             }}
           ></textarea>
-          <label htmlFor="publicationImage">Pièce jointe</label>
+          <label htmlFor="selected__file">Pièce jointe</label>
           <input
+          className="input__file"
             name="publicationImage"
             type="file"
             id="selected__file"
@@ -153,6 +154,7 @@ function Newsfeed() {
               console.log(event.target.files[0]);
             }}
           />
+          
           {image !== "" && image !==undefined && (
             <button onClick={removeAttachment}>
               Supprimer la pièce jointe

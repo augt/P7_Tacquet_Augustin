@@ -12,9 +12,9 @@ function Navbar() {
 
   return (
     <header>
-      <img src="../img/logo.png" alt="" />
+      <img src="../img/logo.png" alt="Logo de Groupomania" />
       <nav>
-        <ul id="navigation__list">
+        <ul className="navigation__list">
           {isConnected===false && (
             <li>
               <Link to="/">Connexion</Link>
@@ -35,7 +35,7 @@ function Navbar() {
               <Link to="/myaccount">{connectedUser.username}</Link>
             </li>
           )}
-          {connectedUser.isAdmin === true && (
+          {connectedUser.isAdmin === true && isConnected===true && (
             <li>
               <Link to="/administration">Administration</Link>
             </li>

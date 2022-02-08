@@ -45,6 +45,7 @@ function SignUp() {
           <input
             name="username"
             type="text"
+            id="username"
             onChange={(event) => {
               setUsername(event.target.value);
             }}
@@ -53,6 +54,7 @@ function SignUp() {
           <input
             name="email"
             type="email"
+            id="email"
             onChange={(event) => {
               setEmail(event.target.value);
             }}
@@ -61,6 +63,7 @@ function SignUp() {
           <input
             name="password"
             type="password"
+            id="password"
             onChange={(event) => {
               setPassword(event.target.value);
             }}
