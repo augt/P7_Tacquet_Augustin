@@ -40,7 +40,7 @@ header img {
 }
 
 nav li {
-  margin-right: 20px;
+  margin: 0 10px;
   border-bottom: transparent 2px solid;
 }
 
@@ -52,6 +52,7 @@ header nav ul {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
+  padding: 0;
 }
 
 .connect__form,
@@ -78,6 +79,9 @@ textarea{
   border-radius: 15px;
   padding: 10px;
   margin: 10px 0px;
+  font-size: 1em;
+  font-family: "Raleway";
+  text-align: justify;
 }
 .textarea__container{
 display: flex;
@@ -90,6 +94,7 @@ input{
   border-radius: 10px;
   padding: 5px;
   border: black 1px solid;
+  font-size: 1em;
 }
 
 .input__file{
@@ -118,7 +123,9 @@ input{
 }
 .publication .username{
   font-weight: bold;
-
+}
+.publication .text{
+ text-align: justify;
 }
 
 .publication > div {
@@ -144,7 +151,12 @@ input{
   background-color: white;
   border-radius: 15px;
   padding: 1px 4% 5px 4%;
-  
+}
+.account{
+  background-color: #f2f2f2;
+  padding: 20px 4%;
+  border-radius: 15px;
+  margin-bottom: 15px;
 }
 
 .modify__account__form{
@@ -165,7 +177,7 @@ header img {
 }
 
 header li {
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin-bottom: 5px;
 }
 

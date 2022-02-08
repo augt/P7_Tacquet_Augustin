@@ -115,12 +115,12 @@ function Account(props) {
   };
 
   return (
-    <div>
+    <div className="account">
       <p>Nom d'utilisateur : {username}</p>
       <p>Adresse email : {email} </p>
       <p>Créé le : {convertedCreatedAt}</p>
       {createdAt !== updatedAt && (
-        <p>Dernière modification le : {convertedUpdatedAt}</p>
+        <p>Modifié le : {convertedUpdatedAt}</p>
       )}
 
       {

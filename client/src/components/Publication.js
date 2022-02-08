@@ -36,7 +36,6 @@ function Publication(props) {
 
   function removeAttachment() {
     newSelectedFile.value = "";
-    setNewImage(undefined);
   }
 
   const modifyPublication = () => {
@@ -118,7 +117,7 @@ function Publication(props) {
     <div className="publication">
       <div>
         <p className="username">{username}</p>
-        <p>{text}</p>
+        <p className="text">{text}</p>
         <div className="image__container">
           {image && (
             <img src={image} alt="illustration attachée à la publication" />
@@ -130,25 +129,6 @@ function Publication(props) {
         )}
       </div>
       <div>
-        {props.publication.uuid === connectedUser.uuid &&
-          connectedUser.isAdmin === false && (
-            <button
-              onClick={() => {
-                deletePublication();
-              }}
-            >
-              Supprimer
-            </button>
-          )}
-        {connectedUser.isAdmin === true && (
-          <button
-            onClick={() => {
-              deletePublication();
-            }}
-          >
-            Supprimer la publication
-          </button>
-        )}
         {props.publication.uuid === connectedUser.uuid &&
           connectedUser.isAdmin === false && (
             <button
@@ -166,6 +146,25 @@ function Publication(props) {
             }}
           >
             Modifier
+          </button>
+        )}
+        {props.publication.uuid === connectedUser.uuid &&
+          connectedUser.isAdmin === false && (
+            <button
+              onClick={() => {
+                deletePublication();
+              }}
+            >
+              Supprimer
+            </button>
+          )}
+        {connectedUser.isAdmin === true && (
+          <button
+            onClick={() => {
+              deletePublication();
+            }}
+          >
+            Supprimer
           </button>
         )}
         {show && (
@@ -199,6 +198,7 @@ function Publication(props) {
               <button
                 onClick={() => {
                   setNewImage(null);
+                  removeAttachment();
                 }}
               >
                 Supprimer l'image existante
@@ -208,14 +208,23 @@ function Publication(props) {
               <button
                 onClick={() => {
                   setNewImage(undefined);
+                  removeAttachment();
                 }}
               >
                 Restaurer l'image existante
               </button>
             )}
             {newImage !== undefined && newImage !== null && (
-              <button onClick={removeAttachment}>Annuler nouvelle image</button>
+              <button
+                onClick={() => {
+                  removeAttachment();
+                  setNewImage(undefined);
+                }}
+              >
+                Annuler nouvelle image
+              </button>
             )}
+            <br />
             <button
               onClick={() => {
                 modifyPublication();

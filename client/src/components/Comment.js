@@ -71,14 +71,11 @@ function Comment(props) {
   return (
     <div className="comment">
       <p className="username">{props.comment.user.username} :</p>
-      <p>{text}</p>
-
+      <p className="text">{text}</p>
       <p className="date">Publié : {convertedCreatedAt}</p>
-      <br />
       {createdAt !== updatedAt && (
         <p className="date">Modifié : {convertedUpdatedAt}</p>
       )}
-
       {props.comment.uuid === connectedUser.uuid &&
         connectedUser.isAdmin === false && (
           <button
