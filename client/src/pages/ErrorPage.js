@@ -15,7 +15,7 @@ function ErrorPage() {
       <Navbar />
       <main>
         <h2>Erreur</h2>
-        <p>Cette page n'existe pas ou n'êtes pas autorisé à y accéder.</p>
+        <p>Cette page n'existe pas ou vous n'êtes pas autorisé à y accéder.</p>
         <p>
           Vous devez être connecté pour accéder au
           contenu du site.
