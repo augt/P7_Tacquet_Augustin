@@ -63,7 +63,9 @@ header nav ul {
   padding: 20px 4%;
   border-radius: 15px;
 }
-
+label{
+  margin: 15px 0 5px 0;
+}
 .publication {
   margin-bottom: 25px;
   background-color: #f2f2f2;

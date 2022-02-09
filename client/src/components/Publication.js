@@ -194,14 +194,14 @@ function Publication(props) {
                 console.log(event.target.files[0]);
               }}
             />
-            {newImage !== null && image && (
+            {newImage !== undefined && newImage !== null && (
               <button
                 onClick={() => {
-                  setNewImage(null);
                   removeAttachment();
+                  setNewImage(undefined);
                 }}
               >
-                Supprimer l'image existante
+                Annuler nouvelle image
               </button>
             )}
             {newImage === null && image && (
@@ -214,14 +214,14 @@ function Publication(props) {
                 Restaurer l'image existante
               </button>
             )}
-            {newImage !== undefined && newImage !== null && (
+            {newImage !== null && image && (
               <button
                 onClick={() => {
+                  setNewImage(null);
                   removeAttachment();
-                  setNewImage(undefined);
                 }}
               >
-                Annuler nouvelle image
+                Supprimer l'image existante
               </button>
             )}
             <br />
