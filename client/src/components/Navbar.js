@@ -27,7 +27,7 @@ function Navbar() {
           )}
           {isConnected===true && (
             <li>
-              <Link to="/newsfeed">Fil d'actualité</Link>
+              <Link to="/home">Accueil</Link>
             </li>
           )}
           {isConnected===true && (
@@ -41,7 +41,7 @@ function Navbar() {
             </li>
           )}
           {isConnected===true && (
-            <li onClick={disconnect}>
+            <li onClick={disconnect} className="btn">
               <Link to="/">Déconnexion</Link>
             </li>
           )}

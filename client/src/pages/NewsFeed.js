@@ -131,7 +131,7 @@ function Newsfeed() {
     <div>
       <Navbar />
       <main>
-        <h2>Publications</h2>
+        <h2>Fil d'actualités</h2>
         <div className="publication__form">
           <h3>Créez une publication</h3>
           <label htmlFor="publicationText">Texte de la publication</label>

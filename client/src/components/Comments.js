@@ -77,7 +77,7 @@ function Comments(props) {
               }}
             ></textarea>
           </div>
-          <button onClick={addComment}>envoyer</button>
+          <button onClick={()=>{addComment(); setShow(!show)}}>Envoyer</button>
         </div>
       )}
       <h4>Commentaires</h4>

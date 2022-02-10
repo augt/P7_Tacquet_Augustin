@@ -3,7 +3,7 @@ a {
   color: unset;
 }
 
-button{
+button, .btn{
   background-color: #fd2d01;
   font-size: 1em;
   padding: 8px 10px ;
@@ -14,14 +14,21 @@ button{
   margin: 5px;
   max-width: max-content;
 }
+.btn{
+  margin-top: -8px;
+  margin-bottom: 0px; 
+}
+.btn:hover{
+  border: unset;
+}
 
 
 header,
 main,
 footer {
   padding: 0 3%;
-  font-family: "Raleway", sans-serif;
-  font-size: 1.2em;
+  font-family: "Raleway", "sans-serif";
+  font-size: 1.1em;
 }
 
 
@@ -41,11 +48,13 @@ header img {
 
 nav li {
   margin: 0 10px;
-  border-bottom: transparent 2px solid;
+  border-bottom: transparent 3px solid;
+  
 }
 
 nav li:hover{
-  border-bottom: #ffd7d7 2px solid;
+  border-bottom: #ffd7d7 3px solid;
+  
 }
 
 header nav ul {
@@ -53,6 +62,7 @@ header nav ul {
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
+  margin-bottom: 0;
 }
 
 .connect__form,
@@ -82,7 +92,7 @@ textarea{
   padding: 10px;
   margin: 10px 0px;
   font-size: 1em;
-  font-family: "Raleway";
+  font-family: "Raleway", "sans-serif";
   text-align: justify;
 }
 .textarea__container{
@@ -128,6 +138,8 @@ input{
 }
 .publication .text{
  text-align: justify;
+ font-size: 1em;
+ white-space: pre-line;
 }
 
 .publication > div {
@@ -176,11 +188,20 @@ header img {
   max-width: 300px;
   margin: auto;
 }
+header nav ul {
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+}
+header .btn{
+margin-bottom: 10px;
 }
 
 header li {
   font-size: 1.1em;
-  margin-bottom: 5px;
 }
+
+}
+
+
 
 

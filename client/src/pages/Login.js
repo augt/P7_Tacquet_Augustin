@@ -7,7 +7,7 @@ function Login() {
   const { isConnected, setIsConnected } = useContext(ConnectedUserContext);
 
   if (isConnected===true) {
-    window.location.href = "newsfeed";
+    window.location.href = "home";
   }
   // login
 

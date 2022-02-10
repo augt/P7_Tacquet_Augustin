@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        {isConnected && <Route path="/newsfeed" element={<Newsfeed />} />}
+        {isConnected && <Route path="/home" element={<Newsfeed />} />}
         {isConnected && <Route path="/myaccount" element={<MyAccount />} />}
         {isConnected && connectedUser.isAdmin && (
           <Route path="/administration" element={<Administration />} />
