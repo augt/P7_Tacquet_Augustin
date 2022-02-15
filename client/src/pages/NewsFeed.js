@@ -13,9 +13,11 @@ function Newsfeed() {
   const {uuid} = connectedUser
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
+  const [fileErrorMessage, setFileErrorMessage] = useState("");
 
   const [publicationList, setPublicationList] = useState([]);
-  const [unfilteredCommentList, setUnfilteredCommentList] = useState([])
+  const [unfilteredCommentList, setUnfilteredCommentList] = useState([]);
+
 
   const selectedFile = document.getElementById("selected__file");
 
@@ -33,7 +35,6 @@ function Newsfeed() {
         headers: { Authorization: "Bearer " + token },
       })
         .then((res) => {
-          console.log(res);
           setPublicationList([
             {
               id: res.data.id,
@@ -46,6 +47,7 @@ function Newsfeed() {
             },
             ...publicationList,
           ]);
+          setFileErrorMessage("");
         })
         .catch((res) => {
           console.log(res);
@@ -66,7 +68,6 @@ function Newsfeed() {
         },
       })
         .then(function (res) {
-          console.log(res);
           setPublicationList([
             {
               id: res.data.id,
@@ -79,9 +80,15 @@ function Newsfeed() {
             },
             ...publicationList,
           ]);
+          setFileErrorMessage("")
         })
-        .catch(function (res) {
-          console.log(res);
+        .catch(function (err) {
+          console.log(err.response);
+          if (err.response.status === 500) {
+          setFileErrorMessage(
+            "Seuls les fichiers d'une taille inférieure à 10Mo avec une extension de type .png, .jpg, .jpeg et .gif sont autorisés."
+          );
+          }
         });
     }
   };
@@ -151,7 +158,6 @@ function Newsfeed() {
             id="selected__file"
             onChange={(event) => {
               setImage(event.target.files[0]);
-              console.log(event.target.files[0]);
             }}
           />
           
@@ -161,6 +167,7 @@ function Newsfeed() {
             </button>
           )}
           <button onClick={addPublication}>Poster la publication</button>
+          <div>{fileErrorMessage}</div>
         </div>
         {/* display newsfeed */}
         <h3>Dernières publications</h3>

@@ -31,7 +31,6 @@ function Comments(props) {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
-        console.log(res);
         setCommentList([
           ...commentList,
           {

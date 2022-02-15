@@ -5,9 +5,10 @@ import { ConnectedUserContext } from "../components/Context";
 function Navbar() {
   const {connectedUser, isConnected, setIsConnected} = useContext(ConnectedUserContext);
 
-  function disconnect() {
+  function disconnect() { 
     localStorage.clear();
-    setIsConnected(false)
+    setIsConnected(false);
+    window.location.href = "/";
   }
 
   return (
@@ -42,7 +43,7 @@ function Navbar() {
           )}
           {isConnected===true && (
             <li onClick={disconnect} className="btn">
-              <Link to="/">Déconnexion</Link>
+              Déconnexion
             </li>
           )}
           

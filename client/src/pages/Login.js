@@ -21,7 +21,6 @@ function Login() {
       password: password,
     })
       .then((res) => {
-        console.log(res);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("uuid", res.data.uuid);
         setIsConnected(true)
@@ -30,11 +29,9 @@ function Login() {
       .catch((err) => {
         console.log(err);
         if (err.response.data.error) {
-          console.log(err.response.data.error);
           setApiMessage(err.response.data.error);
         }
         if (err.response.data.message) {
-          console.log(err.response.data.message);
           setApiMessage(err.response.data.message);
         }
       });

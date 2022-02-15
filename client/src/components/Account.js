@@ -58,7 +58,6 @@ function Account(props) {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
-        console.log(res);
         setUsername(res.data.username);
         setEmail(res.data.email);
         setUpdatedAt(
@@ -75,11 +74,9 @@ function Account(props) {
       .catch((err) => {
         console.log(err);
         if (err.response.data.error) {
-          console.log(err.response.data.error);
           setApiMessage(err.response.data.error);
         }
         if (err.response.data.message) {
-          console.log(err.response.data.message);
           setApiMessage(err.response.data.message);
         }
       });
@@ -94,7 +91,6 @@ function Account(props) {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
-        console.log(res);
         if (props.mustLogOut){
             localStorage.clear();
         window.location.href = "/";

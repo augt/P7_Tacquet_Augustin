@@ -33,7 +33,6 @@ function Comment(props) {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
-        console.log(res);
         setText(res.data.text);
         setUpdatedAt(res.data.updatedAt);
         setConvertedUpdatedAt(
@@ -58,7 +57,6 @@ function Comment(props) {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
-        console.log(res);
         commentList.splice(commentIndex, 1);
         const newCommentList = [...commentList];
         props.updateAfterDelete(newCommentList);

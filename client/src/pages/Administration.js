@@ -19,7 +19,6 @@ function Administration() {
         headers: { Authorization: "Bearer " + token },
       })
         .then((res) => {
-          console.log(res);
           setUserList(res.data);
         })
         .catch((error) => {

@@ -16,16 +16,14 @@ exports.createPublication = (req, res, next) => {
     };
     Publication.create(publication)
       .then((publication) => {
-        res
-          .status(201)
-          .json({
-            message: "Publication créée !",
-            id: publication.id,
-            image: publication.image,
-            createdAt: publication.createdAt,
-            updatedAt: publication.updatedAt
-          })}
-      )
+        res.status(201).json({
+          message: "Publication créée !",
+          id: publication.id,
+          image: publication.image,
+          createdAt: publication.createdAt,
+          updatedAt: publication.updatedAt,
+        });
+      })
       .catch((error) => res.status(400).json({ error }));
   } else {
     const publication = {
@@ -42,8 +40,8 @@ exports.createPublication = (req, res, next) => {
           image: publication.image,
           createdAt: publication.createdAt,
           updatedAt: publication.updatedAt,
-        });}
-      )
+        });
+      })
       .catch((error) => res.status(400).json({ error }));
   }
 };
@@ -58,7 +56,7 @@ exports.getAllPublications = (req, res, next) => {
       },
     ],
     attributes: ["id", "uuid", "text", "image", "createdAt", "updatedAt"],
-    order: [["createdAt", "DESC"]]
+    order: [["createdAt", "DESC"]],
   })
     .then((publications) => res.status(200).json(publications))
     .catch((error) => res.status(404).json({ error }));
@@ -77,7 +75,7 @@ exports.checkPreviousPublication = (req, res, next) => {
   id = req.params.id;
 
   try {
-    Publication.findOne({ where: { id: id } })
+    Publication.findOne({ where: { id } })
       .then((publication) => {
         if (!publication) {
           throw "Cette publication n'existe pas !";
@@ -99,7 +97,7 @@ exports.checkPreviousPublication = (req, res, next) => {
 exports.modifyPublication = async (req, res, next) => {
   id = req.params.id;
   if (req.file) {
-    await Publication.findOne({ where: { id: id } })
+    await Publication.findOne({ where: { id } })
       .then(deleteOldFile)
       .catch((error) => res.status(500).json({ error }));
 
@@ -112,7 +110,7 @@ exports.modifyPublication = async (req, res, next) => {
       },
       {
         where: {
-          id: id,
+          id,
         },
       }
     )
@@ -129,9 +127,9 @@ exports.modifyPublication = async (req, res, next) => {
       })
       .catch((error) => res.status(404).json({ error }));
   }
-  
-  if (!req.file && req.body.image===null){
-    await Publication.findOne({ where: { id: id } })
+
+  if (!req.file && req.body.image === null) {
+    await Publication.findOne({ where: { id } })
       .then(deleteOldFile)
       .catch((error) => res.status(500).json({ error }));
 
@@ -139,12 +137,12 @@ exports.modifyPublication = async (req, res, next) => {
       { text: req.body.text, image: null },
       {
         where: {
-          id: id,
+          id,
         },
       }
     )
       .then(() => {
-        return Publication.findOne({ where: { id: id } });
+        return Publication.findOne({ where: { id } });
       })
       .then((publication) => {
         res.status(200).send({
@@ -158,17 +156,18 @@ exports.modifyPublication = async (req, res, next) => {
   }
 
   if (!req.file && req.body.image === undefined) {
-
     await Publication.update(
       { text: req.body.text },
       {
         where: {
-          id: id,
+          id,
         },
       }
     )
-      .then(()=>{ return Publication.findOne({ where: { id: id } })})
-      .then((publication)=>{
+      .then(() => {
+        return Publication.findOne({ where: { id } });
+      })
+      .then((publication) => {
         res.status(200).send({
           message: "Publication modifiée !",
           text: publication.text,
@@ -183,13 +182,13 @@ exports.modifyPublication = async (req, res, next) => {
 exports.deletePublication = async (req, res, next) => {
   id = req.params.id;
 
-  await Publication.findOne({ where: { id: id } })
+  await Publication.findOne({ where: { id } })
     .then(deleteOldFile)
     .catch((error) => res.status(500).json({ error }));
 
   await Publication.destroy({
     where: {
-      id: id,
+      id,
     },
   })
     .then(() => res.status(200).send("Publication supprimée !"))

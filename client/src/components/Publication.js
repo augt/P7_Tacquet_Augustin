@@ -31,6 +31,7 @@ function Publication(props) {
   const newUuid = connectedUser.uuid;
   const [newText, setNewText] = useState(text);
   const [newImage, setNewImage] = useState(undefined);
+  const [fileErrorMessage, setFileErrorMessage] = useState("");
 
   const newSelectedFile = document.getElementById("newSelected__file");
 
@@ -47,7 +48,6 @@ function Publication(props) {
         headers: { Authorization: "Bearer " + token },
       })
         .then((res) => {
-          console.log(res);
           setImage(res.data.image);
           setText(res.data.text);
           setUpdatedAt(res.data.updatedAt);
@@ -56,6 +56,8 @@ function Publication(props) {
               .locale("fr")
               .format("DD MMMM YYYY à HH:mm")
           );
+          setFileErrorMessage("");
+          setShow(!show);
         })
         .catch((res) => {
           console.log(res);
@@ -76,7 +78,6 @@ function Publication(props) {
         },
       })
         .then(function (res) {
-          console.log(res);
           setImage(res.data.image);
           setText(res.data.text);
           setUpdatedAt(res.data.updatedAt);
@@ -85,9 +86,19 @@ function Publication(props) {
               .locale("fr")
               .format("DD MMMM YYYY à HH:mm")
           );
+          setFileErrorMessage("");
+          setShow(!show);
+          setNewImage(undefined);
         })
-        .catch(function (res) {
-          console.log(res);
+        .catch(function (err) {
+          if (err.response.status === 500) {
+            
+            setFileErrorMessage(
+              "Seuls les fichiers d'une taille inférieure à 10Mo avec une extension de type .png, .jpg, .jpeg et .gif sont autorisés."
+            );
+          }
+
+          console.log(err);
         });
     }
   };
@@ -103,7 +114,6 @@ function Publication(props) {
       headers: { Authorization: "Bearer " + token },
     })
       .then((res) => {
-        console.log(res);
         publicationList.splice(publicationIndex, 1);
         const newPublicationList = [...publicationList];
         props.updateAfterDelete(newPublicationList);
@@ -191,7 +201,6 @@ function Publication(props) {
               id="newSelected__file"
               onChange={(event) => {
                 setNewImage(event.target.files[0]);
-                console.log(event.target.files[0]);
               }}
             />
             {newImage !== undefined && newImage !== null && (
@@ -218,7 +227,9 @@ function Publication(props) {
               <button
                 onClick={() => {
                   setNewImage(null);
-                  removeAttachment();
+                  if (newSelectedFile !== null) {
+                    removeAttachment();
+                  }
                 }}
               >
                 Supprimer l'image existante
@@ -228,12 +239,11 @@ function Publication(props) {
             <button
               onClick={() => {
                 modifyPublication();
-                setShow(!show);
-                setNewImage(undefined);
               }}
             >
               Appliquer les changements
             </button>
+            <div>{fileErrorMessage}</div>
           </div>
         )}
       </div>

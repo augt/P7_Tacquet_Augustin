@@ -12,14 +12,12 @@ exports.createComment = (req, res, next) => {
   };
   Comment.create(comment)
     .then((comment) => {
-      res
-        .status(201)
-        .json({
-          message: "Commentaire créé !",
-          id: comment.id,
-          createdAt: comment.createdAt,
-          updatedAt: comment.updatedAt,
-        });
+      res.status(201).json({
+        message: "Commentaire créé !",
+        id: comment.id,
+        createdAt: comment.createdAt,
+        updatedAt: comment.updatedAt,
+      });
     })
     .catch((error) => res.status(400).json({ error }));
 };
@@ -51,7 +49,7 @@ exports.checkPreviousComment = (req, res, next) => {
   id = req.params.id;
 
   try {
-    Comment.findOne({ where: { id: id } })
+    Comment.findOne({ where: { id } })
       .then((comment) => {
         if (!comment) {
           throw "Ce commentaire n'existe pas !";
@@ -76,12 +74,12 @@ exports.modifyComment = (req, res, next) => {
     { text: req.body.text },
     {
       where: {
-        id: id,
+        id,
       },
     }
   )
     .then(() => {
-      return Comment.findOne({ where: { id: id } });
+      return Comment.findOne({ where: { id } });
     })
     .then((comment) => {
       res.status(200).send({
@@ -97,7 +95,7 @@ exports.deleteComment = (req, res, next) => {
   id = req.params.id;
   Comment.destroy({
     where: {
-      id: id,
+      id,
     },
   })
     .then(() => res.status(200).send("Commentaire supprimé !"))

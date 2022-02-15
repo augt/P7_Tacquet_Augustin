@@ -19,7 +19,14 @@ exports.signup = (req, res, next) => {
         password: hash,
       };
       User.create(user)
-        .then(() => res.status(201).json({ message: "Utilisateur créé ! Rendez-vous sur la page de connexion." }))
+        .then(() =>
+          res
+            .status(201)
+            .json({
+              message:
+                "Utilisateur créé ! Rendez-vous sur la page de connexion.",
+            })
+        )
         .catch((error) => {
           // prevent sending sensible data to the front-end
           delete error.errors[0].instance.dataValues.password;
@@ -63,12 +70,14 @@ exports.login = (req, res, next) => {
 exports.getOneUser = (req, res, next) => {
   const uuid = req.params.uuid;
   User.findOne({ where: { uuid: uuid } })
-    .then((user) =>{    //prevent sending sensible data to the front-end
+    .then((user) => {
+      //prevent sending sensible data to the front-end
       delete user.dataValues.id;
       delete user.dataValues.password;
       delete user._previousDataValues;
       const isConnected = true;
-      res.status(200).json({user, isConnected})})
+      res.status(200).json({ user, isConnected });
+    })
     .catch((error) => res.status(404).json({ error }));
 };
 
@@ -83,11 +92,10 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 exports.checkPreviousUser = (req, res, next) => {
-  console.log("bonjour");
   uuid = req.params.uuid;
 
   try {
-    User.findOne({ where: { uuid: uuid } })
+    User.findOne({ where: { uuid } })
       .then((user) => {
         if (!user) {
           throw "Cet utilisateur n'existe pas !";
@@ -118,21 +126,19 @@ exports.modifyUser = (req, res, next) => {
       };
       User.update(modifiedUser, {
         where: {
-          uuid: uuid,
+          uuid,
         },
       })
         .then(() => {
-          return User.findOne({ where: { uuid: uuid } });
+          return User.findOne({ where: { uuid } });
         })
         .then((user) => {
-          res
-            .status(201)
-            .json({
-              message: "Utilisateur modifié !",
-              username: user.username,
-              email: user.email,
-              updatedAt: user.updatedAt
-            });
+          res.status(201).json({
+            message: "Utilisateur modifié !",
+            username: user.username,
+            email: user.email,
+            updatedAt: user.updatedAt,
+          });
         })
         .catch((error) => res.status(400).json({ error }));
     })
@@ -152,7 +158,7 @@ function deleteOldFile(oldPublication) {
 exports.deleteUser = async (req, res, next) => {
   uuid = req.params.uuid;
 
-  await Publication.findAll({ where: { uuid: uuid } })
+  await Publication.findAll({ where: { uuid } })
     .then((publications) => {
       for (let publication of publications) {
         deleteOldFile(publication);
@@ -162,7 +168,7 @@ exports.deleteUser = async (req, res, next) => {
 
   await User.destroy({
     where: {
-      uuid: uuid,
+      uuid,
     },
   })
     .then(() => res.status(200).send("Utilisateur supprimé !"))

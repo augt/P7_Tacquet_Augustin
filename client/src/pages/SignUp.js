@@ -19,17 +19,14 @@ function SignUp() {
       password: password,
     })
       .then((res) => {
-        console.log(res);
         setApiMessage(res.data.message);
       })
       .catch((err) => {
         console.log(err);
         if (err.response) {
-          console.log(err.response);
           setApiMessage(err.response.data.message);
         }
         if (err.response.data.error.errors[0].message) {
-          console.log(err.response.data.error.errors[0].message);
           setApiMessage(err.response.data.error.errors[0].message);
         }
       });
@@ -68,7 +65,7 @@ function SignUp() {
               setPassword(event.target.value);
             }}
           />
-          <button onClick={addUser}>Créer utilisateur</button>
+          <button onClick={addUser}>Créer l'utilisateur</button>
           <div>{apiMessage}</div>
         </div>
       </main>
