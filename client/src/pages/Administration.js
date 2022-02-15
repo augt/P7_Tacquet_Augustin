@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import Account from '../components/Account';
 import Axios from "axios";
 import { ConnectedUserContext } from "../components/Context";
@@ -36,7 +36,7 @@ function Administration() {
 
   return (
     <div>
-      <Navbar/>
+      <Header/>
       <main>
         <h2>Comptes utilisateurs</h2>
         <div>

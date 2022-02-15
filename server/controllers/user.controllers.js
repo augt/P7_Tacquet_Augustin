@@ -69,7 +69,7 @@ exports.login = (req, res, next) => {
 
 exports.getOneUser = (req, res, next) => {
   const uuid = req.params.uuid;
-  User.findOne({ where: { uuid: uuid } })
+  User.findOne({ where: { uuid } })
     .then((user) => {
       //prevent sending sensible data to the front-end
       delete user.dataValues.id;

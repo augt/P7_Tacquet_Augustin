@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import Axios from "axios";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import { ConnectedUserContext } from "../components/Context";
 
 function Login() {
@@ -38,7 +38,7 @@ function Login() {
   };
   return (
     <div>
-      <Navbar />
+      <Header />
       <main>
         <h2>Connexion</h2>
         <div className="connect__form">

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Axios from "axios";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import Publication from "../components/Publication";
 import { ConnectedUserContext} from "../components/Context"
 require("dayjs/locale/fr");
@@ -136,7 +136,7 @@ function Newsfeed() {
 
   return (
     <div>
-      <Navbar />
+      <Header />
       <main>
         <h2>Fil d'actualités</h2>
         <div className="publication__form">

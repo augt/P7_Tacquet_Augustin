@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import Account from "../components/Account"
 import { ConnectedUserContext } from "../components/Context";
 
@@ -9,7 +9,7 @@ function MyAccount() {
 
   return (
     <div>
-      <Navbar />
+      <Header />
       <main>
         <h2>Mon compte</h2>
         <Account mustLogOut={true} user={connectedUser}/>

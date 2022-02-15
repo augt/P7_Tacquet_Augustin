@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import { ConnectedUserContext } from "../components/Context";
 
 function ErrorPage() {
@@ -12,7 +12,7 @@ function ErrorPage() {
 
   return (
     <div>
-      <Navbar />
+      <Header />
       <main>
         <h2>Erreur</h2>
         <p>Cette page n'existe pas ou vous n'êtes pas autorisé à y accéder.</p>

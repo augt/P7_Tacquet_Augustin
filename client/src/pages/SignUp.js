@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Axios from "axios";
 
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 
 function SignUp() {
   
@@ -34,7 +34,7 @@ function SignUp() {
 
   return (
     <div>
-      <Navbar />
+      <Header />
       <main>
         <h2>Inscription</h2>
         <div className="connect__form">

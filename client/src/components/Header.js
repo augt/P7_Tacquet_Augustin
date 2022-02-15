@@ -1,8 +1,8 @@
 import React, {useContext} from "react";
 import { Link } from "react-router-dom";
-import { ConnectedUserContext } from "../components/Context";
+import { ConnectedUserContext } from "./Context";
 
-function Navbar() {
+function Header() {
   const {connectedUser, isConnected, setIsConnected} = useContext(ConnectedUserContext);
 
   function disconnect() { 
@@ -53,4 +53,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default Header;
