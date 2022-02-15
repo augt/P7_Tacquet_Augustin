@@ -19,9 +19,6 @@ Publication.init(
   {
     sequelize,
     modelName: "publication",
-    /*defaultScope: {
-      attributes: { exclude: ["userId"] },
-    },*/
   }
 );
 
