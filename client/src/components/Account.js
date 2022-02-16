@@ -60,7 +60,8 @@ function Account(props) {
       .then((res) => {
         setUsername(res.data.username);
         setEmail(res.data.email);
-        setUpdatedAt(
+        setUpdatedAt(res.data.updatedAt);
+        setConvertedUpdatedAt(
           dayjs(`${res.data.updatedAt}`)
             .locale("fr")
             .format("DD MMMM YYYY à HH:mm")
@@ -68,16 +69,21 @@ function Account(props) {
         setApiMessage(res.data.message);
 
         if(connectedUser.uuid===uuid){
-           setConnectedUser({...connectedUser, username:res.data.username})
+           setConnectedUser({
+             ...connectedUser,
+             username: res.data.username,
+             email: res.data.email,
+             updatedAt: res.data.updatedAt
+           });
         }
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.data.error) {
-          setApiMessage(err.response.data.error);
-        }
-        if (err.response.data.message) {
+        if (err.response) {
           setApiMessage(err.response.data.message);
+        }
+        if (err.response.data.error.errors[0].message) {
+          setApiMessage(err.response.data.error.errors[0].message);
         }
       });
   };
