@@ -92,7 +92,6 @@ function Publication(props) {
         })
         .catch(function (err) {
           if (err.response.status === 500) {
-            
             setFileErrorMessage(
               "Seuls les fichiers d'une taille inférieure à 10Mo avec une extension de type .png, .jpg, .jpeg et .gif sont autorisés."
             );
@@ -108,19 +107,21 @@ function Publication(props) {
       (publication) => publication.id === id
     );
 
-    Axios({
-      method: "delete",
-      url: `http://localhost:3001/api/publications/${id}`,
-      headers: { Authorization: "Bearer " + token },
-    })
-      .then((res) => {
-        publicationList.splice(publicationIndex, 1);
-        const newPublicationList = [...publicationList];
-        props.updateAfterDelete(newPublicationList);
+    if (window.confirm("Confirmez-vous la suppression de cet élément ?")) {
+      Axios({
+        method: "delete",
+        url: `http://localhost:3001/api/publications/${id}`,
+        headers: { Authorization: "Bearer " + token },
       })
-      .catch((res) => {
-        console.log(res);
-      });
+        .then((res) => {
+          publicationList.splice(publicationIndex, 1);
+          const newPublicationList = [...publicationList];
+          props.updateAfterDelete(newPublicationList);
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    }
   };
 
   return (

@@ -51,19 +51,21 @@ function Comment(props) {
   const deleteComment = () => {
     const commentIndex = commentList.findIndex((comment) => comment.id === id);
 
-    Axios({
-      method: "delete",
-      url: `http://localhost:3001/api/comments/${id}`,
-      headers: { Authorization: "Bearer " + token },
-    })
-      .then((res) => {
-        commentList.splice(commentIndex, 1);
-        const newCommentList = [...commentList];
-        props.updateAfterDelete(newCommentList);
+    if (window.confirm("Confirmez-vous la suppression de cet élément ?")) {
+      Axios({
+        method: "delete",
+        url: `http://localhost:3001/api/comments/${id}`,
+        headers: { Authorization: "Bearer " + token },
       })
-      .catch((res) => {
-        console.log(res);
-      });
+        .then((res) => {
+          commentList.splice(commentIndex, 1);
+          const newCommentList = [...commentList];
+          props.updateAfterDelete(newCommentList);
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    }
   };
 
   return (

@@ -5,8 +5,9 @@ import { ConnectedUserContext } from "./Context";
 require("dayjs/locale/fr");
 
 function Account(props) {
-  const { connectedUser, setConnectedUser, token } = useContext(ConnectedUserContext);
-  const {uuid} = props.user;
+  const { connectedUser, setConnectedUser, token } =
+    useContext(ConnectedUserContext);
+  const { uuid } = props.user;
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [updatedAt, setUpdatedAt] = useState();
@@ -68,13 +69,13 @@ function Account(props) {
         );
         setApiMessage(res.data.message);
 
-        if(connectedUser.uuid===uuid){
-           setConnectedUser({
-             ...connectedUser,
-             username: res.data.username,
-             email: res.data.email,
-             updatedAt: res.data.updatedAt
-           });
+        if (connectedUser.uuid === uuid) {
+          setConnectedUser({
+            ...connectedUser,
+            username: res.data.username,
+            email: res.data.email,
+            updatedAt: res.data.updatedAt,
+          });
         }
       })
       .catch((err) => {
@@ -91,29 +92,30 @@ function Account(props) {
   //delete user
 
   const deleteUser = () => {
-    Axios({
-      method: "delete",
-      url: `http://localhost:3001/api/auth/${uuid}`,
-      headers: { Authorization: "Bearer " + token },
-    })
-      .then((res) => {
-        if (props.mustLogOut){
+    if (window.confirm("Confirmez-vous la suppression de cet élément ?")) {
+      Axios({
+        method: "delete",
+        url: `http://localhost:3001/api/auth/${uuid}`,
+        headers: { Authorization: "Bearer " + token },
+      })
+        .then((res) => {
+          if (props.mustLogOut) {
             localStorage.clear();
-        window.location.href = "/";
-        }
-        if (props.mustUpdateList){
+            window.location.href = "/";
+          }
+          if (props.mustUpdateList) {
             const userIndex = props.userList.findIndex(
               (user) => user.uuid === uuid
             );
             props.userList.splice(userIndex, 1);
             const newUserList = [...props.userList];
             props.updateAfterDelete(newUserList);
-
-        }
-      })
-      .catch((res) => {
-        console.log(res);
-      });
+          }
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    }
   };
 
   return (
@@ -121,9 +123,7 @@ function Account(props) {
       <p>Nom d'utilisateur : {username}</p>
       <p>Adresse email : {email} </p>
       <p>Créé le : {convertedCreatedAt}</p>
-      {createdAt !== updatedAt && (
-        <p>Modifié le : {convertedUpdatedAt}</p>
-      )}
+      {createdAt !== updatedAt && <p>Modifié le : {convertedUpdatedAt}</p>}
 
       {
         <button
