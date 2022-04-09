@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const commentCtrl = require("../controllers/comment.controllers");
-const { checkPreviousPublication } = require("../controllers/publication.controllers");
 
 const auth = require("../middlewares/auth.middlewares");
 
