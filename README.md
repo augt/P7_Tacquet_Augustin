@@ -20,6 +20,4 @@ I chose to make use of **React** for the front-end and my database is based on *
 - [ ] Enter the command `npm start`.
 - [ ] If a new browser tab doesn't open automatically, you can enter `http://localhost:3000/` in the address bar of your browser to launch the project.
 
-
-
-
+NB: in order to be able to add attachments to your publications, you have to create an "images" folder at the root of the "server" directory, so that the files can be saved there.
